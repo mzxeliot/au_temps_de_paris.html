@@ -2192,12 +2192,12 @@
 
     <script>
     function showSection(section) {
-        // Affichage des sections principales
+        
         document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
         document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
         document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
         
-        // Actions spécifiques selon la section
+     
         if (section === 'fiches') {
             showFichesList();
         }
@@ -2208,50 +2208,49 @@
     }
 
     function showMonument(monumentId) {
-        // Masquer la liste principale
+        
         document.getElementById('fiches-list').style.display = 'none';
         
-        // Désactiver toutes les fiches
         const fiches = document.querySelectorAll('.fiche-detail');
         fiches.forEach(fiche => fiche.classList.remove('active'));
         
-        // Activer la fiche sélectionnée
+        
         const monument = document.getElementById(monumentId);
         if (monument) {
             monument.classList.add('active');
         }
         
-        // Afficher la section "fiches"
+        
         const fichesSection = document.getElementById('fiches');
         fichesSection.style.display = 'block';
         fichesSection.classList.add('active');
         
-        // Remonter en haut de la page
+       
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showFichesList() {
-        // Réaffiche la liste des fiches et désactive les fiches détaillées
+       
         document.getElementById('fiches-list').style.display = 'block';
         const fiches = document.querySelectorAll('.fiche-detail');
         fiches.forEach(fiche => fiche.classList.remove('active'));
     }
 
-    // Section par défaut au chargement
+   
     showSection('carte');
 
     function showEtape(etapeId) {
-    // Afficher la section parcours
+    
     showSection('parcours');
     
-    // Attendre que la section soit affichée
+   
     setTimeout(function() {
-        // Trouver l'élément de l'étape
+       
         const etape = document.getElementById('etape-' + etapeId);
         
         if (etape) {
-            // Scroll jusqu'à l'étape avec un offset pour le header
-            const yOffset = -100; // ajustez selon la hauteur de votre header
+          
+            const yOffset = -100; 
             const y = etape.getBoundingClientRect().top + window.pageYOffset + yOffset;
             
             window.scrollTo({
@@ -2259,7 +2258,7 @@
                 behavior: 'smooth'
             });
             
-            // Optionnel : ajouter un effet visuel temporaire
+           
             etape.style.backgroundColor = '#f4e4c1';
             setTimeout(function() {
                 etape.style.backgroundColor = '#f9f8f6';
@@ -2269,13 +2268,13 @@
 }
 
 function showSection(section) {
-    // Affichage des sections principales
+    
     document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
     document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
     document.getElementById('parcours-thematiques').style.display = section === 'parcours-thematiques' ? 'block' : 'none';
     document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
     
-    // Actions spécifiques selon la section
+   
     if (section === 'fiches') {
         showFichesList();
     }
