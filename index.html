@@ -1,11 +1,2294 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Au coeur de Paris</title>
-<meta charset=“utf-8“> (=> pour avoir alphabet fr) 
-	</head>
-	<body>
-		<h1>Au coeur de Paris</h1>
-		<p>Quand l'histoire rencontre le patrimoine</p>
-	</body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monuments de Paris</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Georgia', serif;
+            background-color: #f5f3f0;
+            color: #2c2c2c;
+        }
+
+        header {
+            background-color: #0e0064;
+            color: #f5f3f0;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #8b7355;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #c9b8a0;
+            font-style: italic;
+        }
+
+        nav {
+            background-color: #ca6032;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            border-bottom: 1px solid #8b7355;
+        }
+
+        nav a {
+            color: #f5f3f0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: #c9b8a0;
+        }
+
+        header {
+            position: relative;
+            background-color: #0e0064;
+            color: #f5f3f0;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #8b7355;
+        }
+
+        .header-logo {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            height: 60px;
+            width: auto;
+        }
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .carte-section {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .carte-section h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 1rem;
+        }
+
+        .carte-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #e8e4df;
+            padding: 2rem;
+            border: 1px solid #c9b8a0;
+        }
+
+        .carte-paris {
+            width: 100%;
+            height: 600px;
+            background-image: url('carte-paris.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border: 2px solid #8b7355;
+        }
+
+
+
+
+        .monument-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8b7355;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .monument-point.antiquite {
+            background-color: #d4af37;
+        }
+
+        .monument-point.medievale {
+            background-color: #c41e3a;
+        }
+
+        .monument-point.moderne {
+            background-color: #0055a4;
+        }
+
+        .monument-point.contemporaine {
+            background-color: #2d8659;
+        }
+
+        .monument-point:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(139, 115, 85, 0.6);
+        }
+
+        .monument-point.antiquite:hover {
+            background-color: #f4d03f;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+        }
+
+        .monument-point.medievale:hover {
+            background-color: #e63946;
+            box-shadow: 0 0 15px rgba(196, 30, 58, 0.8);
+        }
+
+        .monument-point.moderne:hover {
+            background-color: #0077be;
+            box-shadow: 0 0 15px rgba(0, 85, 164, 0.8);
+        }
+
+        .monument-point.contemporaine:hover {
+            background-color: #3fa876;
+            box-shadow: 0 0 15px rgba(45, 134, 89, 0.8);
+        }
+
+        .monument-point::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1a1a1a;
+            color: #f5f3f0;
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .monument-point:hover::after {
+            opacity: 1;
+        }
+
+        .fiches-section {
+            display: none;
+        }
+
+        .fiches-section.active {
+            display: block;
+        }
+
+        .parcours-section {
+            display: none;
+        }
+
+        .parcours-section.active {
+            display: block;
+        }
+
+        .parcours-container {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .parcours-container h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 1rem;
+        }
+
+        .etape {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background-color: #f9f8f6;
+            border-left: 4px solid #8b7355;
+        }
+
+        .etape h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #0e0064;
+            margin-bottom: 1rem;
+        }
+
+        .etape-date {
+            font-style: italic;
+            color: #8b7355;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .etape-content {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .etape-text {
+            flex: 1;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: #2c2c2c;
+        }
+
+        .etape-text p {
+            margin-bottom: 1rem;
+        }
+
+        .etape-image {
+            flex: 0 0 350px;
+            height: 250px;
+            background-color: #e8e4df;
+            border: 2px solid #8b7355;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b7355;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .etape-content {
+                flex-direction: column;
+            }
+            
+            .etape-image {
+                flex: 0 0 200px;
+                width: 100%;
+            }
+        }
+
+        .fiches-section {
+            display: none;
+        }
+
+        .fiches-section.active {
+            display: block;
+        }
+
+        .fiches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .fiche-card {
+            background-color: white;
+            border: 1px solid #c9b8a0;
+            padding: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+        }
+
+        .fiche-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .fiche-card h3 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            border-bottom: 1px solid #8b7355;
+            padding-bottom: 0.5rem;
+        }
+
+        .fiche-card .date {
+            color: #8b7355;
+            font-style: italic;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .fiche-card p {
+            line-height: 1.7;
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+        }
+
+        .fiche-card .details {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e8e4df;
+        }
+
+        .fiche-card .details strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .fiche-detail {
+            display: none;
+            background-color: white;
+            padding: 3rem;
+            border: 1px solid #c9b8a0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .fiche-detail.active {
+            display: block;
+        }
+
+        .fiche-detail h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .fiche-detail .date {
+            color: #8b7355;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .fiche-detail .content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .fiche-detail .content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .parcours-thematiques-section {
+            display: none;
+        }
+
+        .parcours-thematiques-section.active {
+            display: block;
+        }
+
+        .parcours-thematiques-intro {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 2px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .parcours-thematiques-intro h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 1rem;
+        }
+
+        .parcours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .parcours-card {
+            background-color: white;
+            border: 1px solid #c9b8a0;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .parcours-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+
+        .parcours-card h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #0e0064;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 0.5rem;
+        }
+
+        .parcours-liste {
+            list-style: none;
+            padding: 0;
+        }
+
+        .parcours-liste li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e8e4df;
+            color: #2c2c2c;
+            font-size: 1.05rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .parcours-liste li:last-child {
+            border-bottom: none;
+        }
+
+        .parcours-liste li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #8b7355;
+            font-size: 0.8rem;
+        }
+
+        .parcours-card.antiquite h3 {
+            color: #d4af37;
+        }
+
+        .parcours-card.medievale h3 {
+            color: #c41e3a;
+        }
+
+        .parcours-card.moderne h3 {
+            color: #0055a4;
+        }
+
+        .parcours-card.contemporaine h3 {
+            color: #2d8659;
+        }
+
+        .legende {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legende-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legende-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #1a1a1a;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.7rem 1.5rem;
+            background-color: #2c2c2c;
+            color: #f5f3f0;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .back-button:hover {
+            background-color: #8b7355;
+        }
+
+        footer {
+            background-color: #0e0064;
+            color: #c9b8a0;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 3px solid #8b7355;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo-ATP.png" alt="Logo" class="header-logo">
+        <h1>AU TEMPS DE PARIS</h1>
+        <p>Écoutez le Patrimoine vous raconter l'Histoire de France</p>
+    </header>
+
+    <nav>
+        <a href="#" onclick="showSection('carte'); return false;">Carte de Paris</a>
+        <a href="#" onclick="showSection('parcours'); return false;">Parcours Historique</a>
+        <a href="#" onclick="showSection('fiches'); return false;">Nos monuments</a>
+        <a href="#" onclick="showSection('parcours-thematiques'); return false;">Parcours Thématiques</a>
+    </nav>
+
+    <div class="container">
+        <section id="carte" class="carte-section">
+            <h2>Carte de Paris et ses Monuments</h2>
+            <div class="carte-container">
+                <div class="carte-paris">
+                    <div class="monument-point contemporaine" data-name="Sacré-Cœur" data-monument="sacrecoeur" 
+                         style="left: 52%; top: 0%;" onclick="showEtape('sacrecoeur')"></div>
+                    <div class="monument-point contemporaine" data-name="Gare Saint-Lazare" data-monument="gare-saint-lazare" 
+                         style="left: 38%; top: 17%;" onclick="showEtape('gare-saint-lazare')"></div>
+                    <div class="monument-point contemporaine" data-name="Arc de Triomphe" data-monument="arc" 
+                         style="left: 11%; top: 22%;" onclick="showEtape('arc')"></div>
+                    <div class="monument-point contemporaine" data-name="Palais de l'Elysée" data-monument="elysée" 
+                         style="left: 30%; top: 28%;" onclick="showEtape('elysée')"></div>
+                    <div class="monument-point contemporaine" data-name="Palais Garnier" data-monument="Palais-Garnier" 
+                         style="left: 43%; top: 25%;" onclick="showEtape('palais-garnier')"></div>
+                    <div class="monument-point contemporaine" data-name="Colonne de Vendôme" data-monument="colonne-de-vendôme" 
+                         style="left: 41%; top: 34%;" onclick="showEtape('colonne-de-vendôme')"></div>
+                    <div class="monument-point moderne" data-name="Place de la Concorde, palais de la Marine" data-monument="concorde" 
+                         style="left: 34%; top: 38%;" onclick="showEtape('concorde')"></div>
+                    <div class="monument-point contemporaine" data-name="Grand Palais et Petit Palais" data-monument="grand-palais-petit-palais" 
+                         style="left: 28%; top: 38%;" onclick="showEtape('grand-palais-petit-palais')"></div>
+                    <div class="monument-point contemporaine" data-name="Musée d'Orsay" data-monument="musée-d'orsay" 
+                         style="left: 31%; top: 45%;" onclick="showEtape('musée-orsay)"></div>
+                    <div class="monument-point contemporaine" data-name="Invalides" data-monument="invalides" 
+                         style="left: 27%; top: 50%;" onclick="showEtape('invalides')"></div>
+                    <div class="monument-point contemporaine" data-name="Tour Eiffel" data-monument="eiffel" 
+                         style="left: 11%; top: 51%;" onclick="showEtape('eiffel')"></div>
+                    <div class="monument-point moderne" data-name="Palais Royal" data-monument="palais-royal" 
+                         style="left: 48%; top: 40%;" onclick="showEtape('palais-royal')"></div>
+                    <div class="monument-point moderne" data-name="Le Louvre" data-monument="le-louvre" 
+                         style="left: 48%; top: 46%;" onclick="showEtape('le-louvre')"></div>
+                    <div class="monument-point contemporaine" data-name="Arts et Métiers" data-monument="arts-et-métiers" 
+                         style="left: 64%; top: 35%;" onclick="showEtape('gare-saint-lazare')"></div>
+                    <div class="monument-point contemporaine" data-name="Pompidou" data-monument="pompidou" 
+                         style="left: 62%; top: 46%;" onclick="showEtape('pompidou')"></div>
+                    <div class="monument-point contemporaine" data-name="Canopée de Chatelet" data-monument="canopee" 
+                         style="left: 57%; top: 44%;" onclick="showEtape('canopee')"></div>
+                    <div class="monument-point medievale" data-name="Sainte-Chapelle" data-monument="sainte-chapelle" 
+                         style="left: 55%; top: 56%;" onclick="showEtape('sainte-chapelle')"></div>
+                    <div class="monument-point medievale" data-name="Conciergerie" data-monument="consiergerie" 
+                         style="left: 55%; top: 55%;" onclick="showEtape('conciergerie')"></div>
+                    <div class="monument-point moderne" data-name="Hôtel de Ville" data-monument="hotel-de-ville" 
+                         style="left: 60%; top: 55%;" onclick="showEtape('hotel-de-ville')"></div>
+                    <div class="monument-point contemporaine" data-name="Place de la République" data-monument="place-de-la-république" 
+                         style="left: 72%; top: 35%;" onclick="showEtape('place-de-la-république')"></div>
+                    <div class="monument-point contemporaine" data-name="Mémorial de la Shoah" data-monument="shoah" 
+                         style="left: 65%; top: 56%;" onclick="showEtape('shoah')"></div>
+                    <div class="monument-point moderne" data-name="Pont Neuf" data-monument="pont-neuf" 
+                         style="left: 52%; top: 53%;" onclick="showEtape('pont-neuf')"></div>
+                    <div class="monument-point medievale" data-name="Notre-Dame" data-monument="notredame" 
+                         style="left: 60%; top: 60%;" onclick="showEtape('notredame')"></div>
+                    <div class="monument-point moderne" data-name="Couvent des Cordeliers" data-monument="cordeliers" 
+                         style="left: 52%; top: 66%;" onclick="showEtape('cordeliers')"></div>
+                    <div class="monument-point moderne" data-name="Place des Vosges" data-monument="place-vosges" 
+                         style="left: 73%; top: 55%;" onclick="showEtape('place-vosges')"></div>
+                    <div class="monument-point moderne" data-name="Bastille" data-monument="bastille" 
+                         style="left: 76%; top: 60%;" onclick="showEtape('bastille')"></div>
+                    <div class="monument-point antiquite" data-name="Thermes de Cluny" data-monument="thermes-Cluny" 
+                         style="left: 54%; top: 65%;" onclick="showEtape('cluny')"></div>
+                    <div class="monument-point medievale" data-name="Sorbonne" data-monument="sorbonne" 
+                         style="left: 55%; top: 69%;" onclick="showEtape('sorbonne')"></div>
+                     <div class="monument-point moderne" data-name="Panthéon" data-monument="pantheon" 
+                         style="left: 56%; top: 73%;" onclick="showEtape('pantheon')"></div>
+                    <div class="monument-point moderne" data-name="Jardin des Plantes" data-monument="jardin-des-plantes" 
+                         style="left: 67%; top: 77%;" onclick="showEtape('jardin-des-plantes')"></div>
+                    <div class="monument-point contemporaine" data-name="Tour Montparnasse" data-monument="montparnasse" 
+                         style="left: 33%; top: 83%;" onclick="showEtape('montparnasse')"></div>
+                     <div class="monument-point antiquite" data-name="Arènes de Lutèce" data-monument="arene-de-lutece" 
+                         style="left: 62%; top: 75%;" onclick="showEtape('arene-de-lutece')"></div>
+                    <div class="monument-point contemporaine" data-name="Palais du Luxembourg" data-monument="palais-du-luxembourg" 
+                         style="left: 49%; top: 69%;" onclick="showEtape('palais-du-luxembourg')"></div>
+                    <div class="monument-point contemporaine" data-name="Palais de la Porte Dorée" data-monument="porte-dorée" 
+                         style="left: 98%; top: 91%;" onclick="showEtape('porte-dorée')"></div>
+                    
+                    </div>
+            </div>
+
+            <div class="legende">
+                    <div class="legende-item">
+                        <div class="legende-color" style="background-color: #d4af37;"></div>
+                        <span>Momunements Antiques</span>
+                    </div>
+                    <div class="legende-item">
+                        <div class="legende-color" style="background-color: #c41e3a;"></div>
+                        <span>Monuments Médiévaux</span>
+                    </div>
+                    <div class="legende-item">
+                        <div class="legende-color" style="background-color: #0055a4;"></div>
+                        <span>Monuments Modernes</span>
+                    </div>
+                    <div class="legende-item">
+                        <div class="legende-color" style="background-color: #2d8659;"></div>
+                        <span>Monuments contemporains</span>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <section id="fiches" class="fiches-section">
+            <div id="fiches-list">
+                <h2>Nos monuments</h2>
+                <div class="fiches-grid">
+
+                    <div class="fiche-card" onclick="showMonument('thermes-cluny')">
+                        <h3>Thermes de Cluny</h3>
+                        <div class="date">Ier et IIe siècle avant J-C.</div>
+                        <p>Vestiges impressionnants des anciens bains romains de Lutèce.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Gallo-romain<br>
+                            <strong>Arrondissement :</strong> 5ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('arene-de-lutece')">
+                        <h3>Arène de Lutèce</h3>
+                        <div class="date">Ier siècle après J-C.</div>
+                        <p>Ancien amphithéâtre romain accueillant combats et spectacles publics.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Gallo-romain<br>
+                            <strong>Arrondissement :</strong> 5ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('notredame')">
+                        <h3>Cathédrale Notre-Dame</h3>
+                        <div class="date">1163-1345</div>
+                        <p>Chef-d'œuvre de l'architecture gothique française, symbole historique de Paris.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Gothique<br>
+                            <strong>Arrondissement :</strong> 4ème
+                        </div>
+                    </div>
+
+                   <div class="fiche-card" onclick="showMonument('sainte-chapelle')">
+                        <h3>Sainte-Chapelle</h3>
+                        <div class="date">1758-1790</div>
+                        <p>Chapelle royale célèbre pour ses vitraux spectaculaires et son raffinement.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Gothique<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('sorbonne')">
+                        <h3>La Sorbonne</h3>
+                        <div class="date">1253</div>
+                        <p>Haut lieu historique du savoir et de l’université à Paris.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Classique<br>
+                            <strong>Arrondissement :</strong> 5ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('conciergerie')">
+                        <h3>La Conciergerie</h3>
+                        <div class="date">Fin du XIIIe siècle après J-C.</div>
+                        <p>Ancienne résidence royale devenue prison emblématique de la Révolution.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Gothique<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('hotel-de-ville')">
+                        <h3>Hôtel de Ville</h3>
+                        <div class="date">1533</div>
+                        <p>Siège politique de Paris et grand édifice décoratif en bord de Seine.</p>
+                        <div class="details">
+                            <strong>Style :</strong> néo-renaissance<br>
+                            <strong>Arrondissement :</strong> 4ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('jardin-des-plantes')">
+                        <h3>Jardin des Plantes</h3>
+                        <div class="date">1635</div>
+                        <p>Grand jardin botanique historique dédié à la science et à la nature.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 24 hectares<br>
+                            <strong>Arrondissement :</strong> 5ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('place-vosges')">
+                        <h3>Place des Vosges</h3>
+                        <div class="date">1605</div>
+                        <p>Place royale harmonieuse entourée d’arcades typiques du XVIIᵉ siècle.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 1,5 hectares<br>
+                            <strong>Arrondissement :</strong> 4ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('pont-neuf')">
+                        <h3>Pont Neuf</h3>
+                        <div class="date">1578-1607</div>
+                        <p>Le plus ancien pont de Paris encore en service, traversant la pointe de l’île de la Cité.</p>
+                        <div class="details">
+                            <strong>Longueur :</strong> 232 mètres<br>
+                            <strong>Arrondissement :</strong> 1er et 6ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('palais-royal')">
+                        <h3>Palais Royal</h3>
+                        <div class="date">1628</div>
+                        <p>Ancien palais de Richelieu qui abrite aujourd'hui le conseil d'Etat ainsi que six autres institutions.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 2 hectares<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('louvre')">
+                        <h3>Le Louvre</h3>
+                        <div class="date">1190</div>
+                        <p>Ancien palais royal devenu l’un des plus grands musées du monde.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 135 000 m²<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('concorde')">
+                        <h3>Place de la Concorde, palais de la Marine</h3>
+                        <div class="date">1763 et 1789</div>
+                        <p>Immense place monumentale marquée par l’obélisque et les fontaines et un élégant palais néoclassique autrefois siège de l’administration navale.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 8,6 hectares<br>
+                            <strong>Arrondissement :</strong> 8ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('bastille')">
+                        <h3>Place de la Bastille</h3>
+                        <div class="date">1830</div>
+                        <p>Grande place animée marquant l’ancien emplacement de la forteresse royale.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 3,5 hectares<br>
+                            <strong>Arrondissements :</strong> 4ème, 11ème et 12 ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('cordeliers')">
+                        <h3>Couvent des Cordeliers</h3>
+                        <div class="date">XIIIe siècle après J-C.</div>
+                        <p>Ancien couvent franciscain dont subsiste un superbe réfectoire médiéval.</p>
+                        <div class="details">
+                            <strong>Style :</strong> gothique<br>
+                            <strong>Arrondissement :</strong> 6ème
+                        </div>
+                    </div>
+
+                   <div class="fiche-card" onclick="showMonument('pantheon')">
+                        <h3>Le Panthéon</h3>
+                        <div class="date">1757-1790</div>
+                        <p>Monument national honorant les grandes figures françaises.</p>
+                        <div class="details">
+                            <strong>Style :</strong> néo-classique<br>
+                            <strong>Arrondissement :</strong> 5ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('invalides')">
+                        <h3>Les Invalides</h3>
+                        <div class="date">1671</div>
+                        <p>omplexe militaire et religieux abritant le tombeau de Napoléon.</p>
+                        <div class="details">
+                            <strong>Style :</strong> classique/baroque français<br>
+                            <strong>Arrondissement :</strong> 7ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('palais-du-luxembourg')">
+                        <h3>Palais du Luxembourg</h3>
+                        <div class="date">1615-1625</div>
+                        <p>Résidence princière devenue siège du Sénat français.</p>
+                        <div class="details">
+                            <strong>Style:</strong> baroque français<br>
+                            <strong>Arrondissement :</strong> 6ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('gare-saint-lazare')">
+                        <h3>Gare Saint-Lazare</h3>
+                        <div class="date">1837</div>
+                        <p>L’une des plus anciennes gares parisiennes.</p>
+                        <div class="details">
+                            <strong>Style :</strong> classique<br>
+                            <strong>Arrondissement :</strong> 8ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('arts-et-métiers')">
+                        <h3>Conservatoire des arts et métiers</h3>
+                        <div class="date">1794</div>
+                        <p>Musée scientifique consacré à l’innovation et au patrimoine technique.</p>
+                        <div class="details">
+                            <strong>Style :</strong> médiéval et classique<br>
+                            <strong>Arrondissement :</strong> 3ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('palais-garnier')">
+                        <h3>Palais Garnier, Opéra</h3>
+                        <div class="date">1875</div>
+                        <p>Opéra somptueux emblématique de l’architecture du Second Empire.</p>
+                        <div class="details">
+                            <strong>Style :</strong> néo-baroque<br>
+                            <strong>Arrondissement :</strong> 9ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('colonne-de-vendôme')">
+                        <h3>Colonne Vendôme</h3>
+                        <div class="date">1810</div>
+                        <p>Monument impérial commémorant les victoires napoléoniennes.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 44 mètres<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+
+                    <div class="fiche-card" onclick="showMonument('sacrecoeur')">
+                        <h3>Basilique du Sacré-Cœur</h3>
+                        <div class="date">1875</div>
+                        <p>Sanctuaire blanc dominant Paris depuis la butte Montmartre.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 83 mètres<br>
+                            <strong>Arrondissement :</strong> 18ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('place-de-la-république')">
+                        <h3>Place de la République</h3>
+                        <div class="date">1879</div>
+                        <p>Grande place urbaine centrée autour d'une statue monumentale.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 3,4 hectares<br>
+                            <strong>Arrondissement :</strong> 3ème, 10ème et 11ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('musée-orsay')">
+                        <h3>Musée d'Orsay</h3>
+                        <div class="date">1986</div>
+                        <p>Ancienne gare transformée en musée des arts du XIXᵉ siècle.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Beaux-Arts<br>
+                            <strong>Arrondissement :</strong> 7ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('eiffel')">
+                        <h3>Tour Eiffel</h3>
+                        <div class="date">1887-1889</div>
+                        <p>Symbole mondial de Paris construit pour l’Exposition universelle de 1889.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 330 mètres<br>
+                            <strong>Arrondissement :</strong> 7ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('grand-palais-petit-palais')">
+                        <h3>Petit Palais et Grand Palais</h3>
+                        <div class="date">1900</div>
+                        <p>Deux palais de l’Exposition de 1900, dédiés aux arts et aux grands événements..</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 77 000 m²<br>
+                            <strong>Arrondissement :</strong> 8ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('arc')">
+                        <h3>Arc de Triomphe</h3>
+                        <div class="date">1806-1836</div>
+                        <p>Monument commandé par Napoléon en l'honneur de la Grande Armée, situé au sommet des Champs-Élysées.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 50 mètres<br>
+                            <strong>Arrondissement :</strong> 8ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('porte-dorée')">
+                        <h3>Palais de la Porte Dorée</h3>
+                        <div class="date">1931</div>
+                        <p>Édifice art déco construit pour l’Exposition coloniale de 1931.</p>
+                        <div class="details">
+                            <strong>Style :</strong> Art Déco<br>
+                            <strong>Arrondissement :</strong> 12e
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('shoah')">
+                        <h3>Mémorial de la Shoah</h3>
+                        <div class="date">2005</div>
+                        <p>Lieu de mémoire consacré à l’histoire et aux victimes de la Shoah.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 5 000 m²<br>
+                            <strong>Arrondissement :</strong> 4ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('elysée')">
+                        <h3>Palais de l'Elysée</h3>
+                        <div class="date">1720</div>
+                        <p>Résidence officielle du président de la République française.</p>
+                        <div class="details">
+                            <strong>Style :</strong> classique<br>
+                            <strong>Arrondissement :</strong> 8ème
+                        </div>
+                    </div>
+                   
+                     <div class="fiche-card" onclick="showMonument('pompidou')">
+                        <h3>Centre Pompidou</h3>
+                        <div class="date">1887-1889</div>
+                        <p>Centre culturel majeur reconnaissable à son architecture industrielle inversée.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 100 000 m²<br>
+                            <strong>Arrondissement :</strong> 4ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('montparnasse')">
+                        <h3>Tour Montparnasse</h3>
+                        <div class="date">1973</div>
+                        <p>Gratte-ciel emblématique offrant un panorama sur tout Paris.</p>
+                        <div class="details">
+                            <strong>Hauteur :</strong> 210 mètres<br>
+                            <strong>Arrondissement :</strong> 15ème
+                        </div>
+                    </div>
+
+                    <div class="fiche-card" onclick="showMonument('canopee')">
+                        <h3>Canopée de Chatelet-Les Halles</h3>
+                        <div class="date">2012-2016</div>
+                        <p>Grande structure contemporaine couvrant le forum et le pôle de transport des Halles.</p>
+                        <div class="details">
+                            <strong>Superficie :</strong> 2,5 hectares<br>
+                            <strong>Arrondissement :</strong> 1er
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="eiffel" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Tour Eiffel</h2>
+                <div class="date">Construction : 1887-1889</div>
+                <div class="content">
+                    <p>La Tour Eiffel est une tour de fer puddlé de 330 mètres de hauteur située à Paris, à l'extrémité nord-ouest du parc du Champ-de-Mars en bordure de la Seine. Construite en deux ans par Gustave Eiffel et ses collaborateurs pour l'Exposition universelle de Paris de 1889, elle est devenue le symbole de la capitale française et un site touristique de premier plan.</p>
+                    
+                    <p><strong>Histoire et Construction :</strong> Initialement critiquée par une partie de l'élite artistique et littéraire de l'époque, la Tour Eiffel était destinée à être démontée après l'exposition. Elle doit sa survie à ses antennes de transmission radio installées à son sommet. La construction a nécessité 18 038 pièces métalliques et 2,5 millions de rivets.</p>
+                    
+                    <p><strong>Caractéristiques techniques :</strong> Haute de 330 mètres avec ses antennes, elle mesure 312 mètres sans antennes. Son poids total est de 10 100 tonnes. Elle comporte trois étages accessibles au public, le troisième offrant une vue panoramique exceptionnelle sur Paris.</p>
+                    
+                    <p><strong>Aujourd'hui :</strong> La Tour Eiffel accueille près de 7 millions de visiteurs par an, ce qui en fait le monument payant le plus visité au monde. Elle est repeinte tous les sept ans avec 60 tonnes de peinture.</p>
+                </div>
+            </div>
+
+            <div id="pompidou" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Centre Pompidou</h2>
+                <div class="date">Construction : 1887-1889</div>
+                <div class="content">
+                    <p>Le Centre Pompidou est une structure de verre et de métal traversée de lumière, le bâtiment du Centre Pompidou conçu par les architectes Renzo Piano et Richard Rogers, au cœur de Paris depuis 1977, rappelle un cœur irrigué de monumentales artères aux couleurs vives et primaires.</p>
+                    
+                    <p><strong>Histoire et Construction :</strong> Inauguré en 1977, le Centre Pompidou est né de la volonté du président Georges Pompidou de créer au cœur de Paris un lieu entièrement dédié à la culture moderne, accessible à tous. Le projet fut lancé en 1969 et confié à deux jeunes architectes alors peu connus : Renzo Piano et Richard Rogers, dont la proposition audacieuse rompt avec l’architecture traditionnelle parisienne..</p>
+                    
+                    <p><strong>Architecture:</strong> Son architecture high-tech et révolutionnaire affiche à l’extérieur les tuyauteries, escaliers et structures métalliques, colorées selon leur fonction. L’intérieur est vaste et modulable, pensé pour la liberté des espaces.</p>
+                    
+                    <p><strong>Son utilité:</strong> Son utilité est culturelle et artistique : c’est à la fois un musée d’art moderne, une bibliothèque publique et un centre de création, symbole de l’innovation et de la démocratisation de la culture.</p>
+                </div>
+            </div>
+
+
+            <div id="arc" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Arc de Triomphe</h2>
+                <div class="date">Construction : 1806-1836</div>
+                <div class="content">
+                    <p>L'Arc de Triomphe de l'Étoile est l'un des monuments les plus célèbres de Paris. Il se situe au centre de la place Charles-de-Gaulle, à l'extrémité ouest de l'avenue des Champs-Élysées, à 2,2 kilomètres de la place de la Concorde.</p>
+                    
+                    <p><strong>Histoire :</strong> Commandé par Napoléon Ier en 1806 après la victoire d'Austerlitz, l'Arc de Triomphe devait célébrer les victoires de la Grande Armée. Les travaux, interrompus entre 1814 et 1826, ne furent achevés qu'en 1836 sous le règne de Louis-Philippe.</p>
+                    
+                    <p><strong>Architecture :</strong> Haut de 50 mètres, large de 45 mètres et profond de 22 mètres, l'Arc de Triomphe est orné de sculptures monumentales, dont les plus célèbres sont "Le Départ des volontaires de 1792" (La Marseillaise) de François Rude. Les noms de 558 généraux et de 128 batailles sont gravés sur ses parois intérieures.</p>
+                    
+                    <p><strong>La Tombe du Soldat inconnu :</strong> Depuis 1920, l'Arc de Triomphe abrite la tombe du Soldat inconnu, où brûle une flamme éternelle ravivée chaque soir à 18h30. Le monument est devenu un lieu de mémoire national.</p>
+                </div>
+            </div>
+
+            <div id="notredame" class="fiche-detail" >
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Cathédrale Notre-Dame de Paris</h2>
+                <div class="date">Construction : 1163-1345</div>
+                <div class="content">
+                    <p>La cathédrale Notre-Dame de Paris est l'un des monuments les plus emblématiques de Paris et de la France. Chef-d'œuvre de l'architecture gothique, elle se situe à l'extrémité est de l'île de la Cité, cœur historique de la capitale.</p>
+                    
+                    <p><strong>Histoire :</strong> Sa construction a débuté en 1163 sous l'impulsion de l'évêque Maurice de Sully et s'est étendue sur près de deux siècles. La cathédrale a été le théâtre de nombreux événements historiques majeurs, dont le couronnement de Napoléon Ier en 1804.</p>
+                    
+                    <p><strong>Architecture :</strong> L'édifice mesure 127 mètres de long, 48 mètres de large et 69 mètres de haut sous la flèche. Ses deux tours carrées atteignent 69 mètres. La cathédrale est célèbre pour ses vitraux, ses rosaces, ses gargouilles et ses arcs-boutants qui soutiennent les murs.</p>
+                    
+                    <p><strong>L'incendie de 2019 :</strong> Le 15 avril 2019, un important incendie a ravagé la toiture et la flèche de la cathédrale. Un vaste chantier de restauration est en cours pour redonner à Notre-Dame sa splendeur d'antan, avec une réouverture prévue en décembre 2024.</p>
+                </div>
+            </div>
+
+            <div id="sacrecoeur" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Basilique du Sacré-Cœur de Montmartre</h2>
+                <div class="date">Construction : 1875-1914</div>
+                <div class="content">
+                    <p>La basilique du Sacré-Cœur est un édifice religieux situé au sommet de la butte Montmartre, point culminant de Paris à 130 mètres d'altitude. Elle domine la capitale et offre l'une des plus belles vues panoramiques sur la ville.</p>
+                    
+                    <p><strong>Histoire :</strong> Sa construction fut décidée en 1873, après la défaite de 1870 face à la Prusse et les événements tragiques de la Commune de Paris. Elle devait symboliser l'espoir et le renouveau spirituel de la France. Les travaux durèrent près de 40 ans et la basilique fut consacrée en 1919.</p>
+                    
+                    <p><strong>Architecture :</strong> De style romano-byzantin, la basilique se distingue par sa pierre de Château-Landon qui, au contact de l'eau, sécrète une substance blanche lui conservant sa couleur immaculée. Le dôme central culmine à 83 mètres de hauteur. L'intérieur abrite l'une des plus grandes mosaïques de France, représentant le Christ en majesté.</p>
+                    
+                    <p><strong>Aujourd'hui :</strong> La basilique du Sacré-Cœur accueille plus de 10 millions de visiteurs par an. L'adoration perpétuelle du Saint-Sacrement y est maintenue jour et nuit depuis 1885, faisant de ce lieu un centre spirituel majeur.</p>
+                </div>
+            </div>
+
+            <div id="pantheon" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Panthéon</h2>
+                <div class="date">Construction : 1757-1790</div>
+                <div class="content">
+                    <p>Le Panthéon est un monument de style néoclassique situé dans le 5ème arrondissement de Paris, au cœur du Quartier latin, sur la montagne Sainte-Geneviève. Il est le temple laïc où reposent les grands hommes et femmes de la République française.</p>
+                    
+                    <p><strong>Histoire :</strong> À l'origine, Louis XV fit construire cet édifice pour remplacer l'ancienne église de l'abbaye Sainte-Geneviève. L'architecte Jacques-Germain Soufflot conçut un bâtiment révolutionnaire pour l'époque. À la Révolution française, en 1791, il fut transformé en temple destiné à accueillir les grands hommes de la nation.</p>
+                    
+                    <p><strong>Architecture :</strong> Le bâtiment en forme de croix grecque est surmonté d'un dôme culminant à 83 mètres. Sa façade principale s'inspire du Panthéon de Rome avec son péristyle de colonnes corinthiennes. Le célèbre pendule de Foucault y fut installé en 1851 pour démontrer la rotation de la Terre.</p>
+                    
+                    <p><strong>Les personnalités inhumées :</strong> Parmi les 80 personnalités qui y reposent figurent Voltaire, Rousseau, Victor Hugo, Émile Zola, Jean Jaurès, Marie Curie (première femme à y entrer), Alexandre Dumas et plus récemment Simone Veil et Joséphine Baker.</p>
+                </div>
+            </div>
+
+
+            <div id="arene-de-lutece" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Arènes de Lutèce</h2>
+                <div class="date">Construction : Ie siècle après J-C</div>
+                <div class="content">
+                    <p>Les arènes de Lutèce, situées dans le 5ᵉ arrondissement de Paris, sont l'un des rares vestiges de l'époque gallo-romaine encore visibles dans la capitale.</p>
+                    
+                    <p><strong>Histoire :</strong> Les Arènes de Lutèce, construites au Ier siècle après J.-C., faisaient partie des grands édifices publics de la ville gallo-romaine et servaient à accueillir spectacles, combats et représentations. Abandonnées au IIIᵉ siècle et peu à peu enfouies, elles furent redécouvertes au XIXᵉ siècle puis restaurées grâce à l’action de défenseurs du patrimoine comme Victor Hugo..</p>
+                    
+                    <p><strong>Architecture :</strong> Les Arènes formaient un vaste amphithéâtre pouvant accueillir plus de 15 000 spectateurs. Elles combinaient les fonctions d’un théâtre et d’un amphithéâtre : on y donnait aussi bien des représentations théâtrales que des combats de gladiateurs ou des jeux publics. On peut encore voir aujourd’hui les gradins restaurés, la piste centrale, ainsi que des vestiges des loges et des couloirs utilisés par les acteurs et les combattants.</p>
+                    
+                    <p><strong>La symbolique:</strong> Les Arènes de Lutèce symbolisent la vie sociale et culturelle des Romains, où spectacles, loisirs et religion se mêlaient pour renforcer la cohésion de la cité. Redécouvertes au XIXᵉ siècle après avoir été enfouies pendant des siècles, elles représentent aujourd’hui un précieux témoignage de l’histoire antique de Paris, ouvert au public et toujours empreint de cette atmosphère unique d’un lieu où la foule de Lutèce se rassemblait il y a près de deux mille ans.</p>
+                </div>
+            </div>
+
+
+            <div id="thermes-cluny" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Thermes de Cluny</h2>
+                <div class="date">Construction : Ie et IIe siècle avant J-C</div>
+                <div class="content">
+                    <p>Les thermes de Cluny, aujourd'hui intégrés au musée de Cluny, à Paris, dans le Quartier latin, sont d'anciens thermes romains datant des Ier et IIe siècles apr. J.-C.</p>
+                    
+                    <p><strong>Histoire :</strong> Les Thermes de Cluny, situés au cœur de Paris, sont les vestiges impressionnants d’un ancien établissement de bains gallo-romain. À l’époque, ils faisaient partie de la ville de Lutèce, et servaient de lieu de détente, de rencontre et d’hygiène pour les habitants romains.</p>
+                    
+                    <p><strong>Architecture :</strong> Sur le plan architectural, le site témoigne du savoir-faire des Romains : on y distingue encore les grandes salles voûtées, comme le frigidarium (salle froide), qui conserve une partie de sa structure d’origine, ainsi que les traces des systèmes de chauffage souterrains appelés hypocaustes. Les murs massifs et les mosaïques témoignent du luxe et du raffinement de ces bains publics.</p>
+                    
+                    <p><strong>La symbolique:</strong> Au-delà de leur fonction pratique, les Thermes de Cluny symbolisent la puissance et la culture romaine, qui associaient bien-être du corps, sociabilité et architecture monumentale. Aujourd’hui, ils rappellent la présence romaine à Paris et constituent un précieux témoin du dialogue entre Antiquité et Moyen Âge, puisqu’ils font désormais partie du Musée de Cluny.</p>
+                </div>
+            </div>
+
+
+            <div id="sainte-chapelle" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>La Sainte Chapelle</h2>
+                <div class="date">Construction : 1241-1248</div>
+                <div class="content">
+                    <p>La Sainte-Chapelle, dite aussi Sainte-Chapelle du Palais, est une chapelle palatine édifiée sur l’île de la Cité, à Paris.</p>
+                    
+                    <p><strong>Histoire :</strong> Édifiée entre 1242 et 1248 sur l’ordre du roi Louis IX (Saint Louis), la Sainte-Chapelle fut conçue pour abriter les reliques de la Passion du Christ, dont la célèbre Couronne d’épines. Située au cœur du Palais de la Cité, elle témoignait du rôle sacré du roi et de la monarchie capétienne.</p>
+                    
+                    <p><strong>Architecture :</strong> Architecturalement, la Sainte-Chapelle est un joyau du gothique rayonnant. Elle se compose de deux niveaux : la chapelle basse, sobre et réservée aux domestiques du palais, et la chapelle haute, baignée de lumière grâce à ses immenses vitraux colorés qui racontent des scènes bibliques sur plus de 600 m² de surface.</p>
+                    
+                    <p><strong>La symbolique:</strong> Plus qu’un simple lieu de culte, la Sainte-Chapelle symbolise la fusion entre le pouvoir royal et la foi chrétienne, illustrant la splendeur et la piété du règne de Saint Louis..</p>
+                </div>
+            </div>
+
+
+            <div id="conciergerie" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>La Conciergerie</h2>
+                <div class="date">Construction : Fin du XIIIe siècle après J-C.</div>
+                <div class="content">
+                    <p>La Conciergerie est un ancien palais de justice et prison de Paris, en France, situé à l'ouest de l'île de la Cité, sous le Palais de Justice.</p>
+                    
+                    <p><strong>Histoire :</strong> Ancienne résidence des rois de France au Moyen Âge, la Conciergerie fut intégrée au Palais de la Cité, siège du pouvoir royal jusqu’au XIVᵉ siècle.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture mêle éléments gothiques et médiévaux : grandes salles voûtées, tours massives dominant la Seine, et vestiges du logis royal. L’intérieur conserve encore la Salle des Gens d’armes, immense salle voûtée qui témoigne de la grandeur du palais.</p>
+                    
+                    <p><strong>La symbolique :</strong> Utilisée comme prison pendant la Révolution française, elle a notamment accueillit Marie-Antoinette avant son exécution. Aujourd’hui, la Conciergerie symbolise la justice, le pouvoir et la mémoire historique de la France, mêlant grandeur royale et tragédie révolutionnaire.</p>
+                </div>
+            </div>
+
+            <div id="sorbonne" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>La Sorbonne</h2>
+                <div class="date">Construction : 1253</div>
+                <div class="content">
+                    <p>La Sorbonne est un bâtiment universitaire situé dans le 5e arrondissement de Paris, un des hauts lieux du Quartier latin.</p>
+                    
+                    <p><strong>Histoire :</strong> Fondée au milieu du XIIIᵉ siècle par le théologien Robert de Sorbon, confesseur du roi Saint Louis, la Sorbonne fut à l’origine un collège destiné aux étudiants en théologie pauvres. Très vite, elle devint un centre intellectuel prestigieux au sein de l’Université de Paris.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture, remaniée au fil des siècles, mêle les styles gothique et classique. Le bâtiment actuel, reconstruit au XVIIᵉ siècle, se distingue par sa cour d’honneur, sa chapelle à dôme, et ses façades sobres mais élégantes, symbole d’ordre et de raison.</p>
+                    
+                    <p><strong>L'utilité:</strong> La Sorbonne représente l’esprit du savoir et de la recherche, un lieu d’étude et de réflexion qui a formé des générations de savants, de philosophes et d’écrivains. Elle demeure aujourd’hui un symbole fort de l’éducation et de la culture française.</p>
+                </div>
+            </div>
+
+                <div id="hotel-de-ville" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()">← Retour aux fiches</button>
+                <h2>Hôtel de Ville</h2>
+                <div class="date">Construction : 1533</div>
+                <div class="content">
+                    <p>L’hôtel de ville de Paris, communément appelé l’Hôtel de Ville, est le bâtiment qui héberge les institutions municipales de la Ville de Paris.</p>
+                    
+                    <p><strong>Histoire :</strong> L’Hôtel de Ville de Paris est depuis le XIVᵉ siècle le centre administratif de la capitale. D’abord simple maison commune, il est reconstruit au XVIᵉ siècle dans un style Renaissance par les architectes Dominique de Cortone et Pierre Chambiges. Après avoir été incendié pendant la Commune de Paris en 1871, il est rebâti à la fin du XIXᵉ siècle.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture actuelle, inspirée de la Renaissance française, impressionne par sa façade richement décorée, ses statues d’hommes illustres et son grand beffroi central. À l’intérieur, les salons officiels rappellent le faste de la Troisième République.</p>
+                    
+                    <p><strong>La symbolique:</strong> Symbole de la vie civique et démocratique de Paris, l’Hôtel de Ville incarne la continuité du pouvoir municipal et reste un lieu de rassemblement et de célébration pour les Parisiens.</p>
+                </div>
+            </div>
+
+             <div id="jardin-des-plantes" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Jardin des Plantes</h2>
+                <div class="date">Construction : 1635</div>
+                <div class="content">
+                    <p>Le jardin des plantes de Paris, ou Jardin des plantes, situé dans le 5e arrondissement de Paris, est un parc à la fois botanique, écologique et zoologique, siège et principal site du Muséum national d'histoire naturelle.</p>
+                    
+                    <p><strong>Histoire :</strong> Créé comme jardin royal de plantes médicinales sous Louis XIII, le Jardin des Plantes devient rapidement un centre de recherche scientifique et botanique. Il est ouvert au public dès le XVIIᵉ siècle et intégré au Muséum national d’Histoire naturelle après la Révolution.</p>
+                    
+                    <p><strong>Architecture :</strong> Le jardin mêle espaces verts, serres tropicales, galeries d’exposition, et un petit zoo, l’un des plus anciens d’Europe. Son plan régulier et ses allées bordées de plantes rares reflètent l’esprit d’ordre et d’observation scientifique propre au siècle des Lumières.</p>
+                    
+                    <p><strong>L'utilité:</strong> Lieu de promenade, d’étude et de conservation, le Jardin des Plantes symbolise la curiosité scientifique et la volonté de comprendre la nature.</p>
+                </div>
+            </div>
+
+             <div id="place-vosges" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Place des Vosges</h2>
+                <div class="date">Construction : 1605</div>
+                <div class="content">
+                    <p>La place des Vosges, anciennement place Royale, est une place de Paris dans le quartier du Marais, faisant partie des 3e et 4e arrondissements.</p>
+                    
+                    <p><strong>Histoire :</strong> Aménagée au début du XVIIᵉ siècle sous Henri IV, la Place des Vosges, autrefois Place Royale, est la plus ancienne place planifiée de Paris. Elle fut conçue comme un lieu de promenade aristocratique et de prestige pour le Marais.</p>
+                    
+                    <p><strong>Architecture :</strong> Il s'agit d'une place, conçue sur un plan presque carré, de 140 mètres de côté, ceinturée d'immeubles d'habitation de deux étages en briques rouges à chaînages de pierre calcaire blanche et toits d'ardoise bleue très pentus, aux fenêtres à petits carreaux, d'une grande unité de présentation.</p>
+                    
+                    <p><strong>La symbolique :</strong> Symbole de l’élégance urbaine du XVIIᵉ siècle, la place des Vosges incarne l’harmonie classique et la naissance de la ville moderne où beauté et ordre se rejoignent.</p>
+                </div>
+            </div>
+
+             <div id="concorde" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()">← Retour aux fiches</button>
+                <h2>Place de la Concorde, palais de la Marine</h2>
+                <div class="date">Construction : 1763 et 1789</div>
+                <div class="content">
+                    <p>La place de la Concorde, qui s’étend sur 7,56 hectares, est la plus grande place de Paris. Elle est située dans le 8ᵉ arrondissement. Le palais de la Marine, situé à l'Est d'un ensemble symétrique de deux bâtiments encadrant la rue Royale, cet édifice abrite, avant la Révolution, le Garde-Meuble de la Couronne placé sous l'autorité d'un intendant. </p>
+                    
+                    <p><strong>Histoire :</strong> Aménagée au XVIIIᵉ siècle sous le nom de Place Louis XV, la Place de la Concorde fut au cœur des événements de la Révolution française : c’est ici que furent guillotinés Louis XVI et Marie-Antoinette. Rebaptisée “Concorde” sous le Directoire, elle symbolisait ensuite la réconciliation nationale. le Palais de la Marine fut d’abord le Garde-Meuble de la Couronne, où étaient conservés les objets précieux du roi. Il devint ensuite le siège du ministère de la Marine pendant plus de deux siècles.</p>
+                    
+                    <p><strong>Architecture :</strong> D’un point de vue architectural, la place est un chef-d’œuvre du classicisme français, reconnaissable à sa vaste perspective reliant les Champs-Élysées au Jardin des Tuileries. L’obélisque de Louxor, offert par l’Égypte en 1836, trône aujourd’hui en son centre. Concernant le palais de la Marine, œuvre de Jacques-Ange Gabriel, illustre parfaitement le style néoclassique : une façade monumentale ornée de colonnes corinthiennes et un décor intérieur riche de salons d’apparat, dorures et boiseries raffinées.</p>
+                    
+                    <p><strong>La symbolique :</strong> Symbole de l’histoire politique et du prestige de Paris, la Place de la Concorde incarne la grandeur et la transformation de la capitale à travers les siècles. Aujourd’hui ouvert au public, le Palais de la Marine symbolise le raffinement de l’art français du XVIIIᵉ siècle et témoigne du rôle administratif et maritime de la France.</p>
+                </div>
+            </div>
+
+             <div id="bastille" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Place de la Bastille</h2>
+                <div class="date">Construction : 1830</div>
+                <div class="content">
+                    <p>La place de la Bastille est une place de Paris, lieu symbolique de la Révolution française, où l'ancienne forteresse de la Bastille fut détruite entre le 14 juillet 1789 et le 14 juillet 1790.</p>
+                    
+                    <p><strong>Histoire :</strong> Transformée en prison d'État par Richelieu, la Bastille est prise d'assaut le 14 juillet 1789 par la population du faubourg Saint-Antoine, ce qui est considéré habituellement comme le premier acte de la Révolution française.</p>
+                    
+                    <p><strong>Architecture :</strong> Son aménagement moderne rappelle cet héritage : en son centre s’élève la Colonne de Juillet, commémorant les révolutionnaires de 1830. Autour, la place est devenue un lieu de vie animé, bordé par l’Opéra Bastille et de nombreux cafés et commerces.</p>
+                    
+                    <p><strong>La symbolique :</strong> La Place de la Bastille symbolise avant tout la liberté et le combat pour les droits du peuple, faisant d’elle l’un des lieux les plus chargés de mémoire républicaine à Paris.</p>
+                </div>
+            </div>
+
+             <div id="cordeliers" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Couvent des Cordeliers</h2>
+                <div class="date">Construction : XIIIe siècle après J-C.</div>
+                <div class="content">
+                    <p>Il a été fondé au XIIIe siècle grâce aux largesses royales pour accueillir des moines et théologiens de l'ordre des Cordeliers. Il comprenait notamment une chapelle, un cloître, un réfectoire et des logements. Le site est devenu célèbre durant la Révolution pour avoir abrité un club politique fondé par Danton.</p>
+                    
+                    <p><strong>Histoire :</strong>Fondé au XIIIᵉ siècle par les Franciscains, le Couvent des Cordeliers se situait dans l’actuel quartier de la Sorbonne. Les “Cordeliers”, ainsi appelés à cause de la corde qu’ils portaient en ceinture, menaient une vie simple et pieuse, centrée sur la prière et la charité.</p>
+                    
+                    <p><strong>Architecture :</strong>Le couvent comprenait une grande église gothique, un cloître et plusieurs bâtiments conventuels. Il fut un centre religieux important au Moyen Âge, puis transformé après la Révolution : son église servit notamment de lieu de réunion au club des Cordeliers, où prenaient la parole des figures révolutionnaires comme Danton et Marat.</p>
+                    
+                    <p><strong>La symbolique :</strong> Aujourd’hui, le site abrite une partie de l’Université de Paris et le Musée Dupuytren. Le Couvent des Cordeliers symbolise à la fois la piété médiévale et l’effervescence politique révolutionnaire.</p>
+                </div>
+            </div>
+
+            <div id="louvre" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Louvre</h2>
+                <div class="date">Construction : 1793</div>
+                <div class="content">
+                    <p>Le musée du Louvre est le plus grand musée d'art et d'antiquités au monde. Situé au cœur de Paris, dans le palais du Louvre, ancienne résidence des rois de France, il s'étend sur 72 735 m² dont 60 600 consacrés aux expositions.</p>
+                    
+                    <p><strong>Histoire :</strong> Construit à l'origine comme une forteresse par Philippe Auguste en 1190, le Louvre fut transformé en résidence royale sous Charles V puis agrandi par la plupart des rois de France. François Ier en fit un palais de la Renaissance. En 1793, pendant la Révolution française, il devint un musée public.</p>
+                    
+                    <p><strong>La Pyramide :</strong> En 1989, l'architecte sino-américain Ieoh Ming Pei inaugura la célèbre pyramide de verre qui sert aujourd'hui d'entrée principale au musée. Cette structure moderne controversée à l'époque est devenue un symbole iconique du Louvre.</p>
+                    
+                    <p><strong>Les collections :</strong> Le musée abrite plus de 35 000 œuvres exposées, dont La Joconde de Léonard de Vinci, La Vénus de Milo, La Victoire de Samothrace et Le Sacre de Napoléon de Jacques-Louis David. Avec près de 10 millions de visiteurs par an, c'est le musée le plus visité au monde.</p>
+                </div>
+            </div>
+
+            <div id="invalides" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Les Invalides</h2>
+                <div class="date">Construction : 1671</div>
+                <div class="content">
+                    <p>L'hôtel des Invalides est un monument parisien, situé dans le 7e arrondissement, dont la construction est ordonnée par Louis XIV par l'édit royal du 24 février 1670, pour accueillir les invalides de ses armées.</p>
+                    
+                    <p><strong>Histoire :</strong> Il abrite en plus de l'Institution nationale des invalides, la cathédrale Saint-Louis des Invalides, plusieurs musées et une nécropole militaire avec notamment le tombeau de Napoléon Ier. Siège de hautes autorités militaires comme le gouverneur militaire de Paris, il rassemble aussi nombre d'organismes dédiés à la mémoire des anciens combattants et au soutien des soldats blessés.</p>
+                    
+                    <p><strong>Architecture :</strong> L’ensemble se compose d’un vaste quadrilatère classique organisé autour d’une cour d’honneur. Plus tard, Jules Hardouin-Mansart y ajouta le célèbre Dôme des Invalides, chef-d’œuvre du baroque français, dont la coupole dorée domine Paris.</p>
+                    
+                    <p><strong>Sa fonction :</strong> Aujourd’hui, le site abrite le Musée de l’Armée et le tombeau de Napoléon Ier. Il symbolise la grandeur militaire de la France et la reconnaissance envers ceux qui ont servi la nation.</p>
+                </div>
+            </div>
+
+            <div id="palais-du-luxembourg" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Palais du Luxembourg</h2>
+                <div class="date">Construction : 1615-1625</div>
+                <div class="content">
+                    <p>Le palais du Luxembourg, situé dans le 6e arrondissement de Paris dans le nord du jardin du Luxembourg, est le siège du Sénat français, qui fut installé en 1799 dans le palais construit au début du XVIIe siècle par Marie de Médicis, reine de France et de Navarre, pendant sa régence.</p>
+                    
+                    <p><strong>Histoire :</strong> Construit à la demande de Marie de Médicis, le Palais du Luxembourg fut conçu par Salomon de Brosse pour rappeler les palais italiens de Florence, d’où la reine était originaire.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture associe influences françaises et italiennes : façades en pierre et brique, pavillons symétriques et vastes jardins à la française qui entourent le palais.</p>
+                    
+                    <p><strong>L'utilité :</strong> D’abord résidence royale, il devint ensuite palais du Sénat, fonction qu’il conserve aujourd’hui. Le Palais du Luxembourg symbolise à la fois l’élégance classique et le pouvoir politique de la République française.</p>
+                </div>
+            </div>
+
+            <div id="gare-saint-lazare" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Gare Saint-Lazare</h2>
+                <div class="date">Construction : 1837</div>
+                <div class="content">
+                    <p>La gare de Paris-Saint-Lazare, dite aussi gare Saint-Lazare, est l'une des six grandes gares terminus du réseau de la Société nationale des chemins de fer français (SNCF) à Paris. Située dans le quartier de l'Europe du 8e arrondissement, elle est l'une des anciennes têtes de ligne du réseau Ouest-État.</p>
+                    
+                    <p><strong>Histoire :</strong> Inaugurée en 1837, la Gare Saint-Lazare est l’une des plus anciennes gares de Paris et un symbole du développement du chemin de fer au XIXᵉ siècle. Elle desservait d’abord la ligne Paris–Saint-Germain-en-Laye.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture, plusieurs fois agrandie, mêle structure métallique, verre et pierre, illustrant le mariage entre modernité industrielle et monumentalité urbaine. Les vastes verrières et les halls de départ rappellent l’esprit de progrès du siècle.</p>
+                    
+                    <p><strong>La symbolique :</strong> Peinte par Claude Monet, la gare Saint-Lazare symbolise la révolution industrielle, le mouvement et la modernité du Paris du XIXᵉ siècle.</p>
+                </div>
+            </div>
+
+            <div id="arts-et-métiers" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Conservatoire National des Arts et Métiers</h2>
+                <div class="date">Construction : 1794</div>
+                <div class="content">
+                    <p>Le Conservatoire National des Arts et Métiers (CNAM) a été fondé en 1794 par l’abbé Grégoire pour perfectionner l’industrie nationale. C’est aujourd’hui un établissement public à caractère scientifique, culturel et professionnel placé sous la tutelle du ministère de l’Enseignement supérieur et de la Recherche. .</p>
+                    
+                    <p><strong>Histoire :</strong> Fondé pendant la Révolution française, le Conservatoire des Arts et Métiers fut créé pour préserver et diffuser les innovations techniques et scientifiques. Il est installé dans l’ancien prieuré Saint-Martin-des-Champs, un édifice médiéval transformé en musée et école.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture associe les voûtes gothiques du couvent d’origine à des galeries modernes destinées aux expositions scientifiques. On y trouve encore la grande nef réaménagée où sont exposées d’anciennes machines et inventions.</p>
+                    
+                    <p><strong>Ce qu'il représente :</strong> Le CNAM symbolise la transmission du savoir technique et industriel, et incarne l’esprit d’innovation et d’éducation populaire propre à la Révolution.</p>
+                </div>
+            </div>
+
+            <div id="palais-garnier" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Palais Garnier, Opéra</h2>
+                <div class="date">Construction : 1861-1875</div>
+                <div class="content">
+                    <p>L'opéra Garnier, ou palais Garnier, est un théâtre national qui a la vocation d'être une académie de musique, de chorégraphie et de poésie lyrique ; il est un élément majeur du patrimoine du 9e arrondissement de Paris et de la capitale. Il est situé place de l'Opéra, à l'extrémité nord de l'avenue de l'Opéra et au carrefour de nombreuses voies.</p>
+                    
+                    <p><strong>Histoire :</strong>Construit par Charles Garnier sous le règne de Napoléon III, le Palais Garnier est un chef-d’œuvre du style éclectique et Second Empire. Il fut conçu comme un lieu de spectacle prestigieux pour l’élite parisienne.</p>
+                    
+                    <p><strong>Architecture :</strong> L’édifice se distingue par sa façade richement décorée, ses colonnes en marbre, ses sculptures dorées et son somptueux grand escalier. L’intérieur, orné de fresques et de lustres monumentaux, témoigne du goût pour la mise en scène et le luxe du XIXᵉ siècle.</p>
+                    
+                    <p><strong>La symbolique :</strong> Le Palais Garnier symbolise la splendeur artistique et culturelle du Paris haussmannien et demeure l’un des plus beaux opéras du monde.</p>
+                </div>
+            </div>
+
+            <div id="colonne-de-vendôme" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Colonne Vendôme</h2>
+                <div class="date">Construction : 1810</div>
+                <div class="content">
+                    <p>La colonne Vendôme est un monument parisien situé au centre de la place du même nom dans le 1er arrondissement de Paris.</p>
+                    
+                    <p><strong>Histoire :</strong> Érigée sur ordre de Napoléon Ier, la Colonne Vendôme célèbre la victoire d’Austerlitz et l’héroïsme des armées impériales.</p>
+                    
+                    <p><strong>Architecture :</strong> Inspirée de la colonne Trajane de Rome, elle est composée de plaques de bronze fondues à partir de canons pris à l’ennemi, enroulées en spirale autour d’un fût de pierre. Au sommet trône la statue de Napoléon en empereur romain.</p>
+                    
+                    <p><strong>La symbolique :</strong> Située au centre de la Place Vendôme, la colonne symbolise la gloire militaire et impériale de la France napoléonienne.</p>
+                </div>
+            </div>
+
+            <div id="place-de-la-république" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Place de la République</h2>
+                <div class="date">Construction : 1879</div>
+                <div class="content">
+                    <p>La place de la République est une place de 3,4 hectares située à la limite des 3e, 10e et 11e arrondissements de Paris.</p>
+                    
+                    <p><strong>Histoire :</strong> Aménagée au XIXᵉ siècle sur l’emplacement de l’ancienne place du Château-d’Eau, la Place de la République fut dessinée par Léopold Morice et inaugurée en 1883.</p>
+                    
+                    <p><strong>Architecture :</strong> Elle est dominée par une grande statue de Marianne, symbole de la République, entourée d’allégories de Liberté, Égalité et Fraternité. L’aménagement actuel, plus ouvert et piéton, date de 2013.</p>
+                    
+                    <p><strong>L'utilité :</strong> C’est le lieu des rassemblements citoyens, des manifestations et des commémorations, cœur battant de la vie démocratique parisienne.</p>
+                </div>
+            </div>
+
+            <div id="musée-orsay" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Musée d'Orsay</h2>
+                <div class="date">Construction : 1897</div>
+                <div class="content">
+                    <p>Le Musée d'Orsay est situé dans le 7e arrondissement de Paris le long de la rive gauche de la Seine, en surplomb de la promenade Édouard-Glissant.</p>
+                    
+                    <p><strong>Histoire :</strong>Installé dans l’ancienne gare d’Orsay, construite pour l’Exposition universelle de 1900 par Victor Laloux, le Musée d’Orsay a ouvert ses portes en 1986.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture, mêlant structure métallique, grandes verrières et façade en pierre, illustre parfaitement le passage du XIXᵉ au XXᵉ siècle. L’aménagement intérieur, conçu pour la lumière naturelle, valorise les œuvres.</p>
+                    
+                    <p><strong>Les personnalités inhumées :</strong> Son utilité est culturelle et patrimoniale : il abrite les chefs-d’œuvre de l’art du XIXᵉ siècle, notamment les Impressionnistes, et sert de lien entre le Louvre et le Centre Pompidou dans le parcours artistique de Paris.</p>
+                </div>
+            </div>
+
+            <div id="grand-palais-petit-palais" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Grand Palais et le Petit Palais</h2>
+                <div class="date">Construction : 1900</div>
+                <div class="content">
+                    <p>Ouvert, vivant, généreux, le Grand Palais affirme sa vocation : être un lieu de rencontre entre les arts, où la culture se vit et se partage. Quant au Petit Palais, comme le Grand Palais, il est construit à l'occasion de l'Exposition Universelle de 1900 et abrite le musée des Beaux-Arts de la ville de Paris. Ils sont situés dans le 8e arrondissement.</p>
+                    
+                    <p><strong>Histoire :</strong>Le Grand Palais conçu par Henri Deglane, Albert Louvet et Albert Thomas et le Petit Palais imaginé par Charles Girault sont la vitrine du savoir-faire architectural français au tournant du XXᵉ siècle. Conçus comme deux éléments complémentaires, ils devaient symboliser le prestige artistique et culturel de Paris lors de cet événement mondial.</p>
+                    
+                    <p><strong>Architecture :</strong> Le Grand Palais, lui, se distingue par sa nef monumentale en fer et en verre — l’une des plus grandes verrières d’Europe — associée à une façade en pierre sculptée. Ensemble, ils illustrent l’alliance entre tradition classique et innovations techniques de la Belle Époque. Le Petit Palais adopte un style Beaux-Arts, avec une large façade ornée, un grand portail monumental, un dôme élégant et un jardin intérieur lumineux.</p>
+                    
+                    <p><strong>L'utilité :</strong> Le Grand Palais est un lieu d’envergure dédié aux expositions majeures, aux défilés, aux salons et aux grands événements culturels internationaux. Le Petit Palais, quant à lui, Le Petit Palais abrite aujourd’hui le Musée des Beaux-Arts de la Ville de Paris, présentant des collections allant de l’Antiquité au début du XXᵉ siècle.</p>
+                </div>
+            </div>
+
+            <div id="porte-dorée" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Le Palais de la Porte Dorée</h2>
+                <div class="date">Construction : 1931</div>
+                <div class="content">
+                    <p>Situé dans le 12e arrondissement de Paris, le Palais de la Porte Dorée abrite aujourd’hui le musée de l'Histoire de l'immigration et l’aquarium</p>
+                    
+                    <p><strong>Histoire :</strong> Construit en 1931 pour l’Exposition coloniale internationale, le Palais de la Porte Dorée fut conçu par Albert Laprade.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture Art déco associe façades sculptées, bas-reliefs exotiques et intérieurs richement décorés.</p>
+                    
+                    <p><strong>L'utilité :</strong> Son utilité est muséale et éducative : il invite à réfléchir sur l’histoire coloniale et migratoire de la France tout en valorisant la diversité culturelle.</p>
+                </div>
+            </div>
+
+            <div id="shoah" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Mémorial de la Shoah</h2>
+                <div class="date">Construction : 2005</div>
+                <div class="content">
+                    <p>Le Mémorial de la Shoah est un lieu de mémoire du génocide des Juifs situé dans le 4e arrondissement. Il réunit dans un même lieu, un musée consacré à l'histoire juive durant la Seconde Guerre mondiale, plusieurs « lieux de mémoire » et le Centre de documentation juive contemporaine.</p>
+                    
+                    <p><strong>Histoire :</strong> Le Mémorial de la Shoah prolonge le premier mémorial créé en 1956 pour honorer les victimes juives de la déportation.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture, sobre et austère, associe pierre brute, mur des noms et cryptes commémoratives. Le lieu privilégie le silence et la mémoire.</p>
+                    
+                    <p><strong>L'utilité :</strong> Il sert de lieu de mémoire, de documentation et d’enseignement pour transmettre l’histoire de la Shoah aux générations futures.</p>
+                </div>
+            </div>
+
+            <div id="elysée" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Palais Elysée</h2>
+                <div class="date">Construction : 1720</div>
+                <div class="content">
+                    <p>Le palais de l'Élysée, dit l'Élysée et anciennement l'Élysée-Bourbon, est un ancien hôtel particulier parisien, situé au no 55 de la rue du Faubourg-Saint-Honoré, dans le 8e arrondissement de Paris. Il est le siège de la Présidence de la République française et la résidence officielle du chef de l'État depuis la IIe République. </p>
+                    
+                    <p><strong>Histoire :</strong>Construit en 1720 par Armand-Claude Mollet pour le comte d’Évreux, le Palais de l’Élysée devint résidence royale, puis impériale, avant de devenir en 1848 la résidence officielle du président de la République.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture classique se caractérise par une façade sobre, un grand jardin et des salons richement décorés, dont le fameux salon doré, bureau du chef de l’État.</p>
+                    
+                    <p><strong>L'utilité :</strong> Son utilité est politique : il constitue le centre du pouvoir exécutif français, lieu de travail, de réception et de décision nationale..</p>
+                </div>
+            </div>
+
+            <div id="montparnasse" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Tour Montparnasse</h2>
+                <div class="date">Construction : 1969</div>
+                <div class="content">
+                    <p>La tour Montparnasse est le plus haut gratte-ciel de Paris intra-muros, situé dans le quartier Necker (15e arrondissement).</p>
+                    
+                    <p><strong>Histoire :</strong>Inaugurée en 1973, la Tour Montparnasse fut conçue par Eugène Beaudouin et Urbain Cassan. Avec ses 210 mètres, elle fut longtemps la plus haute tour d’Europe occidentale.</p>
+                    
+                    <p><strong>Architecture :</strong> Son architecture en verre et acier reflète la modernité fonctionnelle des années 1970. Longtemps critiquée pour sa rupture avec le paysage haussmannien, elle reste un repère visuel majeur.</p>
+                    
+                    <p><strong>L'utilité :</strong> Elle abrite bureaux, commerces et un observatoire panoramique, illustrant la place de Paris dans la modernité urbaine du XXᵉ siècle.</p>
+                </div>
+            </div>
+
+            <div id="canopee" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>La Canopée de Chatelet les Halles</h2>
+                <div class="date">Construction : 2012-2016</div>
+                <div class="content">
+                    <p>La Canopée est une structure édifiée au dessus du Forum commercial du quartier des Halles à Paris.</p>
+                    
+                    <p><strong>Histoire :</strong> Inaugurée en 2016, la Canopée des Halles a remplacé l’ancien forum de 1979, dans le cadre d’une vaste rénovation du cœur de Paris. Le projet fut mené par Patrick Berger et Jacques Anziutti.</p>
+                    
+                    <p><strong>Architecture :</strong> Sa toiture ondulante en verre et acier évoque un feuillage doré qui laisse filtrer la lumière naturelle. Elle couvre un immense pôle d’échanges et un centre commercial souterrain.</p>
+                    
+                    <p><strong>L'utilité :</strong> c’est un nœud de transport, de commerce et de culture, qui redonne vie au centre historique des Halles tout en symbolisant la ville ouverte et vivante du XXIᵉ siècle.</p>
+                </div>
+            </div>
+            <div id="palais-royal" class="fiche-detail">
+                <button class="back-button" onclick="showFichesList()"></button>
+                <h2>Palais Royal</h2>
+                <div class="date">Construction : 1628</div>
+                <div class="content">
+                    <p>Le Palais-Royal est l’un des ensembles architecturaux les plus emblématiques du cœur de Paris. Situé face au Louvre, il a été au fil des siècles un centre du pouvoir politique, un foyer culturel et un lieu de vie animé au cœur de la capitale.</p>
+                    
+                   <p><strong>Histoire :</strong> Construit à partir de 1633 par le cardinal de Richelieu (qui lui donne d’abord le nom de Palais-Cardinal) le palais est légué à la monarchie à sa mort et devient la résidence du jeune Louis XIV. Au XVIIIᵉ siècle, le domaine passe à la famille d’Orléans et devient un espace unique où se mêlent cafés, théâtres, salles de jeux et galeries commerçantes. Le Palais-Royal devient alors un haut lieu politique : c’est ici que Camille Desmoulins lance l’appel à l’insurrection le 12 juillet 1789, deux jours avant la prise de la Bastille.</p>
+                    
+                   <p><strong>Architecture :</strong> L’ensemble se compose du palais lui-même, d’une vaste cour d’honneur, ainsi que des galeries entourant le jardin central. Les façades classiques, les arcades régulières et les cours harmonieuses témoignent du style monumental du XVIIᵉ siècle. Au XXᵉ siècle, les célèbres Colonnes de Buren, installées dans la cour d’honneur, renouvellent l’identité artistique du lieu.</p>
+                    
+                   <p><strong>L'utilité :</strong> Le Palais-Royal a longtemps été un lieu de pouvoir : résidence royale, siège du Conseil d’État et du Conseil constitutionnel aujourd’hui. Il demeure aussi un espace culturel vivant, abritant la Comédie-Française et attirant visiteurs, promeneurs, artistes et juristes. Véritable carrefour politique, artistique et historique, il reste l’un des lieux les plus symboliques de l’évolution de Paris et de la vie institutionnelle française.</p>
+                </div>
+            </div>
+
+            </div>
+        </section>
+
+        <section>
+             <section id="parcours" class="parcours-section">    
+                 <div class="parcours-container">
+                <h3>Paris et la France à travers les Âges</h3> <h2>La France Antique et Paris</h2>
+
+                <div class="etape" id="etape-arenes-de-lutece">
+                    <h3>Les arènes de Lutèces et la Gaule pré-romaine jusqu'à la conquête de César</h3>
+                    <div class="etape-date">Ier siècle av. J.-C.</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                           <p>C'est ici, dans ce parc du Ve arrondissement, que notre voyage dans le temps commence. </p>
+
+                            <p>Les Arènes de Lutèce, discrètement nichées dans le 5ᵉ arrondissement, renvoient à une époque où Paris s’appelait encore Lutetia et où la Gaule n’était pas un territoire unifié, mais une mosaïque de peuples celtes. Les Gaulois, installés depuis des siècles après avoir migré depuis l’Europe centrale, partageaient une langue, un art et certains rites religieux, notamment le rôle important des druides, mais vivaient en tribus indépendantes, parfois rivales. </p>
+                            
+                            <p>Leur société, organisée autour de clans agricoles, de guerriers et d’artisans talentueux, brillait par sa métallurgie, ses échanges commerciaux et une culture vivante bien loin des clichés qui leur ont été longtemps attachés.</p>
+                            
+                            <p>La conquête romaine menée par Jules César au Ier siècle av. J.-C. bouleversa cet équilibre. En intégrant la Gaule à l’Empire, Rome imposa peu à peu ses institutions, ses infrastructures et son urbanisme. Les Arènes de Lutèce, édifiées au Ier siècle, illustrent pleinement cette romanisation. Petit à petit va alors se former la culture Gallo-romaine.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="arene_image.jpg" alt="Arènes de Lutèces" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="etape" id="etape-thermes-cluny">
+                    <h3>Les thermes du Cluny et la Gaule romaine</h3>
+                    <div class="etape-date">Ier siècle au Ve siècle</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Situés à proximité du Boulevard Saint-Michel, les immenses vestiges qui se dressent encore dans le Quartier latin, sont les restes d’anciens publics romains : les thermes de Cluny. Dans le monde romain, et donc de la Gaule fraichement conquise, les bains publics étaient des institutions sociales majeures, ouvertes à tous les citoyens, lieux de détente mais aussi d’échanges, de discussions politiques ou commerciales. </p>
+                            
+                            <p>Mais si la Gaule était romaine, Rome n’était pas encore un Empire mais une république.  La République romaine, fondée au VIᵉ siècle av. J.-C., reposait sur un équilibre précaire entre différentes institutions : les magistrats élus (dont les consuls), le Sénat composé d’aristocrates influents, et les assemblées du peuple. Cet équilibre, souvent présenté comme un modèle de gouvernement mixte, fut pourtant marqué par une profonde instabilité : rivalités politiques incessantes, luttes d’influence entre grandes familles, violences sociales, affrontements entre patriciens et plébéiens, puis guerres civiles sanglantes opposant généraux ambitieux comme Marius, Sylla, Pompée ou Jules César.</p>
+                            
+                            <p>Ces tensions internes finirent par éroder les fondements mêmes de la République. Après l’assassinat de César lors des Ides de Mars en 44 av. J.-C. et de la guerre civile qui s’en suivit, son fils adoptif Octave prit le contrôle du pouvoir et devint Auguste en 27 av. J.-C., inaugurant l’Empire. Désormais, l’autorité se voulait plus stable : l’empereur détenait l’essentiel du pouvoir militaire, politique et religieux, tout en préservant l’apparence des anciennes institutions républicaines. Ce nouveau régime, centralisé et tourné vers l’efficacité administrative, permit de consolider un immense territoire allant de l’Écosse au désert syrien. L’Empire assurait la paix (la Pax Romana), favorisait les échanges, encourageait la construction d’infrastructures et renforçait une culture commune fondée sur le droit, la citoyenneté et l’urbanisation. Et c’est dans ce contexte que furent construites les thermes de Cluny à la fin du Ier siècle après J.-C.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="cluny_image.jpg" alt="Les thermes de Cluny" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <h2>La France Médiévale et Paris</h2>
+
+                <div class="etape" id="etape-conciergerie">
+                    <h3>Le Conciergerie, les débuts de Paris comme capital</h3>
+                    <div class="etape-date">476 - XIe</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Après le faste et l'ordre de la Rome Antique, le destin de Paris et de la France Gallo-romaine bascule au Ve siècle avec la fin de l’empire romain. Les causes du déclin de l'Empire Romain sont multiples : des crises internes économiques et politiques, accentuées par l'énormité du territoire devenu ingouvernable qui mène à sa séparation en deux empires (Occident et Orient). Mais c’est surtout, la pression et l'installation progressive des peuples germaniques, comme les Francs, (qualifiés de "Barbares") au-delà du Limes (frontière romaine) qui affaiblissent l'autorité impériale. C’est ainsi qu’en 476, le dernier empereur romain d’occident Romulus Augustule est déposé par le chef germanique Odoacre. </p>
+                            
+                            <p>C'est sur les ruines de l'administration romaine que s'installe la première dynastie des rois francs : les Mérovingiens. Sous l'égide de Clovis, la conversion au christianisme forge un premier lien durable entre le pouvoir et l'Église. Les Mérovingiens sont ensuite supplantés par la lignée plus puissante des Carolingiens : le coup d'État de Pépin le Bref met fin à la dynastie, et son fils, Charlemagne, étend l'empire franc à son apogée, rétablissant brièvement l'idée d'un Empire occidental. Cependant, après la fragmentation carolingienne, la faiblesse des derniers rois ouvre la voie à l'émergence d'une nouvelle puissance locale.</p>
+                            
+                            <p>En 987, Hugues Capet est élu roi, instaurant la dynastie des Capétiens. C'est sous cette dynastie que le choix de Paris, et plus précisément de l'Île de la Cité, s'affirme comme le centre politique et administratif du royaume. La Conciergerie, partie occidentale de l'ancien Palais de la Cité, est l'un des plus illustres vestiges de ce pouvoir capétien. Construite dès le Xᵉ siècle, elle fut la résidence et le siège du pouvoir des premiers rois des Francs. </p>
+                        </div>
+                        <div class="etape-image">
+                             <img src="conciergerie.jpg" alt="La Conciergerie" style="width: 90%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-sainte-chapelle">
+                    <h3>La Sainte-Chapelle, le phare de la religion au Moyen Âge</h3>
+                    <div class="etape-date">1073 - XIVe siècle</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Caché derrière l’enceinte du Palais de justice, la Sainte-Chapelle, joyau gothique édifié par Saint Louis au XIIIᵉ siècle, nous dévoile la place centrale occupée par la religion dans la société médiévale. Pour comprendre cette omniprésence, il faut revenir à la Réforme grégorienne, vaste mouvement qui, dès le XIᵉ siècle, chercha à affirmer l’autorité de l’Église face aux pouvoirs laïcs. Menée par la papauté, cette réforme visait à moraliser le clergé, structurer et donner une cohérence à l’Église, imposer le célibat ecclésiastique, mais surtout affirmer l’indépendance de l’Église dans la nomination des évêques et des abbés. Ce conflit redéfinissait le rapport entre le sacré et le politique : désormais, la papauté affirmait son pouvoir universel sur les consciences comme sur les institutions chrétiennes.</p>
+                            
+                            <p>C’est dans ce contexte d’affirmation du pouvoir religieux que la Sainte-Chapelle prend tout son sens. Construite pour abriter les reliques de la Passion, notamment la Couronne d’épines, elle est le symbole de la dévotion du politique à la religion. En se présentant comme roi très chrétien, dépositaire des objets sacrés, Saint Louis réaffirmait son statut de souverain légitime et protecteur de la foi. /p>
+                            
+                            <p>Au-delà du pouvoir royal, la Sainte-Chapelle témoigne d’un monde profondément religieux, où chaque aspect de la vie, les rythmes du temps, les fêtes, les rites, l’organisation sociale, était marqué par la foi. Le clergé formait l’intelligentsia du temps, les institutions ecclésiastiques encadraient la charité, l’éducation, la justice morale, tandis que les cathédrales et chapelles servaient autant à rassembler qu’à hiérarchiser les communautés.</p>
+                        </div>
+                        <div class="etape-image">
+                             <img src="st-chapelle.jpg" alt="Sainte-Chapelle" style="width: 90%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-sorbonne">
+                    <h3>La Sorbonne et la révolution culturelle médiévale</h3>
+                    <div class="etape-date">XIe - XVe</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Au cœur du Quartier latin, la Sorbonne incarne la grande révolution culturelle du Moyen Âge, celle qui a transformé l’Europe en terres de savoir. Fondée au XIIIᵉ siècle par Robert de Sorbon, confesseur de Saint Louis, elle s’inscrit dans un mouvement plus large : la naissance des universités. </p>
+                            
+                            <p>Ce renouveau intellectuel n’aurait pas été possible sans la transmission des connaissances arabes, passées notamment par la péninsule Ibérique et l’Italie du Sud. Alors que le monde musulman brillait par ses avancées en médecine, mathématiques, astronomie ou philosophie, une grande partie de ces savoirs fut traduite en latin à Tolède, Palerme ou Salerne, alimentant la curiosité des maîtres parisiens. </p>
+                            
+                            <p>La Sorbonne, d’abord collège de théologie, devint rapidement un centre d’enseignement majeur : les écoles religieuses, organisées autour de maîtres et de disciplines rigoureuses, formaient les clercs, les lettrés et les administrateurs du royaume. Elle contribua à structurer un espace européen du savoir, où l’on discutait Aristote, Averroès, mais aussi le droit, la philosophie et les sciences.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="sorbonne.jpg" alt="La Sorbonne" style="width: 90%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-notredame">
+                    <h3>Notre-Dame et le second Moyen Âge</h3>
+                    <div class="etape-date">XIe - 1492</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Notre-Dame de Paris, commencée au XIIᵉ siècle et élevée tout au long des XIIIᵉ et XIVᵉ siècles, incarne l’image la plus célèbre du Moyen Âge : celle d’une société hiérarchisée, rurale, profondément chrétienne, structurée par les liens féodaux et par la montée des pouvoirs seigneuriaux. Si la cathédrale est aujourd’hui un monument urbain, sa construction s’inscrit dans un monde où plus de 90 % de la population vivait à la campagne et dépendait d’un seigneur. Pour comprendre Notre-Dame, il faut donc comprendre le système social qui l’a rendue possible..</p>
+                            
+                            <p>À partir du Xe siècle, l’Europe occidentale connaît le phénomène d’incastellamento, c’est-à-dire la multiplication de châteaux et de villages regroupés autour d’un pôle fortifié. Dans un contexte d’insécurité (invasions, guerres privées, fragmentation des pouvoirs) les seigneurs construisent des forteresses et attirent autour d’elles les populations paysannes. Ce mouvement transforme les campagnes : les habitats se regroupent, les champs sont réorganisés, les communautés se structurent autour de la protection militaire et économique du seigneur.</p>
+                            
+                            <p>Parallèlement, s’installe la féodalité, un système fondé sur des liens personnels. Le roi, les grands seigneurs et les vassaux échangent terres, fidélité et service armé. Au bas de cette pyramide, les paysans travaillent les terres du domaine, versent redevances et corvées, et dépendent du seigneur pour la justice et la sécurité. Le village médiéval devient ainsi la cellule fondamentale de la société.</p>
+
+                            <p>C’est ainsi que nait le Moyen Âge que tout le monde à en tête. Notre-Dame est ainsi le symbole de cette Europe médiévale du « second Moyen Âge » (du Xe siècle à 1492) qui se transforme : plus sûre, mieux organisée, plus connectée.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="notre-dame-atp.jpg" alt="Notre-Dame" style="width: 70%;">
+                        </div>
+                    </div>
+                </div>
+
+                <h2>La France à l'époque moderne et Paris</h2>
+
+                <div class="etape" id="etape-hotel-de-ville">
+                    <h3>La fin du Moyen Âge et l'Hôtel de Ville</h3>
+                    <div class="etape-date">XVe-XVIe</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>L’actuel Hôtel de Ville, débuté en 1533 sous François Ier, occupe l'ancien emplacement d’un lieu symbolique de la fin du Moyen Âge parisien : la « Piliers, où s’organisait la vie municipale. Cette période est marquée par deux immenses traumatismes : la peste noire et la guerre de Cent Ans.</p>
+                            
+                            <p> À partir de 1347, la peste dévaste l’Europe ; Paris perd près d’un tiers de sa population. L’effondrement démographique bouleverse l’économie, affaiblit les structures sociales et renforce un climat de peur religieuse. Dans le même temps, la guerre de Cent Ans oppose la France et l’Angleterre dans une querelle de succession. Elle se conclut en 1453, avec la défaite de l’Angleterre.</p>
+                            
+                            <p>À la fin du XVe siècle, Paris et le royaume entrent dans une nouvelle ère. L’unification progressive du pouvoir monarchique ouvre la voie à la Renaissance française. L’accession au trône de François Ier en 1515 marque ce tournant. Influencé par l’Italie, le roi encourage les arts, l’humanisme et les savoirs comme avec la fondation du Collège de France ou l’invitation de Léonard de Vinci à sa cour. C’est la fin du Moyen Âge.</p>
+                        </div>
+                        <div class="etape-image">
+                             <img src="hdv.jpg" alt="Hôtel de Ville" style="width: 90%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-jardin-des-plantes">
+                    <h3>Le Jardin des Plantes et 1492, l'Europe s'ouvre</h3>
+                    <div class="etape-date">1453-XVIe</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Jardin des Plantes, fondé en 1626 comme jardin royal, raconte indirectement une histoire bien plus vaste : celle de la circulation des plantes, des savoirs et des marchandises entre l’Europe, l’Afrique et l’Asie. Pour comprendre sa création, il faut remonter au Moyen Âge, lorsque le commerce méditerranéen, dominé par les cités italiennes (Venise, Gênes), reliait encore l’Europe chrétienne à l’Empire byzantin et aux mondes musulmans. Les épices, soieries, plantes rares et savoirs médicaux transitaient par l’Empire Byzantin, véritable carrefour entre Orient et Occident.</p>
+                            
+                            <p>Mais en 1453, la chute de Constantinople marque la fin de l’Empire romain d’Orient et ouvre une nouvelle ère : celle de la puissance ottomane. En quelques décennies, les Ottomans contrôlent l’est de la Méditerranée, les routes terrestres d’Asie et les anciens États latins d’Orient issus des Croisades. Parallèlement, l’effondrement de l’Empire mongol au XIVᵉ siècle fragilise la route de la soie. L’Europe se retrouve isolée de l’accès direct aux richesses asiatiques. Il devient urgent de contourner ce « verrou musulman » en trouvant une route maritime vers les Indes.</p>
+                            
+                            <p>Les Portugais prennent les devants : ils longent méthodiquement les côtes africaines, établissent des comptoirs, colonisent le Cap-Vert puis São Tomé-et-Príncipe, et atteignent finalement l’océan Indien en 1498. Mais de l’autre côté de la péninsule Ibérique, Christophe Colomb, soutenu par la couronne espagnole, choisit une stratégie radicalement différente : traverser l’Atlantique. Pensant rejoindre le Japon ou la Chine, il aborde en 1492 l’île d’Hispaniola.</p>
+
+                            <p>Contrairement au mythe longtemps enseigné, les Européens ne « découvrent » pas un continent vide : ils arrivent dans un monde peuplé. Plus de 80 millions d’habitants vivent alors dans les Amériques : les Incas dans les Andes, les Mexicas en Mésoamérique, les Kalina en Amazonie, les Mohawks en Amérique du Nord, les Taïnos dans les Caraïbes etc. Les sociétés sont complexes, organisées, dotées de cultures et de systèmes politiques riches.</p>
+
+                            <p>La rencontre est brutale : conquêtes militaires, pillages, esclavage et surtout maladies venues d’Eurasie provoquent un effondrement démographique sans précédent. On estime que 90 % de la population indigène disparaît en un siècle. Dans ce chaos, les puissances européennes comme l’Espagne, le Portugal, la France, l’Angleterre ou les Pays-Bas, établissent d’immenses empires coloniaux.</p>
+
+                            <p>C’est dans cette nouvelle dynamique mondiale que s’inscrit, un siècle plus tard, la création du Jardin des Plantes : un lieu destiné à étudier, acclimater et comprendre les plantes venues de tous les continents, reflet d’un monde désormais interconnecté par les routes maritimes, les conquêtes et les échanges transatlantiques.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="jdp.jpg" alt="Le Jardin des Plantes" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-place-vosges">
+                    <h3>La Place des Vosges, témoins des guerres d'Italie</h3>
+                    <div class="etape-date">1494 - 1559</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La Place des Vosges, achevée sous Henri IV en 1605, est un symbole de l’importance des guerres d’Italie en France. L’hôtel des Tournelles, laissé à l’état d’abandon depuis un demi-siècle, est détruit sous le règne d’Henri IV pour construire à la place un centre d’industrie dédié à la soierie pour désendetter la France suite aux guerres d’Italie.</p>
+                            
+                            <p>Car, à partir de 1494, les rois de France, Charles VIII, Louis XII puis François Ier, lancent de grandes campagnes militaires en Italie. S’ils n’y conservent que peu de territoires et s’endettent, ils en rapportent une véritable révolution culturelle : goût pour les arts, urbanisme régulier, architecture ordonnée, importance accordée à l’apparat princier. L’Italie de la Renaissance impressionne les souverains français, qui cherchent à moderniser leur royaume sur le modèle des cités italiennes.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="vosges.jpg" alt="Place des Vosges" style="width: 90%">>
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-pont-neuf">
+                    <h3>Le Pont Neuf, mémoire de pierre des Guerres de Religion</h3>
+                    <div class="etape-date">1562-1610</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Pont Neuf, terminé en 1607, est l’un des monuments les plus emblématiques de la sortie des guerres de Religion. Construit sous Henri IV, il reflète la volonté royale de réunifier un royaume déchiré pendant près de quarante ans par les affrontements entre catholiques et protestants. Ces guerres, commencées en 1562, mêlent rivalités politiques, tensions théologiques et luttes pour le pouvoir. La monarchie y apparaît affaiblie, contestée, parfois incapable d’imposer la paix. Les massacres, comme celui de la Saint-Barthélemy en 1572, marquent durablement les esprits.</p>
+                            
+                            <p>L’avènement d’Henri IV en 1589, ancien protestant devenu catholique pour accéder au trône, marque un tournant. Par l’Édit de Nantes en 1598, il reconnaît un cadre légal au protestantisme tout en réaffirmant la primauté catholique. L’objectif est clair : restaurer l’unité du royaume et reconstruire l’autorité monarchique.</p>
+                            
+                            <p>Le Pont Neuf nait à cette époque. Il est le plus ancien pont de Paris mais surtout son premier Pont en pierre, symbole d’un renouveau que le roi voulait imposer. La statue équestre d’Henri IV (érigée après son assassinat en 1610) rappelle le rôle du souverain comme pacificateur.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="pontneuf.jpg" alt="Le Ponte Neuf" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="etape" id="etape-palais-royal">
+                    <h3>Le Palais Royal et la construction de l'Etat</h3>
+                    <div class="etape-date">1610 - 1652</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Palais-Royal, à l’origine Palais-Cardinal, fut construit au XVIIᵉ siècle sous l’impulsion du cardinal de Richelieu, principal ministre de Louis XIII. Ce lieu symbolise l’un des moments décisifs de l’histoire politique française : la lente mais résolue construction d’un État centralisé, capable de s’imposer face aux grandes féodalités, aux particularismes provinciaux et aux ambitions étrangères. Richelieu, en véritable architecte de la monarchie moderne, entend renforcer l’autorité royale en limitant les pouvoirs de la noblesse, en contrôlant les grands officiers et en faisant du roi la seule source légitime de pouvoir. Le Palais-Cardinal, devient ainsi le symbole de la centralisation du pouvoir.</p>
+                            
+                            <p>La guerre de Trente Ans (1618–1648), dans laquelle la France s’engage pleinement à partir de 1635, incarne cette volonté de puissance. Richelieu choisit de soutenir les princes protestants contre les Habsbourg catholiques, non par conviction religieuse mais pour briser les Habsbourgs, la grande dynastie rivale de la France. Cet effort militaire exige une administration plus efficace : intendants, fiscalité plus stricte, surveillance des nobles. La monarchie absolue est en train de naître.</p>
+                            
+                            <p>Après la mort de Louis XIII et de Richelieu, la régence d’Anne d’Autriche et l’autorité de Mazarin provoquent une réaction violente : la Fronde (1648–1653). Cette révolte des parlements, des princes et de certaines villes traduit le refus d’une monarchie perçue comme trop centralisatrice. Le jeune Louis XIV fuit même Paris. Mais la Fronde échoue, confirmant la victoire du modèle voulu par Richelieu : un État fort, uniforme et largement contrôlé depuis Paris. Le Palais-Royal devient alors le cœur politique d’un royaume en voie de modernisation.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="palaisroyal.jpg" alt="Le Palais Royal"style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="etape" id="etape-louvre">
+                    <h3>Le Louvre et le "Grand Siècle"</h3>
+                    <div class="etape-date">1652 - 1715</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Louvre, avant de devenir musée, fut longtemps le cœur du pouvoir royal. Au XVIIᵉ siècle, son histoire s’entremêle avec celle du règne de Louis XIV, le monarque qui transforma en profondeur le palais mais également l’État français. Lorsque Louis XIV monte sur le trône en 1643, Paris sort à peine des troubles de la Fronde, une révolte nobiliaire et parlementaire qui a traumatisé le jeune roi et renforcé sa méfiance envers la capitale. Le Louvre reste le palais officiel, mais Louis XIV décide progressivement de s’éloigner de Paris pour installer la cour à Versailles, symbole de son autorité absolue. </p>
+                            
+                            <p>Sous Louis XIV, la France connaît une restructuration profonde de l’État. Colbert, contrôleur général des finances, renforce l’administration, rationalise la fiscalité, soutient les manufactures et encadre strictement les corporations. Il développe une bureaucratie efficace, qui dépend directement du roi.</p>
+                            
+                            <p>Dans le même temps, Louis XIV mène une politique militaire ambitieuse. Les guerres de Dévolution, de Hollande, de la Ligue d’Augsbourg puis de Succession d’Espagne visent à affirmer la puissance française mais pèsent lourdement sur les finances du royaume auxquels il faut ajouter le chantier pharaonique de Versailles. D’abord victorieux, Louis XIV enchaine les défaites à la fin de son règne. En 1715, à la mort de Louis XIV la France est cruellement endettée. </p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="louvre-palais.jpg" alt="Le Louvre" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-concorde">
+                    <h3>La France et ses colonnies : le Palais de la Marine</h3>
+                    <div class="etape-date">1535 - 1763</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La Place de la Concorde, aménagée au XVIIIᵉ siècle, est dominée par le Palais de la Marine, qui fut pendant plus de deux cents ans le cœur administratif de la Marine royale et des colonies. Ce bâtiment monumental, conçu pour incarner la puissance monarchique, raconte le basculement de la France vers une logique impériale : celle d’un royaume devenu acteur majeur de l’Atlantique et de l’expansion coloniale.</p>
+                            
+                            <p>Dès Louis XIV, puis tout au long du XVIIIᵉ siècle, la Marine française se professionnalise et se renforce : création des arsenaux, développement des écoles d’ingénieurs, systématisation des expéditions et des missions de cartographie. Depuis le Palais de la Marine, ministres, intendants et officiers coordonnent les flottes, les ports militaires, les convois marchands, mais aussi l’administration des territoires d’outre-mer. Car la France, comme les autres puissances européennes, construit son premier empire colonial : l’Amérique du Nord (Canada, Louisiane), les Antilles (Guadeloupe, Martinique, surtout Saint-Domingue), des comptoirs sur les côtes africaines (Gorée, Ouidah, Sénégal), l’océan Indien (Île de France/Maurice, Île Bourbon/La Réunion, Inde française).</p>
+                            
+                            <p>Cet empire repose en grande partie sur le commerce transatlantique : sucre, café, indigo, coton. Autant de produits extrêmement lucratifs, mais dont la production dépend entièrement de la traite négrière. Entre le XVIIᵉ et le XVIIIᵉ siècle, la France va déporter environ 1,3 million d’Africains vers les Amériques. Les navires négriers partent de Nantes, La Rochelle, Bordeaux ou Lorient, échangent des marchandises contre des captifs sur les côtes africaines, traversent l’Atlantique dans des conditions atroces, puis reviennent chargés de produits coloniaux. Saint-Domingue, perle de l’empire français, devient la plantation la plus rentable du monde, mais au prix d’une exploitation extrême : près de 500 000 personnes réduites en esclavage y travaillent dans des conditions qui entraînent une mortalité massive.</p>
+
+                            <p>Ce premier empire colonial finit par s'effondrer après la Guerre de Sept ans (1754-1763) où la France perd la quasi-totalité de ses colonies au profit de l'Angleterre, excepté Saint-Domingue qui déclarera son indépendance en 1804.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="concorde-marine.jpg" alt="Place de la Concorde et le Palais de la Marine" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-bastille">
+                    <h3>1789, la prise de la Bastille</h3>
+                    <div class="etape-date">1715 - 1789</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Ici, sur cette place, à la place de l’Opéra, s’érigeait autrefois la Bastille, une forteresse médiévale transformée en prison d’État, qui occupe une place centrale dans la mémoire politique française. À la mort de Louis XIV en 1715, commence la Régence de Philippe d’Orléans, période marquée par un relâchement moral, une effervescence intellectuelle et des expériences économiques nouvelles. Paris redevient un foyer culturel : cafés, salon et sociétés savantes se multiplient. C’est dans ce contexte que se développe la pensée des Lumières en France. Une pensée soumise à la censure et dont les penseurs peuvent faire un séjour à la Bastille, comme le futur député révolutionnaire Jacques Pierre Brissot. </p>
+                            
+                            <p>Au cours du XVIIIᵉ siècle, les philosophes des Lumières (comme Voltaire, Diderot ou Rousseau) remettent en cause les privilèges, la censure et l’autorité absolue. La diffusion des idées critiques nourrit un climat de contestation dans les milieux bourgeois, lettrés et urbains. Pendant ce temps, la société française reste profondément inégalitaire : le clergé et la noblesse jouissent d’exemptions fiscales tandis que le Tiers État porte l’essentiel des impôts. La bourgeoisie, de plus en plus instruite et active économiquement, elle revendique un rôle politique à la hauteur de son importance sociale.</p>
+                            
+                            <p>La situation se dégrade encore après les années 1770. Les finances royales sont exsangues : guerres coûteuses, dette accumulée, système fiscal incapable de se moderniser. Les tentatives de réforme administrative et fiscale (Turgot, Necker, Calonne) échouent face au refus des privilèges. Louis XVI, hésitant et mal conseillé, ne parvient pas à imposer une solution durable. La convocation des États généraux en 1789 ouvre une crise politique majeure : le Tiers État se proclame Assemblée nationale et, avec le le serment du Jeu de Paume de juin 1789, exige une refonte profonde du système.</p>
+
+                            <p>Dans ce contexte explosif, Paris devient une poudrière. La Bastille, symbole d’oppression et de pouvoir arbitraire, concentre toutes les colères. Le 14 juillet 1789, les Parisiens s’en emparent pour saisir la poudre et surtout pour abattre ce monument haï. Sa prise marque l’effondrement de l’Autorité absolue et la prise de pouvoir symbolique du peuple. C’est le début de la révolution Française.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="bastille.jpg" alt="Place de la Bastille" style="width: 90%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-cordeliers">
+                    <h3>1789-1794 : politiques et société, le Couvent des Cordeliers </h3>
+                    <div class="etape-date">1789-1794</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le couvent des Cordeliers, situé dans le quartier latin, devient dès 1789 l’un des laboratoires intellectuels et politiques de la Révolution française. Transformé en club, il accueille des figures majeures comme Danton, Desmoulins ou Marat, et se caractérise par une liberté de parole exceptionnelle. C’est ici que s’élaborent certaines des critiques les plus puissantes contre l’Ancien Régime : dénonciation de l’arbitraire royal, exigence de souveraineté populaire, appel permanent à la vigilance citoyenne.</p>
+                            
+                            <p>La chute de la monarchie le 10 août 1792, puis la victoire de Valmy, ouvrent la voie à la Première République. Mais après l’exécution de Louis XVI en 1793, la guerre extérieure et les insurrections royalistes plongent le pays dans la crise. En 1793–94 s’installe ce que les historiens nomment le Gouvernement révolutionnaire, période durant laquelle la République « en détresse » mobilise toutes ses forces pour survivre : levée en masse, économie dirigée, répression contre les complots. L’irresponsabilité des girondins et leur entêtement pour créer une république libérale pousse les parisiens à les chasser de l’Assemblée Nationale.  Les Montagnards, désormais au pouvoir avec la Plaine, réussissent à stabiliser la République et empêchent l’effondrement de la République tout établissant les premières lois sociales. Mais cette victoire se paie d’une politique mortifère : tribunaux d’exception, répression violente, exécutions massives.</p>
+                            
+                            <p>Le club des Cordeliers est au cœur de ces tensions. Les Hébertistes réclament une révolution plus radicale, tandis que les Dantonistes, veulent mettre fin aux violences. Au printemps 1794, les deux factions sont éliminées par la Convention, soucieuse d’unité.</p>
+
+                            <p>Avec la réussite de la politique du gouvernement révolutionnaire, et le recul de la menace extérieure, pose une question : qui devra répondre des excès du Gouvernement révolutionnaire ? Pour protéger leurs intérêts et couvrir leur crime, certains députés décident de faire porter la responsabilité sur Robespierre, leader des montagnards. Arrêté le 9 thermidor an II (27 juillet 1794), il est exécuté avec ses alliés. C’est la fin de la République Sociale.</p>
+
+                            <p>Après Thermidor, les Montagnards sont écartés, les clubs fermés ou affaiblis, et une nouvelle phase de la Révolution s’ouvre : plus modérée, plus bourgeoise, plus libérale.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="cordelier.jpg" alt="Couvent des Cordeliers" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-pantheon">
+                    <h3>1794-1799 : La France se républicanise avec le Panthéon</h3>
+                    <div class="etape-date">1794-1799</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Panthéon, perché sur la montagne Sainte-Geneviève, devient sous la Révolution un sanctuaire républicain dédié aux « grands hommes ». Ce monument, transformé en temple civique en 1791, incarne parfaitement la période du Directoire (1795–1799), moment charnière où la France sort du Gouvernement révolutionnaire. Après Thermidor, les députés cherchent à mettre fin à la radicalité politique, à l’économie dirigée et aux violences politiques. Le Directoire instaure un régime fondé sur la séparation stricte des pouvoirs et la défense d’un ordre social conservateur-bourgeois.</p>
+                            
+                            <p>Mais ce système est miné par des difficultés immenses : le pouvoir centriste hérité de la Plaine et des Girondins, refusent les victoires successives de l’extrême droite royaliste pour protéger la République et de la gauche néojacobine pour préserver les intérêts de la bourgeoisie. Le Panthéon incarne alors un idéal : celui d’une République modérée, rationnelle, libérale, célébrant les savants, les législateurs et les héros militaires. Pourtant, cet idéal reste fragile. Tandis que les directeurs ignorent les suffrages, les armées remportent de grands succès à l’étranger, offrant au jeune général Bonaparte une renommée immense. En 1799, les députés du centre agacé par la démocratie et la menace de l’arrivé de la  gauche au pouvoir, appel Napoléon pour faire un coup d’état laissant place au Consulat dès Novembre. </p>
+                                                    </div>
+                        <div class="etape-image">
+                            <img src="pantheon.jpg" alt="Le Panthéon" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+
+                <h2>La France Contemporaine et Paris</h2>
+
+                <div class="etape" id="etape-invalides">
+                    <h3>La tombe de Napoléon et le destin de l'Empire</h3>
+                    <div class="etape-date">1799 - 1815</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>L’Hôtel des Invalides, fondé par Louis XIV pour accueillir les soldats blessés, devient au début du XIXᵉ siècle un symbole de la puissance napoléonienne en abritant sous le dôme de son Église le tombeau de Napoléon. Lorsque Bonaparte prend le pouvoir en 1799, il promet de « terminer la Révolution », mais son Consulat marque un net retour en arrière sur plusieurs acquis républicains : rétablissement de l’ordre autoritaire, censure de la presse, centralisation extrême de l’État, affaiblissement des assemblées. Le Code civil de 1804, tout en affirmant l’égalité civile, renforce la puissance paternelle et consacre une société hiérarchisée. Napoléon rétablit surtout l’esclavage dans les colonies en 1802, rompant avec l’abolition révolutionnaire de 1794.</p>
+                            
+                            <p>À partir de 1804, l’Empire transforme la France en puissance hégémonique. Soutenu par une armée immense, l’Empereur multiplie les conquêtes : Italie, Allemagne, Pologne, Espagne… Mais l’Europe entière finit par se coaliser contre lui. La campagne de Russie (1812), les défaites de 1813–1814, puis Waterloo (1815) entraînent la chute de l’Empire et le retour de la monarchie. Exilé sur Sainte-Hélène, Napoléon meurt en 1821 ; ses cendres seront transférées aux Invalides en 1840. Le dôme doré abrite depuis lors son tombeau monumental.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="domeinvalides.jpg" alt="Les Invalides" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-palais-du-luxembourg">
+                    <h3>La Restauration et le Palais du Luxembourg, l'histoire du retour de la Monarchie</h3>
+                    <div class="etape-date">1815-1830</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Palais du Luxembourg, siège de la Chambre des pairs sous la Restauration, incarne un moment où le roi traditionnel, revient sur le trône de France et cherche à refermer la parenthèse révolutionnaire et impériale. Après 1815, Louis XVIII puis Charles X rétablissent la monarchie mais doivent composer avec la Charte constitutionnelle, qui instaure une monarchie limitée et reconnaît certains acquis de 1789. La Chambre des pairs, installée au Luxembourg, représente l’aristocratie restaurée, attachée à l’ordre social traditionnel et à l’influence de l’Église.</p>
+                            
+                            <p>Mais une partie croissante de la bourgeoisie s’impatiente : cens électoral trop restrictif, retour des privilèges symboliques, tension entre liberté de presse et pouvoir royal. L’ultraroyalisme de Charles X finit par provoquer une rupture. Les Ordonnances de Juillet 1830, suspendant la liberté de la presse et dissolvant la Chambre, déclenchent une insurrection populaire. C’est la Révolution de Juillet. Le roi s’enfuit, la branche cadette des Bourbons monte sur le trône : Louis-Philippe devient « roi des Français », symbole d’une monarchie plus libérale et bourgeoise. Le Palais du Luxembourg demeure alors un lieu clé de la nouvelle vie parlementaire.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="luxembourg.jpg" alt="Palais du Luxembourg" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-gare-saint-lazare">
+                    <h3>La Gare Saint-Lazare et le Conservatoire des Arts et Métiers : comment la France s'est industrialisé sous la monarchie de Juillet</h3>
+                    <div class="etape-date">1830-1848</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Sous la Monarchie de Juillet (1830–1848), Paris et la France connaissent une accélération spectaculaire de l’industrialisation, transformation visible dans deux lieux emblématiques : le Conservatoire des Arts et Métiers et la gare Saint-Lazare. Le Conservatoire, installé dans l’ancien prieuré Saint-Martin-des-Champs, devient l’un des grands temples du progrès technique : on y expose machines à vapeur, innovations mécaniques, instruments scientifiques, symboles d’un monde bouleversé par la révolution industrielle. À quelques kilomètres, la gare Saint-Lazare — première grande gare parisienne, ouverte dès les années 1830 — illustre la naissance du réseau ferroviaire français. Les trains relient désormais Paris à la province, accélérant les flux de marchandises, de capitaux et de travailleurs. Autour d’eux se multiplient les usines textiles, métallurgiques et chimiques ; les banques d’affaires financent mines, manufactures et compagnies de chemin de fer.</p>
+                            
+                            <p>Cette modernisation façonne une nouvelle société : une classe ouvrière urbaine, souvent soumise à de dures conditions de travail, et une bourgeoisie industrielle et financière, héritière de la Révolution Française, devenue la force dominante du régime. Le nouveau souverain, Louis-Philippe incarne cette France du « juste milieu », tournée vers le commerce, la rentabilité et la stabilité politique. Mais cette croissance ne s’accompagne pas d’un élargissement démocratique : le suffrage censitaire exclut la quasi-totalité des hommes. Les ouvriers, artisans et petits commerçants se sentent exclus de la vie politique. Les crises économiques de 1846–1847 aggravent le mécontentement.</p>
+                            
+                            <p>En février 1848, une nouvelle insurrection populaire secoue Paris : Louis-Philippe abdique. La Deuxième République, née d’un immense espoir démocratique, instaure le suffrage universel masculin, abolit l’esclavage dans les colonies et créé les Ateliers nationaux. Mais les tensions sociales demeurent. La répression des révoltes ouvrières de juin met fin à l’espoir d’une République Sociale. Cette dernière engagé sa marche vers l’autoritarisme, ouvrant la voie à l’ascension de son premier président : Louis-Napoléon Bonaparte, le neveu de Napoléon Bonaparte.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="st-lazare.jpg" alt="Gare Saint-Lazare" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-palais-garnier">
+                    <h3>Napoléon III, Haussmann et le Palais Garnier</h3>
+                    <div class="etape-date">1848-1870</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Palais Garnier, inauguré en 1875, est l’un des symboles les plus éclatants du Second Empire, même si ses travaux furent lancés sous Napoléon III. Il reflète à lui seul la transformation profonde de Paris au XIXᵉ siècle. En 1851, le président Louis-Napoléon Bonaparte renverse la Deuxième République par un coup d’État et fonde le Second Empire en 1852. Le régime, autoritaire dans un premier temps, se veut modernisateur : il promeut la croissance économique, la rénovation urbaine et la grandeur culturelle de la France.</p>
+                            
+                            <p>Le préfet Haussmann reçoit mission de métamorphoser Paris : percées de larges boulevards, destruction de quartiers insalubres, nouveaux parcs, gares modernisées, aqueducs et égouts renouvelés. Le Palais Garnier s’inscrit dans cette politique : opéra monumental destiné à magnifier le prestige impérial, mais aussi à s’intégrer dans un réseau d’avenues facilitant la circulation et le contrôle politique.</p>
+                            
+                            <p>Sur le plan politique, le Second Empire évolue : d’abord autoritaire, il devient plus libéral dans les années 1860, accordant davantage de rôle au parlement et à la presse. Mais ses ambitions extérieures restent grandes : guerre en Italie, intervention au Mexique, expansion coloniale. En 1870, la guerre franco-prussienne tourne à la catastrophe : Napoléon III est capturé à Sedan, et l’Empire s’effondre.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="garnier.jpg" alt="Palais Garnier, Opéra" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-colonne-de-vendôme">
+                    <h3>La Commune de Paris renverse la Colonne Vendôme</h3>
+                    <div class="etape-date">1871</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La Colonne Vendôme, édifiée par Napoléon Ier pour célébrer Austerlitz, devient sous la Troisième République le symbole des fractures de 1871. Après la défaite écrasante face à la Prusse, Paris assiégé souffre famine et bombardements. La chute de Napoléon III ouvre la voie à la proclamation de la Troisième République, mais le gouvernement, installé à Versailles, accepte des conditions de paix difficiles. À Paris, la Garde nationale, en grande partie ouvrière, refuse la capitulation.</p>
+                            
+                            <p>Face aux tensions engendrées par le traité de Paix, la garde nationale se révolte. En mars 1871 naît la Commune de Paris, une expérience politique inédite fondée sur l’autonomie municipale, l’égalité sociale, la démocratie directe. C'est la première utopie anarchiste au monde. La Colonne Vendôme est renversée par les Communards, qui y voient un monument militariste et impérial. Après deux mois d’existence, la Commune est écrasée lors de la « Semaine sanglante » : des milliers de morts, des exécutions massives, des déportations. Restaurée plus tard, la Colonne Vendôme demeure le témoin d’un conflit fondateur entre République sociale et République conservatrice</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="colonne-vendome.jpg" alt="Colonne Vendôme" style="width: 90%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-sacrecoeur">
+                    <h3>Le Sacrée Coeur, symbole de la république royaliste </h3>
+                    <div class="etape-date">1871-1879</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La basilique du Sacré-Cœur, construite à partir de 1875 au sommet de Montmartre, incarne la volonté d’effacer symboliquement l’héritage de la Commune. Érigée « en réparation des péchés de la France », elle devient un monument de la République dominée alors par les monarchistes. Après la Semaine sanglante, les conservateurs contrôlent l’Assemblée. La basilique s’inscrit dans un projet moral et religieux qui condamne les idéaux démocratiques et sociaux portés par les Communards.</p>
+                            
+                            <p>Pourtant, cette République royaliste va progressivement se transformer en République parlementaire et laïque. La première grande étape est la victoire des républicains en 1879. Par la suite, les lois constitutionnelles de 1875, l’école gratuite et obligatoire, la liberté de la presse et la séparation des Églises et de l’État en 1905 achèvent de faire basculer la France dans une République durable.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="sacre-coeur.jpg" alt="Eglise du Sacre Coeur" style="width: 70%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-place-de-la-république">
+                    <h3>Place de la République : La France devient une Nation</h3>
+                    <div class="etape-date">1879-1900</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La place de la République, réaménagée sous la Troisième République, est devenue l’un des lieux les plus emblématiques de la construction de la nation moderne. Au centre se dresse la statue monumentale de Marianne, incarnation de la République, sculptée pour célébrer les valeurs de liberté, d’égalité et de fraternité. Cette place n’est pas seulement un espace urbain : c’est un manifeste politique. Après la défaite de 1870, la Commune et les hésitations monarchistes, la République doit s’enraciner durablement dans l’imaginaire collectif. Le pouvoir entreprend donc une vaste politique de symboles : écoles laïques, fêtes civiques, monuments républicains dans les villes… La place de la République fait partie de cette volonté d’inscrire la République dans la pierre.</p>
+                            
+                            <p>Elle illustre la naissance d’une nation fondée non sur la dynastie mais sur la souveraineté populaire. C’est aussi un espace de rassemblement où se façonnent les pratiques démocratiques : cortèges ouvriers, mobilisations syndicales, manifestations pour les droits sociaux ou politiques. Au fil du temps, la place est devenue l’agora de la France contemporaine, un lieu où le peuple s’approprie la République et en assure la pérennité. Elle incarne ainsi l’idée d’une nation toujours en construction, dont la force réside dans l’expression collective.</p>
+                            </div>
+                        <div class="etape-image">
+                            <img src="repu.jpg" alt="Place de la République" style="width: 90%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-musée-orsay">
+                    <h3>Musée d'Orsay, les arts en révolutions</h3>
+                    <div class="etape-date">1874-1914</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Installé dans l’ancienne gare d’Orsay, le musée témoigne de la profonde transformation artistique qui traverse la France entre 1848 et 1914. L’édifice lui-même, construit pour l’Exposition universelle de 1900, symbolise le triomphe du progrès industriel et technique. Lorsque la gare devient obsolète, sa reconversion en musée consacre une période d’intense créativité : réalisme, impressionnisme, symbolisme, art nouveau.</p>
+                            
+                            <p>Orsay retrace une révolution artistique majeure : la rupture avec l’académisme. Les artistes s’émancipent des normes, explorent la lumière, le mouvement, la vie moderne, les marges de la société. Les impressionnistes deviennent les pionniers d’une nouvelle sensibilité. Le musée montre comment cette liberté esthétique accompagne les bouleversements politiques, sociaux et urbains du XIXe siècle. Il incarne la naissance de l’art moderne et la redéfinition du rôle de l’artiste dans une société en mutation.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="museeorsay.jpg" alt="Musée d'Orsay" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-eiffel">
+                    <h3>La Tour Eiffel : l'âge sombre de la colonisation</h3>
+                    <div class="etape-date">1830-1945</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Symbole absolu de Paris, la Tour Eiffel naît dans un contexte d’euphorie industrielle et impériale. Construite pour l’Exposition universelle de 1889, elle doit célébrer le centenaire de la Révolution française et afficher le génie technique de la France républicaine. Haute de plus de 300 mètres, elle défie les limites connues de l’ingénierie, affirmant la puissance d’un pays qui se veut à la pointe de la modernité.</p>
+                            
+                            <p>Pourtant, l’Exposition universelle ne glorifie pas seulement le progrès : elle porte aussi l’ombre de l’expansion coloniale. En effet, depuis la conquête de l’Algérie (1830), le second Empire coloniale s’est progressivement étendu à l’Afrique de l’Ouest (création de l’AOF en 1895), à Madagascar (annexée en 1896), à l’Indochine (protectorats imposés entre 1883 et 1887), ainsi qu’au Pacifique et aux Caraïbes. Cette expansion repose sur une idéologie raciale structurée : hiérarchies « ethnologiques », darwinisme social, mission civilisatrice présentée comme devoir moral. Sur le terrain, elle se traduit par des guerres de conquête, des répressions massives et la mise en place de systèmes d’exploitation économique : travail forcé, impôts indigènes, confiscation des terres au profit de colons, réorganisation autoritaire des territoires.</p>
+                            
+                            <p>Au même moment où le monde découvrait la Tour Eiffel, des « villages indigènes », véritables zoos humains, sont créés et présentent des mises en scène coloniales qui naturalisent la domination, en présentant les peuples colonisés comme « primitifs » ou « arriérés ». Ces exhibitions humaines, qui regroupent Algériens, Kanaks, Dahoméens, Tonkinois, servent à justifier les violences coloniales en les inscrivant dans un récit civilisateur. Elles masquent les réalités de l’empire : famines provoquées par les monocultures forcées, massacres comme la répression de Menalamba à Madagascar (1895–1897), ou encore les campagnes sanglantes de « pacification » en Afrique sahélienne.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="tour-eiffel.jpg" alt="La Tour Eiffel" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-grand-palais-petit-palais">
+                    <h3>Grand Palais et Petit Palais : l'exposition universelle et les tensions en Europe</h3>
+                    <div class="etape-date">1900 - 1914</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Érigés pour l’Exposition universelle de 1900, le Petit et le Grand Palais incarnent la volonté de la France de s’affirmer comme capitale artistique, scientifique et diplomatique à l’aube du XXe siècle.</p>
+                            
+                            <p>Pourtant, derrière cette façade triomphante, l’Europe connaît des tensions croissantes. Les grandes puissances rivalisent dans l’industrie, le commerce, la diplomatie et surtout l’expansion coloniale. Chaque Exposition universelle devient un théâtre de compétition symbolique : chaque pays cherche à montrer sa modernité, ses avancées et sa force. Les palais parisiens, par leur monumentalité même, participent à cette rivalité internationale.</p>
+                            
+                            <p>En 1900, cette compétition est encore pacifique, mais les fractures sont déjà perceptibles : montée des nationalismes, crises diplomatiques récurrentes, militarisation accrue, alliances rigides. Les innovations techniques présentées, aviation naissante, moteurs puissants, premières automobiles, annoncent aussi les armes d’un futur sombre.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="petit-palais.jpg" alt="Le Petit Palais" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-arc">
+                    <h3>Le soldat Inconnu, vestige de la Première Guerre Mondiale dormant sous l'Arc de Triomphe</h3>
+                    <div class="etape-date">1914 - 1920</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>L’Arc de Triomphe, voulu par Napoléon Ier pour célébrer les victoires impériales, devient au XXᵉ siècle un monument profondément réinterprété à la lumière de la Première Guerre mondiale. Ce conflit, déclenché en 1914 après l’assassinat de l’archiduc François-Ferdinand et nourri par les rivalités impériales, le nationalisme et les alliances militaires, plonge l’Europe dans une guerre industrielle sans précédent. La France, prise en étau entre l’Allemagne et l’Autriche-Hongrie, est au cœur du front occidental. Dès la bataille de la Marne en 1914 jusqu’à l’offensive décisive de 1918, le pays subit l’occupation du Nord, la destruction de villes entières et une mobilisation totale de sa population.</p>
+                            
+                            <p>À partir de 1918, l’Arc se transforme en symbole du traumatisme national : plus de 1,3 million de soldats français morts, des millions de blessés ou mutilés, des tranchées meurtrières comme Verdun ou la Somme, les mutineries de 1917, et la violence mécanique de l’artillerie, des gaz et des mitrailleuses. En 1920, l’État décide d’inhumer sous l’arche un soldat non identifié, incarnation de tous ceux dont on ne retrouvera jamais le corps. La flamme du Souvenir, allumée en 1923 et ravivée chaque soir, fait du monument un lieu de recueillement universel..</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="arc.jpg" alt="Arc de Triomphe" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-porte-dorée">
+                    <h3>Le Palais de la Porte Dorée : l'entre-deux guerre et la politique coloniale</h3>
+                    <div class="etape-date">1918 - 1939</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Édifié pour l’Exposition coloniale internationale de 1931, le Palais de la Porte Dorée s’inscrit au cœur des contradictions de l’entre-deux-guerres. D’un côté, il symbolise la puissance d’un empire français arrivé à son apogée, s’étendant de l’Afrique occidentale et équatoriale à l’Indochine, en passant par Madagascar, le Maghreb et le Pacifique. Mais derrière l’esthétique Art déco se dissimulent les violences de la colonisation : travail forcé, réquisitions, racisme scientifique, répressions brutales comme à Sétif.</p>
+                            
+                            <p>L’entre-deux-guerres est aussi une période de fortes tensions économiques et sociales. La crise de 1929 frappe durement la France à partir de 1931 : faillites bancaires, chômage, chute de la production industrielle. Le désarroi des classes populaires nourrit la montée des ligues d’extrême droite, qui s’inspirent du fascisme italien et du nazisme naissant. La manifestation du 6 février 1934 révèle la fragilité du régime parlementaire.</p>
+                            
+                            <p>En réaction, le Front populaire triomphe aux élections de 1936. Léon Blum et son gouvernement lancent des réformes sociales majeures : congés payés, semaine de 40 heures, conventions collectives, démocratisation culturelle. Mais la coalition se heurte aux divisions internes, à la résistance patronale et à la pression internationale. Car en Europe, les tensions s’accroissent : remilitarisation de la Rhénanie, guerre d’Espagne, Anschluss, antisémitisme d’État en Allemagne. Le Palais de la Porte Dorée reflète ainsi un monde au bord de la rupture, qui semble oublié les canons de la guerre.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="portedore.jpg" alt="Palais de la Porte Dorée" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-shoah">
+                    <h3>La 2nd Guerre Mondiale et la mémoire des disparus au Mémorial de la Shoah</h3>
+                    <div class="etape-date">1939 - 1945</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Mémorial de la Shoah, situé dans le Marais, est l’un des lieux essentiels pour comprendre la Seconde Guerre mondiale telle qu’elle fut vécue en France. Il rend hommage aux six millions de Juifs assassinés par l’Allemagne nazie et ses alliés, dans un génocide planifié par le régime d’Hitler à partir de 1941 avec la « Solution finale ». La guerre, déclenchée en septembre 1939 par l’invasion de la Pologne par l’Allemagne Nazi, s’étend rapidement sur toute l’Europe. Après la défaite française de 1940, le pays est divisé entre une zone occupée par l’armée allemande et un État autoritaire installé à Vichy sous l’autorité du maréchal Pétain.</p>
+                            
+                            <p>À l’échelle mondiale, la guerre connaît des tournants majeurs : la Bataille d’Angleterre (été 1940) marque l’échec de l’Allemagne à envahir le Royaume-Uni ; en juin 1941, l’invasion de l’URSS transforme le conflit en guerre totale à l’Est, aboutissant à la bataille de Stalingrad (1942–43), où l’armée allemande subit une défaite décisive. En décembre 1941, l’attaque japonaise sur Pearl Harbor provoque l’entrée en guerre des États-Unis, renforçant progressivement les Alliés.</p>
+
+                            <p>Dès l’été 1940, Vichy adopte de son propre chef des lois antisémites : exclusions professionnelles, spoliations, internements dans des camps français comme Drancy. À partir de 1942, la collaboration s’approfondit : recensement, port de l’étoile jaune, arrestations et transferts vers les convois de déportation organisés par la SS. La police française joue un rôle majeur dans les grandes rafles, notamment celle du Vél’ d’Hiv des 16–17 juillet 1942, où plus de 13 000 Juifs sont arrêtés avant d’être déportés vers Auschwitz-Birkenau. Au total, plus de 76 000 Juifs de France sont déportés, et seule une minorité survit.</p>
+                            
+                            <p>En parallèle, la résistance intérieure, gaulliste, communiste, civile ou militaire, organise sabotages, réseaux de renseignement et sauvetages de juifs, tandis que des organisations comme l’OSE protègent des milliers d’enfants juifs. En juin 1944, le débarquement de Normandie ouvre la voie à la libération du pays : Paris est libéré en août 1944. Le suicide d’Hitler en avril 1945 précède la capitulation nazie. C'est finalement les bombes atomiques larguées sur Hiroshima puis Nagasaki et la capitulation japonaise en septembre 1945 qui mettront fin à la seconde guerre mondiale.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="shoah.jpg" alt="Mémorial de la Shoah" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-elysée">
+                    <h3>Le Palais de l'Elysée et la Construction de la Ve République</h3>
+                    <div class="etape-date">1945 - 1968</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>LL’Élysée, ancien palais aristocratique devenu résidence présidentielle en 1848, s’impose après 1946 comme le centre politique d’une France en quête de stabilité. La Quatrième République, née au lendemain de la Seconde Guerre mondiale, doit reconstruire un pays ruiné : villes dévastées, économie fragile, empire colonial en ébullition. Malgré des avancées majeures comme la sécurité sociale ou les débuts de l’Europe, le régime souffre d’une instabilité chronique, avec des gouvernements éphémères et des crises successives.</p>
+                            
+                            <p>Les guerres coloniales en Indochine (1946–1954) puis en Algérie (1954–1962) fragilisent encore davantage l’autorité de l’État. L’Élysée devient le lieu où se cristallisent les tensions entre un pouvoir civil hésitant et une armée radicalisée. Dans toute la France, des mouvements anticolonialistes et tiers-mondistes dénoncent les violences, la torture, l’idée d’un empire dépassé. Cette contestation intellectuelle et militante annonce un basculement profond de la société française et le démantèlement progressif de son empire colonial.</p>
+                            
+                            <p>En 1958, la crise algérienne conduit au retour de Charles de Gaulle et à la fondation de la Cinquième République. L’Élysée devient alors le cœur d’un exécutif renforcé, incarné par un président doté de pouvoirs étendus. Cette architecture institutionnelle apporte une stabilité durable, mais au prix d’un tournant autoritaire.</p>
+
+                            <p>Dans les années 1960, l’Élysée doit affronter une nouvelle vague de contestation. Les mobilisations étudiantes et ouvrières culminent en Mai 1968, remettant en cause l’autoritarisme perçu du régime, les hiérarchies sociales, l’ordre moral et l’étouffement des libertés. Grèves générales, occupations d’usine et slogans révolutionnaires montrent qu’une société plus jeune, plus éduquée, aspire à de nouvelles formes de démocratie.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="elysee.jpg" alt="Palais de l'Elysée" style="width: 50%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-pompidou">
+                    <h3>Centre Pompidou et les Trente Glorieuses</h3>
+                    <div class="etape-date">1945 - 1979</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>Le Centre Pompidou, inauguré en 1977, symbolise l’aboutissement et la remise en question des Trente Glorieuses, ces trois décennies de croissance exceptionnelle entre 1945 et 1975. Construit dans le quartier des Halles selon une architecture radicalement moderne, il témoigne de la confiance d’une France industrialisée, urbanisée et tournée vers la culture de masse. L’État investit massivement : infrastructures, écoles, universités, grands ensembles, réseaux de transport. Le niveau de vie augmente, la société de consommation se généralise, et une nouvelle classe moyenne apparaît.</p>
+                            
+                            <p>Mais la construction du Centre Pompidou intervient alors que ce modèle entre en crise. Les chocs pétroliers de 1973 et 1979 annoncent la fin de la croissance continue. Le chômage de masse s’installe, les usines commencent à fermer, les inégalités se recomposent.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="pompidou.jpg" alt="Centre Pompidou" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-montparnasse">
+                    <h3>La Tour Montparnasse, l'entrée de la France dans le monde contemporain</h3>
+                    <div class="etape-date">XVIIIe siècle</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La Tour Montparnasse, achevée en 1973, devient dans les décennies suivantes un symbole paradoxal de la France contemporaine. Dominant l’horizon parisien, elle accompagne les profondes transformations économiques et sociales des années 1980 à 2000. L’effondrement du modèle industriel entraîne délocalisations, chômage structurel et montée de la précarité. La France cherche une nouvelle place dans la mondialisation, se tourne vers les services, la finance, l’innovation technologique.</p>
+                            
+                            <p>Les années 1980 sont marquées par l’alternance politique : l’arrivée de François Mitterrand en 1981, l’abolition de la peine de mort, les nationalisations, puis les tournants économiques de 1983. La construction européenne s’accélère avec l’Acte unique (1986), Maastricht (1992) et la création de l’euro. Paris se transforme : grands projets (Grand Louvre, Opéra Bastille), désindustrialisation de la banlieue, montée des inégalités urbaines.</p>
+                            
+                            <p>Les années 1990–2000 voient également l’essor des mobilisations sociales (1995, 2000), les débats sur l’identité, l’immigration, la mémoire coloniale, ainsi que le développement technologique fulgurant d’Internet. La Tour Montparnasse, souvent critiquée pour sa rupture esthétique, incarne cette modernité tournée vers le capital et la rupture du modèle sociale.</p>
+                        </div>
+                        <div class="etape-image">
+                            <img src="mtparnasse.jpg" alt="Tour Montparnasse" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+                <div class="etape" id="etape-canopee">
+                    <h3>Canopée du Forum des Halles, la France tournée vers demain</h3>
+                    <div class="etape-date">XVIIIe siècle</div>
+                    <div class="etape-content">
+                        <div class="etape-text">
+                            <p>La Canopée du Forum des Halles, inaugurée en 2016, finalise notre ballade en nous racontant les derniers morceaux de l’histoire de France. Une Histoire mobile, connectée, multiculturelle et traversée de profondes tensions sociales. Située au cœur de Paris, elle symbolise une ville-monde, où se croisent habitants de banlieue, touristes, étudiants, travailleurs précaires et cadres globaux.</p>
+                            
+                            <p>Depuis les années 2000, la France vit des transformations majeures : mondialisation accélérée, crises économiques (2008, 2011), attentats terroristes (2015), mouvements sociaux (gilets jaunes), crise écologique. Les débats sur les valeurs républicaines, l’intégration, les droits sociaux ou les fractures territoriales traversent la société. La Canopée, lieu de passage plus que de contemplation, incarne cette France en transition permanente, qui tente de concilier ouverture au monde, diversité culturelle et recherche de cohésion.</p>
+                            
+                        </div>
+                        <div class="etape-image">
+                            <img src="canopee.jpg" alt="Canopée du Forum des Halles" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section id="parcours-thematiques" class="parcours-thematiques-section">
+        <div class="parcours-thematiques-intro">
+            <h2>Parcours Thématiques</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8; color: #4a4a4a; font-style: italic;">
+                Découvrez Paris à travers plusieurs parcours thématiques retraçant les grandes périodes de son histoire
+            </p>
+        </div>
+
+        <div class="parcours-grid">
+            <div class="parcours-card">
+                <h3>Parcours du Paris Antique</h3>
+                <ul class="parcours-liste">
+                    <li>Arènes de Lutèce</li>
+                    <li>Thermes de Cluny</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card">
+                <h3>Parcours du Paris Médiévale</h3>
+                <ul class="parcours-liste">
+                    <li>Conciergerie</li>
+                    <li>Sainte-Chapelle</li>
+                    <li>La Sorbonne</li>
+                    <li>Notre-Dame</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card">
+                <h3>Parcours du Paris Moderne</h3>
+                <ul class="parcours-liste">
+                    <li>Hôtel de Ville</li>
+                    <li>Jardin des Plantes</li>
+                    <li>Place des Vosges</li>
+                    <li>Pont Neuf</li>
+                    <li>Palais Royal</li>
+                    <li>Le Louvre</li>
+                    <li>Place de la Concorde</li>
+                    <li>Place de la Bastille</li>
+                    <li>Couvent des Cordeliers</li>
+                    <li>Panthéon</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card">
+                <h3>Parcours du Paris Contemporain</h3>
+                <ul class="parcours-liste">
+                    <li>Les Invalides</li>
+                    <li>Palais du Luxembourg</li>
+                    <li>Gare Saint-Lazare</li>
+                    <li>Arts et Métiers</li>
+                    <li>Palais Garnier</li>
+                    <li>Colonne Vendôme</li>
+                    <li>Sacré-Cœur</li>
+                    <li>Place de la République</li>
+                    <li>Musée d'Orsay</li>
+                    <li>Tour Eiffel</li>
+                    <li>Grand et Petit Palais</li>
+                    <li>Arc de Triomphe</li>
+                    <li>Palais de la Porte Dorée</li>
+                    <li>Mémorial de la Shoah</li>
+                    <li>Élysée</li>
+                    <li>Centre Pompidou</li>
+                    <li>Tour Montparnasse</li>
+                    <li>Canopée du Châtelet</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card ">
+                <h3>All-stars</h3>
+                <ul class="parcours-liste">
+                    <li>Tours Eiffel</li>
+                    <li>Arc de Triomphe</li>
+                    <li>Place de la Concorde</li>
+                    <li>Musée du Louvre</li>
+                    <li>Pont Neuf</li>
+                    <li>Notre-Dame</li>
+                    <li>Panthéon</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card ">
+                <h3>Au fil de la Seine</h3>
+                <ul class="parcours-liste">
+                    <li>Jardin des Plantes</li>
+                    <li>Notre-Dame</li>
+                    <li>Sainte-Chapelle</li>
+                    <li>Conciergerie</li>
+                    <li>Pont-Neuf</li>
+                    <li>Hôtel de Ville</li>
+                    <li>Le Louvre</li>
+                    <li>Place de la Concorde</li>
+                    <li>Petit et Grand Palais</li>
+                    <li>Musée d'Orsay</li>
+                    <li>Tour Eiffel</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card ">
+                <h3>Ballade à Paris en amoureux</h3>
+                <ul class="parcours-liste">
+                    <li>Tour Eiffel</li>
+                    <li>Sacré Coeur et le quartier de Montmartre</li>
+                    <li>Le Louvre et le jardin des Tuilleries</li>
+                    <li>Notre-Dame de Paris</li>
+                    <li>Palais Royal</li>
+                </ul>
+            </div>
+
+            <div class="parcours-card ">
+                <h3>Au coeur de Paris</h3>
+                <ul class="parcours-liste">
+                    <li>Conservatoire des Arts et Métiers</li>
+                    <li>Canopée du Forum de Châtelet</li>
+                    <li>Centre Pompidou</li>
+                    <li>Mémorial de la Shoah</li>
+                    <li>Hôtel de Ville</li>
+                    <li>Notre-Dame de Paris</li>
+                    <li>La Conciergerie</li>
+                    <li>Sainte-Chapelle</li>
+                    <li>Pont-Neuf</li>
+                    <li>Thermes du Cluny</li>
+                    <li>Couvent des Cordeliers</li>
+                    <li>La Sorbonne</li>
+                    <li>Palais du Luxembourg</li>
+                    <li>Le Panthéon</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    </div>
+
+
+    <footer>
+        <p>© 2024 Monuments de Paris - Découverte du patrimoine architectural</p>
+    </footer>
+
+    <script>
+    function showSection(section) {
+        // Affichage des sections principales
+        document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
+        document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
+        document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
+        
+        // Actions spécifiques selon la section
+        if (section === 'fiches') {
+            showFichesList();
+        }
+
+        if (section === 'parcours') {
+            document.getElementById('parcours').classList.add('active');
+        }
+    }
+
+    function showMonument(monumentId) {
+        // Masquer la liste principale
+        document.getElementById('fiches-list').style.display = 'none';
+        
+        // Désactiver toutes les fiches
+        const fiches = document.querySelectorAll('.fiche-detail');
+        fiches.forEach(fiche => fiche.classList.remove('active'));
+        
+        // Activer la fiche sélectionnée
+        const monument = document.getElementById(monumentId);
+        if (monument) {
+            monument.classList.add('active');
+        }
+        
+        // Afficher la section "fiches"
+        const fichesSection = document.getElementById('fiches');
+        fichesSection.style.display = 'block';
+        fichesSection.classList.add('active');
+        
+        // Remonter en haut de la page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showFichesList() {
+        // Réaffiche la liste des fiches et désactive les fiches détaillées
+        document.getElementById('fiches-list').style.display = 'block';
+        const fiches = document.querySelectorAll('.fiche-detail');
+        fiches.forEach(fiche => fiche.classList.remove('active'));
+    }
+
+    // Section par défaut au chargement
+    showSection('carte');
+
+    function showEtape(etapeId) {
+    // Afficher la section parcours
+    showSection('parcours');
+    
+    // Attendre que la section soit affichée
+    setTimeout(function() {
+        // Trouver l'élément de l'étape
+        const etape = document.getElementById('etape-' + etapeId);
+        
+        if (etape) {
+            // Scroll jusqu'à l'étape avec un offset pour le header
+            const yOffset = -100; // ajustez selon la hauteur de votre header
+            const y = etape.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            
+            window.scrollTo({
+                top: y,
+                behavior: 'smooth'
+            });
+            
+            // Optionnel : ajouter un effet visuel temporaire
+            etape.style.backgroundColor = '#f4e4c1';
+            setTimeout(function() {
+                etape.style.backgroundColor = '#f9f8f6';
+            }, 2000);
+        }
+    }, 100);
+}
+
+function showSection(section) {
+    // Affichage des sections principales
+    document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
+    document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
+    document.getElementById('parcours-thematiques').style.display = section === 'parcours-thematiques' ? 'block' : 'none';
+    document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
+    
+    // Actions spécifiques selon la section
+    if (section === 'fiches') {
+        showFichesList();
+    }
+
+    if (section === 'parcours') {
+        document.getElementById('parcours').classList.add('active');
+    }
+
+    if (section === 'parcours-thematiques') {
+        document.getElementById('parcours-thematiques').classList.add('active');
+    }
+}
+
+</script>
+</body>
 </html>
