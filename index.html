@@ -4,548 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monuments de Paris</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Garamond', 'Georgia', serif;
-            background-color: #f5f3f0;
-            color: #2c2c2c;
-        }
-
-        header {
-            background-color: #0e0064;
-            color: #f5f3f0;
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 3px solid #8b7355;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: #c9b8a0;
-            font-style: italic;
-        }
-
-        nav {
-            background-color: #ca6032;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            border-bottom: 1px solid #8b7355;
-        }
-
-        nav a {
-            color: #f5f3f0;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-            letter-spacing: 1px;
-        }
-
-        nav a:hover {
-            color: #c9b8a0;
-        }
-
-        header {
-            position: relative;
-            background-color: #0e0064;
-            color: #f5f3f0;
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 3px solid #8b7355;
-        }
-
-        .header-logo {
-            position: absolute;
-            top: 1rem;
-            right: 2rem;
-            height: 60px;
-            width: auto;
-        }
-
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-        }
-
-        .carte-section {
-            background-color: white;
-            padding: 3rem;
-            border-radius: 2px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
-        }
-
-        .carte-section h2 {
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            color: #1a1a1a;
-            border-bottom: 2px solid #8b7355;
-            padding-bottom: 1rem;
-        }
-
-        .carte-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #e8e4df;
-            padding: 2rem;
-            border: 1px solid #c9b8a0;
-        }
-
-        .carte-paris {
-            width: 100%;
-            height: 600px;
-            background-image: url('carte-paris.jpg');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            border: 2px solid #8b7355;
-        }
-
-
-
-
-        .monument-point {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #8b7355;
-            border: 3px solid #1a1a1a;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-
-        .monument-point.antiquite {
-            background-color: #d4af37;
-        }
-
-        .monument-point.medievale {
-            background-color: #c41e3a;
-        }
-
-        .monument-point.moderne {
-            background-color: #0055a4;
-        }
-
-        .monument-point.contemporaine {
-            background-color: #2d8659;
-        }
-
-        .monument-point:hover {
-            transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(139, 115, 85, 0.6);
-        }
-
-        .monument-point.antiquite:hover {
-            background-color: #f4d03f;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
-        }
-
-        .monument-point.medievale:hover {
-            background-color: #e63946;
-            box-shadow: 0 0 15px rgba(196, 30, 58, 0.8);
-        }
-
-        .monument-point.moderne:hover {
-            background-color: #0077be;
-            box-shadow: 0 0 15px rgba(0, 85, 164, 0.8);
-        }
-
-        .monument-point.contemporaine:hover {
-            background-color: #3fa876;
-            box-shadow: 0 0 15px rgba(45, 134, 89, 0.8);
-        }
-
-        .monument-point::after {
-            content: attr(data-name);
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1a1a1a;
-            color: #f5f3f0;
-            padding: 0.5rem 1rem;
-            border-radius: 2px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
-
-        .monument-point:hover::after {
-            opacity: 1;
-        }
-
-        .fiches-section {
-            display: none;
-        }
-
-        .fiches-section.active {
-            display: block;
-        }
-
-        .parcours-section {
-            display: none;
-        }
-
-        .parcours-section.active {
-            display: block;
-        }
-
-        .parcours-container {
-            background-color: white;
-            padding: 3rem;
-            border-radius: 2px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
-        }
-
-        .parcours-container h2 {
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            color: #1a1a1a;
-            border-bottom: 2px solid #8b7355;
-            padding-bottom: 1rem;
-        }
-
-        .etape {
-            margin-bottom: 4rem;
-            padding: 2rem;
-            background-color: #f9f8f6;
-            border-left: 4px solid #8b7355;
-        }
-
-        .etape h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: #0e0064;
-            margin-bottom: 1rem;
-        }
-
-        .etape-date {
-            font-style: italic;
-            color: #8b7355;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .etape-content {
-            display: flex;
-            gap: 2rem;
-            align-items: flex-start;
-        }
-
-        .etape-text {
-            flex: 1;
-            line-height: 1.8;
-            font-size: 1.05rem;
-            color: #2c2c2c;
-        }
-
-        .etape-text p {
-            margin-bottom: 1rem;
-        }
-
-        .etape-image {
-            flex: 0 0 350px;
-            height: 250px;
-            background-color: #e8e4df;
-            border: 2px solid #8b7355;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8b7355;
-            font-style: italic;
-        }
-
-        @media (max-width: 768px) {
-            .etape-content {
-                flex-direction: column;
-            }
-            
-            .etape-image {
-                flex: 0 0 200px;
-                width: 100%;
-            }
-        }
-
-        .fiches-section {
-            display: none;
-        }
-
-        .fiches-section.active {
-            display: block;
-        }
-
-        .fiches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .fiche-card {
-            background-color: white;
-            border: 1px solid #c9b8a0;
-            padding: 2rem;
-            transition: all 0.3s;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-        }
-
-        .fiche-card:hover {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            transform: translateY(-3px);
-        }
-
-        .fiche-card h3 {
-            font-size: 1.6rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            border-bottom: 1px solid #8b7355;
-            padding-bottom: 0.5rem;
-        }
-
-        .fiche-card .date {
-            color: #8b7355;
-            font-style: italic;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .fiche-card p {
-            line-height: 1.7;
-            color: #4a4a4a;
-            margin-bottom: 1rem;
-        }
-
-        .fiche-card .details {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e8e4df;
-        }
-
-        .fiche-card .details strong {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .fiche-detail {
-            display: none;
-            background-color: white;
-            padding: 3rem;
-            border: 1px solid #c9b8a0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .fiche-detail.active {
-            display: block;
-        }
-
-        .fiche-detail h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .fiche-detail .date {
-            color: #8b7355;
-            font-style: italic;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-
-        .fiche-detail .content {
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .fiche-detail .content p {
-            margin-bottom: 1.5rem;
-        }
-
-        .parcours-thematiques-section {
-            display: none;
-        }
-
-        .parcours-thematiques-section.active {
-            display: block;
-        }
-
-        .parcours-thematiques-intro {
-            background-color: white;
-            padding: 3rem;
-            border-radius: 2px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .parcours-thematiques-intro h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-            border-bottom: 2px solid #8b7355;
-            padding-bottom: 1rem;
-        }
-
-        .parcours-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-
-        .parcours-card {
-            background-color: white;
-            border: 1px solid #c9b8a0;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .parcours-card:hover {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transform: translateY(-3px);
-        }
-
-        .parcours-card h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: #0e0064;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #8b7355;
-            padding-bottom: 0.5rem;
-        }
-
-        .parcours-liste {
-            list-style: none;
-            padding: 0;
-        }
-
-        .parcours-liste li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #e8e4df;
-            color: #2c2c2c;
-            font-size: 1.05rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .parcours-liste li:last-child {
-            border-bottom: none;
-        }
-
-        .parcours-liste li:before {
-            content: "▶";
-            position: absolute;
-            left: 0;
-            color: #8b7355;
-            font-size: 0.8rem;
-        }
-
-        .parcours-card.antiquite h3 {
-            color: #d4af37;
-        }
-
-        .parcours-card.medievale h3 {
-            color: #c41e3a;
-        }
-
-        .parcours-card.moderne h3 {
-            color: #0055a4;
-        }
-
-        .parcours-card.contemporaine h3 {
-            color: #2d8659;
-        }
-
-        .legende {
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .legende-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .legende-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #1a1a1a;
-        }
-
-        .back-button {
-            display: inline-block;
-            margin-bottom: 2rem;
-            padding: 0.7rem 1.5rem;
-            background-color: #2c2c2c;
-            color: #f5f3f0;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-            letter-spacing: 1px;
-        }
-
-        .back-button:hover {
-            background-color: #8b7355;
-        }
-
-        footer {
-            background-color: #0e0064;
-            color: #c9b8a0;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            border-top: 3px solid #8b7355;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <img src="logo-ATP.PNG" alt="Logo" class="header-logo">
+        <img src="logo-ATP.png" alt="Logo" class="header-logo">
         <h1>AU TEMPS DE PARIS</h1>
         <p>Écoutez le Patrimoine vous raconter l'Histoire de France</p>
     </header>
 
-    <nav>
-        <a href="#" onclick="showSection('carte'); return false;">Carte de Paris</a>
-        <a href="#" onclick="showSection('parcours'); return false;">Parcours Historique</a>
-        <a href="#" onclick="showSection('fiches'); return false;">Nos monuments</a>
-        <a href="#" onclick="showSection('parcours-thematiques'); return false;">Parcours Thématiques</a>
-    </nav>
+   <nav>
+    <a href="#" onclick="showSection('carte'); return false;">Carte de Paris</a>
+    <a href="#" onclick="showSection('parcours'); return false;">Parcours Historique</a>
+    <a href="#" onclick="showSection('fiches'); return false;">Nos monuments</a>
+    <a href="#" onclick="showSection('parcours-thematiques'); return false;">Parcours Thématiques</a>
+    <a href="#" onclick="showSection('videotheque'); return false;">Vidéothèque</a>
+    <a href="#" onclick="showSection('sources'); return false;">Sources & Crédits</a>
+    <a href="#" onclick="showSection('mentions-legales'); return false;">Mentions Légales</a>
+</nav>
 
     <div class="container">
         <section id="carte" class="carte-section">
@@ -1526,11 +1002,11 @@
                     <div class="etape-date">Ier siècle au Ve siècle</div>
                     <div class="etape-content">
                         <div class="etape-text">
-                            <p>Situés à proximité du Boulevard Saint-Michel, les immenses vestiges qui se dressent encore dans le Quartier latin, sont les restes d’anciens publics romains : les thermes de Cluny. Dans le monde romain, et donc de la Gaule fraichement conquise, les bains publics étaient des institutions sociales majeures, ouvertes à tous les citoyens, lieux de détente mais aussi d’échanges, de discussions politiques ou commerciales. </p>
+                            <p>Situés à proximité du Boulevard Saint-Michel, les immenses vestiges qui se dressent encore dans le Quartier latin, sont les restes d’anciens publics romains : les <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-thermes').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">thermes</a> de Cluny. Dans le monde romain, et donc de la Gaule fraichement conquise, les bains publics étaient des institutions sociales majeures, ouvertes à tous les citoyens, lieux de détente mais aussi d’échanges, de discussions politiques ou commerciales. </p>
                             
                             <p>Mais si la Gaule était romaine, Rome n’était pas encore un Empire mais une république.  La République romaine, fondée au VIᵉ siècle av. J.-C., reposait sur un équilibre précaire entre différentes institutions : les magistrats élus (dont les consuls), le Sénat composé d’aristocrates influents, et les assemblées du peuple. Cet équilibre, souvent présenté comme un modèle de gouvernement mixte, fut pourtant marqué par une profonde instabilité : rivalités politiques incessantes, luttes d’influence entre grandes familles, violences sociales, affrontements entre patriciens et plébéiens, puis guerres civiles sanglantes opposant généraux ambitieux comme Marius, Sylla, Pompée ou Jules César.</p>
                             
-                            <p>Ces tensions internes finirent par éroder les fondements mêmes de la République. Après l’assassinat de César lors des Ides de Mars en 44 av. J.-C. et de la guerre civile qui s’en suivit, son fils adoptif Octave prit le contrôle du pouvoir et devint Auguste en 27 av. J.-C., inaugurant l’Empire. Désormais, l’autorité se voulait plus stable : l’empereur détenait l’essentiel du pouvoir militaire, politique et religieux, tout en préservant l’apparence des anciennes institutions républicaines. Ce nouveau régime, centralisé et tourné vers l’efficacité administrative, permit de consolider un immense territoire allant de l’Écosse au désert syrien. L’Empire assurait la paix (la Pax Romana), favorisait les échanges, encourageait la construction d’infrastructures et renforçait une culture commune fondée sur le droit, la citoyenneté et l’urbanisation. Et c’est dans ce contexte que furent construites les thermes de Cluny à la fin du Ier siècle après J.-C.</p>
+                            <p>Ces tensions internes finirent par éroder les fondements mêmes de la République. Après l’assassinat de César lors des Ides de Mars en 44 av. J.-C. et de la guerre civile qui s’en suivit, son fils adoptif Octave prit le contrôle du pouvoir et devint Auguste en 27 av. J.-C., inaugurant l’Empire. Désormais, l’autorité se voulait plus stable : l’empereur détenait l’essentiel du pouvoir militaire, politique et religieux, tout en préservant l’apparence des anciennes institutions républicaines. Ce nouveau régime, centralisé et tourné vers l’efficacité administrative, permit de consolider un immense territoire allant de l’Écosse au désert syrien. L’Empire assurait la paix ( <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-pax-romana').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">la pax romana</a>), favorisait les échanges, encourageait la construction d’infrastructures et renforçait une culture commune fondée sur le droit, la citoyenneté et l’urbanisation. Et c’est dans ce contexte que furent construites les thermes de Cluny à la fin du Ier siècle après J.-C.</p>
                         </div>
                         <div class="etape-image">
                             <img src="cluny_image.jpg" alt="Les thermes de Cluny" style="width: 100%;">
@@ -1563,7 +1039,7 @@
                         <div class="etape-text">
                             <p>Caché derrière l’enceinte du Palais de justice, la Sainte-Chapelle, joyau gothique édifié par Saint Louis au XIIIᵉ siècle, nous dévoile la place centrale occupée par la religion dans la société médiévale. Pour comprendre cette omniprésence, il faut revenir à la Réforme grégorienne, vaste mouvement qui, dès le XIᵉ siècle, chercha à affirmer l’autorité de l’Église face aux pouvoirs laïcs. Menée par la papauté, cette réforme visait à moraliser le clergé, structurer et donner une cohérence à l’Église, imposer le célibat ecclésiastique, mais surtout affirmer l’indépendance de l’Église dans la nomination des évêques et des abbés. Ce conflit redéfinissait le rapport entre le sacré et le politique : désormais, la papauté affirmait son pouvoir universel sur les consciences comme sur les institutions chrétiennes.</p>
                             
-                            <p>C’est dans ce contexte d’affirmation du pouvoir religieux que la Sainte-Chapelle prend tout son sens. Construite pour abriter les reliques de la Passion, notamment la Couronne d’épines, elle est le symbole de la dévotion du politique à la religion. En se présentant comme roi très chrétien, dépositaire des objets sacrés, Saint Louis réaffirmait son statut de souverain légitime et protecteur de la foi. /p>
+                            <p>C’est dans ce contexte d’affirmation du pouvoir religieux que la Sainte-Chapelle prend tout son sens. Construite pour abriter les reliques de la Passion, notamment la Couronne d’épines, elle est le symbole de la dévotion du politique à la religion. En se présentant comme roi très chrétien, dépositaire des objets sacrés, Saint Louis réaffirmait son statut de souverain légitime et protecteur de la foi. </p>
                             
                             <p>Au-delà du pouvoir royal, la Sainte-Chapelle témoigne d’un monde profondément religieux, où chaque aspect de la vie, les rythmes du temps, les fêtes, les rites, l’organisation sociale, était marqué par la foi. Le clergé formait l’intelligentsia du temps, les institutions ecclésiastiques encadraient la charité, l’éducation, la justice morale, tandis que les cathédrales et chapelles servaient autant à rassembler qu’à hiérarchiser les communautés.</p>
                         </div>
@@ -1597,7 +1073,7 @@
                             
                             <p>À partir du Xe siècle, l’Europe occidentale connaît le phénomène d’incastellamento, c’est-à-dire la multiplication de châteaux et de villages regroupés autour d’un pôle fortifié. Dans un contexte d’insécurité (invasions, guerres privées, fragmentation des pouvoirs) les seigneurs construisent des forteresses et attirent autour d’elles les populations paysannes. Ce mouvement transforme les campagnes : les habitats se regroupent, les champs sont réorganisés, les communautés se structurent autour de la protection militaire et économique du seigneur.</p>
                             
-                            <p>Parallèlement, s’installe la féodalité, un système fondé sur des liens personnels. Le roi, les grands seigneurs et les vassaux échangent terres, fidélité et service armé. Au bas de cette pyramide, les paysans travaillent les terres du domaine, versent redevances et corvées, et dépendent du seigneur pour la justice et la sécurité. Le village médiéval devient ainsi la cellule fondamentale de la société.</p>
+                         <p>Parallèlement, s'installe la <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-feodalite').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">féodalité</a>, un système fondé sur des liens personnels. Le roi, les grands seigneurs et les vassaux échangent terres, fidélité et service armé. Au bas de cette pyramide, les paysans travaillent les terres du domaine, versent redevances et corvées, et dépendent du seigneur pour la justice et la sécurité. Le village médiéval devient ainsi la cellule fondamentale de la société.</p>
 
                             <p>C’est ainsi que nait le Moyen Âge que tout le monde à en tête. Notre-Dame est ainsi le symbole de cette Europe médiévale du « second Moyen Âge » (du Xe siècle à 1492) qui se transforme : plus sûre, mieux organisée, plus connectée.</p>
                         </div>
@@ -1669,7 +1145,7 @@
                         <div class="etape-text">
                             <p>Le Pont Neuf, terminé en 1607, est l’un des monuments les plus emblématiques de la sortie des guerres de Religion. Construit sous Henri IV, il reflète la volonté royale de réunifier un royaume déchiré pendant près de quarante ans par les affrontements entre catholiques et protestants. Ces guerres, commencées en 1562, mêlent rivalités politiques, tensions théologiques et luttes pour le pouvoir. La monarchie y apparaît affaiblie, contestée, parfois incapable d’imposer la paix. Les massacres, comme celui de la Saint-Barthélemy en 1572, marquent durablement les esprits.</p>
                             
-                            <p>L’avènement d’Henri IV en 1589, ancien protestant devenu catholique pour accéder au trône, marque un tournant. Par l’Édit de Nantes en 1598, il reconnaît un cadre légal au protestantisme tout en réaffirmant la primauté catholique. L’objectif est clair : restaurer l’unité du royaume et reconstruire l’autorité monarchique.</p>
+                            <p>L’avènement d’Henri IV en 1589, ancien protestant devenu catholique pour accéder au trône, marque un tournant. Par l’Édit de Nantes en 1598, il reconnaît un cadre légal au <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-protestantisme').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">protestantisme</a> tout en réaffirmant la primauté catholique. L’objectif est clair : restaurer l’unité du royaume et reconstruire l’autorité monarchique.</p>
                             
                             <p>Le Pont Neuf nait à cette époque. Il est le plus ancien pont de Paris mais surtout son premier Pont en pierre, symbole d’un renouveau que le roi voulait imposer. La statue équestre d’Henri IV (érigée après son assassinat en 1610) rappelle le rôle du souverain comme pacificateur.</p>
                         </div>
@@ -1717,7 +1193,7 @@
                     <div class="etape-date">1535 - 1763</div>
                     <div class="etape-content">
                         <div class="etape-text">
-                            <p>La Place de la Concorde, aménagée au XVIIIᵉ siècle, est dominée par le Palais de la Marine, qui fut pendant plus de deux cents ans le cœur administratif de la Marine royale et des colonies. Ce bâtiment monumental, conçu pour incarner la puissance monarchique, raconte le basculement de la France vers une logique impériale : celle d’un royaume devenu acteur majeur de l’Atlantique et de l’expansion coloniale.</p>
+                            <p>La Place de la Concorde, aménagée au XVIIIᵉ siècle, est dominée par le Palais de la Marine, qui fut pendant plus de deux cents ans le cœur administratif de la Marine royale et des <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-colonie').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">colonies</a>. Ce bâtiment monumental, conçu pour incarner la puissance monarchique, raconte le basculement de la France vers une logique impériale : celle d’un royaume devenu acteur majeur de l’Atlantique et de l’expansion coloniale.</p>
                             
                             <p>Dès Louis XIV, puis tout au long du XVIIIᵉ siècle, la Marine française se professionnalise et se renforce : création des arsenaux, développement des écoles d’ingénieurs, systématisation des expéditions et des missions de cartographie. Depuis le Palais de la Marine, ministres, intendants et officiers coordonnent les flottes, les ports militaires, les convois marchands, mais aussi l’administration des territoires d’outre-mer. Car la France, comme les autres puissances européennes, construit son premier empire colonial : l’Amérique du Nord (Canada, Louisiane), les Antilles (Guadeloupe, Martinique, surtout Saint-Domingue), des comptoirs sur les côtes africaines (Gorée, Ouidah, Sénégal), l’océan Indien (Île de France/Maurice, Île Bourbon/La Réunion, Inde française).</p>
                             
@@ -1737,7 +1213,7 @@
                         <div class="etape-text">
                             <p>Ici, sur cette place, à la place de l’Opéra, s’érigeait autrefois la Bastille, une forteresse médiévale transformée en prison d’État, qui occupe une place centrale dans la mémoire politique française. À la mort de Louis XIV en 1715, commence la Régence de Philippe d’Orléans, période marquée par un relâchement moral, une effervescence intellectuelle et des expériences économiques nouvelles. Paris redevient un foyer culturel : cafés, salon et sociétés savantes se multiplient. C’est dans ce contexte que se développe la pensée des Lumières en France. Une pensée soumise à la censure et dont les penseurs peuvent faire un séjour à la Bastille, comme le futur député révolutionnaire Jacques Pierre Brissot. </p>
                             
-                            <p>Au cours du XVIIIᵉ siècle, les philosophes des Lumières (comme Voltaire, Diderot ou Rousseau) remettent en cause les privilèges, la censure et l’autorité absolue. La diffusion des idées critiques nourrit un climat de contestation dans les milieux bourgeois, lettrés et urbains. Pendant ce temps, la société française reste profondément inégalitaire : le clergé et la noblesse jouissent d’exemptions fiscales tandis que le Tiers État porte l’essentiel des impôts. La bourgeoisie, de plus en plus instruite et active économiquement, elle revendique un rôle politique à la hauteur de son importance sociale.</p>
+                            <p>Au cours du XVIIIᵉ siècle, les philosophes des <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-lumiere').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">Lumières</a> (comme Voltaire, Diderot ou Rousseau) remettent en cause les privilèges, la censure et l’autorité absolue. La diffusion des idées critiques nourrit un climat de contestation dans les milieux bourgeois, lettrés et urbains. Pendant ce temps, la société française reste profondément inégalitaire : le clergé et la noblesse jouissent d’exemptions fiscales tandis que le Tiers État porte l’essentiel des impôts. La bourgeoisie, de plus en plus instruite et active économiquement, elle revendique un rôle politique à la hauteur de son importance sociale.</p>
                             
                             <p>La situation se dégrade encore après les années 1770. Les finances royales sont exsangues : guerres coûteuses, dette accumulée, système fiscal incapable de se moderniser. Les tentatives de réforme administrative et fiscale (Turgot, Necker, Calonne) échouent face au refus des privilèges. Louis XVI, hésitant et mal conseillé, ne parvient pas à imposer une solution durable. La convocation des États généraux en 1789 ouvre une crise politique majeure : le Tiers État se proclame Assemblée nationale et, avec le le serment du Jeu de Paume de juin 1789, exige une refonte profonde du système.</p>
 
@@ -1755,9 +1231,9 @@
                         <div class="etape-text">
                             <p>Le couvent des Cordeliers, situé dans le quartier latin, devient dès 1789 l’un des laboratoires intellectuels et politiques de la Révolution française. Transformé en club, il accueille des figures majeures comme Danton, Desmoulins ou Marat, et se caractérise par une liberté de parole exceptionnelle. C’est ici que s’élaborent certaines des critiques les plus puissantes contre l’Ancien Régime : dénonciation de l’arbitraire royal, exigence de souveraineté populaire, appel permanent à la vigilance citoyenne.</p>
                             
-                            <p>La chute de la monarchie le 10 août 1792, puis la victoire de Valmy, ouvrent la voie à la Première République. Mais après l’exécution de Louis XVI en 1793, la guerre extérieure et les insurrections royalistes plongent le pays dans la crise. En 1793–94 s’installe ce que les historiens nomment le Gouvernement révolutionnaire, période durant laquelle la République « en détresse » mobilise toutes ses forces pour survivre : levée en masse, économie dirigée, répression contre les complots. L’irresponsabilité des girondins et leur entêtement pour créer une république libérale pousse les parisiens à les chasser de l’Assemblée Nationale.  Les Montagnards, désormais au pouvoir avec la Plaine, réussissent à stabiliser la République et empêchent l’effondrement de la République tout établissant les premières lois sociales. Mais cette victoire se paie d’une politique mortifère : tribunaux d’exception, répression violente, exécutions massives.</p>
+                            <p>La chute de la monarchie le 10 août 1792, puis la victoire de Valmy, ouvrent la voie à la Première République. Mais après l’exécution de Louis XVI en 1793, la guerre extérieure et les insurrections royalistes plongent le pays dans la crise. En 1793–94 s’installe ce que les historiens nomment le Gouvernement révolutionnaire, période durant laquelle la République « en détresse » mobilise toutes ses forces pour survivre : levée en masse, économie dirigée, répression contre les complots. L’irresponsabilité des girondins et leur entêtement pour créer une république <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-liberale').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">libérale</a> pousse les parisiens à les chasser de l’Assemblée Nationale.  Les Montagnards, désormais au pouvoir avec la Plaine, réussissent à stabiliser la République et empêchent l’effondrement de la République tout établissant les premières lois sociales. Mais cette victoire se paie d’une politique mortifère : tribunaux d’exception, répression violente, exécutions massives.</p>
                             
-                            <p>Le club des Cordeliers est au cœur de ces tensions. Les Hébertistes réclament une révolution plus radicale, tandis que les Dantonistes, veulent mettre fin aux violences. Au printemps 1794, les deux factions sont éliminées par la Convention, soucieuse d’unité.</p>
+                            <p>Le club des Cordeliers est au cœur de ces tensions. Les <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-hebertiste').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">Hébertistes</a> réclament une révolution plus radicale, tandis que les Dantonistes, veulent mettre fin aux violences. Au printemps 1794, les deux factions sont éliminées par la Convention, soucieuse d’unité.</p>
 
                             <p>Avec la réussite de la politique du gouvernement révolutionnaire, et le recul de la menace extérieure, pose une question : qui devra répondre des excès du Gouvernement révolutionnaire ? Pour protéger leurs intérêts et couvrir leur crime, certains députés décident de faire porter la responsabilité sur Robespierre, leader des montagnards. Arrêté le 9 thermidor an II (27 juillet 1794), il est exécuté avec ses alliés. C’est la fin de la République Sociale.</p>
 
@@ -1790,7 +1266,7 @@
                     <div class="etape-date">1799 - 1815</div>
                     <div class="etape-content">
                         <div class="etape-text">
-                            <p>L’Hôtel des Invalides, fondé par Louis XIV pour accueillir les soldats blessés, devient au début du XIXᵉ siècle un symbole de la puissance napoléonienne en abritant sous le dôme de son Église le tombeau de Napoléon. Lorsque Bonaparte prend le pouvoir en 1799, il promet de « terminer la Révolution », mais son Consulat marque un net retour en arrière sur plusieurs acquis républicains : rétablissement de l’ordre autoritaire, censure de la presse, centralisation extrême de l’État, affaiblissement des assemblées. Le Code civil de 1804, tout en affirmant l’égalité civile, renforce la puissance paternelle et consacre une société hiérarchisée. Napoléon rétablit surtout l’esclavage dans les colonies en 1802, rompant avec l’abolition révolutionnaire de 1794.</p>
+                            <p>L’Hôtel des Invalides, fondé par Louis XIV pour accueillir les soldats blessés, devient au début du XIXᵉ siècle un symbole de la puissance napoléonienne en abritant sous le dôme de son Église le tombeau de Napoléon. Lorsque Bonaparte prend le pouvoir en 1799, il promet de « terminer la Révolution », mais son Consulat marque un net retour en arrière sur plusieurs acquis républicains : rétablissement de l’ordre autoritaire, censure de la presse, <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-centralise').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">centralisation</a> extrême de l’État, affaiblissement des assemblées. Le Code civil de 1804, tout en affirmant l’égalité civile, renforce la puissance paternelle et consacre une société hiérarchisée. Napoléon rétablit surtout l’esclavage dans les colonies en 1802, rompant avec l’abolition révolutionnaire de 1794.</p>
                             
                             <p>À partir de 1804, l’Empire transforme la France en puissance hégémonique. Soutenu par une armée immense, l’Empereur multiplie les conquêtes : Italie, Allemagne, Pologne, Espagne… Mais l’Europe entière finit par se coaliser contre lui. La campagne de Russie (1812), les défaites de 1813–1814, puis Waterloo (1815) entraînent la chute de l’Empire et le retour de la monarchie. Exilé sur Sainte-Hélène, Napoléon meurt en 1821 ; ses cendres seront transférées aux Invalides en 1840. Le dôme doré abrite depuis lors son tombeau monumental.</p>
                             
@@ -1990,7 +1466,7 @@
                     <div class="etape-date">1945 - 1968</div>
                     <div class="etape-content">
                         <div class="etape-text">
-                            <p>LL’Élysée, ancien palais aristocratique devenu résidence présidentielle en 1848, s’impose après 1946 comme le centre politique d’une France en quête de stabilité. La Quatrième République, née au lendemain de la Seconde Guerre mondiale, doit reconstruire un pays ruiné : villes dévastées, économie fragile, empire colonial en ébullition. Malgré des avancées majeures comme la sécurité sociale ou les débuts de l’Europe, le régime souffre d’une instabilité chronique, avec des gouvernements éphémères et des crises successives.</p>
+                            <p>L’Élysée, ancien palais aristocratique devenu résidence présidentielle en 1848, s’impose après 1946 comme le centre politique d’une France en quête de stabilité. La Quatrième République, née au lendemain de la Seconde Guerre mondiale, doit reconstruire un pays ruiné : villes dévastées, économie fragile, empire colonial en ébullition. Malgré des avancées majeures comme la sécurité sociale ou les débuts de l’Europe, le régime souffre d’une instabilité chronique, avec des gouvernements éphémères et des crises successives.</p>
                             
                             <p>Les guerres coloniales en Indochine (1946–1954) puis en Algérie (1954–1962) fragilisent encore davantage l’autorité de l’État. L’Élysée devient le lieu où se cristallisent les tensions entre un pouvoir civil hésitant et une armée radicalisée. Dans toute la France, des mouvements anticolonialistes et tiers-mondistes dénoncent les violences, la torture, l’idée d’un empire dépassé. Cette contestation intellectuelle et militante annonce un basculement profond de la société française et le démantèlement progressif de son empire colonial.</p>
                             
@@ -2008,9 +1484,9 @@
                     <div class="etape-date">1945 - 1979</div>
                     <div class="etape-content">
                         <div class="etape-text">
-                            <p>Le Centre Pompidou, inauguré en 1977, symbolise l’aboutissement et la remise en question des Trente Glorieuses, ces trois décennies de croissance exceptionnelle entre 1945 et 1975. Construit dans le quartier des Halles selon une architecture radicalement moderne, il témoigne de la confiance d’une France industrialisée, urbanisée et tournée vers la culture de masse. L’État investit massivement : infrastructures, écoles, universités, grands ensembles, réseaux de transport. Le niveau de vie augmente, la société de consommation se généralise, et une nouvelle classe moyenne apparaît.</p>
+                            <p>Le Centre Pompidou, inauguré en 1977, symbolise l’aboutissement et la remise en question des  <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-trente-glorieuses').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">Trente-Glorieuse</a>, ces trois décennies de croissance exceptionnelle entre 1945 et 1975. Construit dans le quartier des Halles selon une architecture radicalement moderne, il témoigne de la confiance d’une France industrialisée, urbanisée et tournée vers la culture de masse. L’État investit massivement : infrastructures, écoles, universités, grands ensembles, réseaux de transport. Le niveau de vie augmente, la société de consommation se généralise, et une nouvelle classe moyenne apparaît.</p>
                             
-                            <p>Mais la construction du Centre Pompidou intervient alors que ce modèle entre en crise. Les chocs pétroliers de 1973 et 1979 annoncent la fin de la croissance continue. Le chômage de masse s’installe, les usines commencent à fermer, les inégalités se recomposent.</p>
+                            <p>Mais la construction du Centre Pompidou intervient alors que ce modèle entre en crise. Les <a href="#" onclick="showSection('sources'); setTimeout(() => document.getElementById('glossary-petrolier').scrollIntoView({behavior: 'smooth'}), 300); return false;" class="glossary-link">chocs pétroliers</a> de 1973 et 1979 annoncent la fin de la croissance continue. Le chômage de masse s’installe, les usines commencent à fermer, les inégalités se recomposent.</p>
                             
                         </div>
                         <div class="etape-image">
@@ -2183,6 +1659,531 @@
         </div>
     </section>
 
+<section id="videotheque" class="videotheque-section">
+    <div class="container">
+        <div class="parcours-thematiques-intro">
+            <h2>Vidéothèque</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8; color: #4a4a4a; font-style: italic;">
+                Voici une collection de quelques vidéos complémentaires qui vous aideront à mieux appréhender l'Histoire de France.
+            </p>
+        </div>
+
+        <div class="videos-grid">
+            <div class="video-card">
+                <h3>Fonctionnement et crise de la République Romaine</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/3_bx8wYXqas?si=5mI9HSJYsyKrNisU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Les guerres puniques</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/1ABxRizSfHw?si=9ZIh7RYYRqeyiooO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Guerre des Gaules</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/q2Ovjosefdo?si=DjsQNYW6gN-CR2Rb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La mort de César et la dernière guerre civile romaine</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/6gRKZbslo0g?si=NAcwc488NCNoeoEZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Aetius et la fin de l'empire romain</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pmsdv9vPEQo?si=qFjUxYYAc_7Uma8v" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La fin des mérovingiens</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/UAj8R0yCV4Y?si=nrB3mV8UG9hiCDII" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>L'épopée de Guillaume le conquérant</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ykFH-KyfOCA?si=iXMe8rm11jBYSPtI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Première Croisade</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/FJ5BY8Yd95o?si=p5u3uJqKnTLboZmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Deuxième Croisade</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/YNCkYrI4CP4?si=bih22vVdJh8HAvdF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Troisième Croisade</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ij40yESX1qM?si=VD15xqDLw7ktoikb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La guerre de Cent Ans</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/L9t1PomZwTk?si=g_SfcbUx7qKaPq6_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Grande Jacquerie et la grande crise de la fin du Moyen Âge français</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/rTmvsfyAG9E?si=lctNkkeZps2BuHwh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>L'impact des Européens en Amérique : la chute de l'empire Aztèque</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/f10fkxiaA8E?si=Smcz1paTberBBCke" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Les massacres des guerres de religions : La Saint-Barthélemy</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/J3-OobrDHfA?si=Jdqdq_nXPv2-bSv2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La colonisation française en Amérique du Nord</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/q-Y5UTiZNb0?si=FPiVWXHJE2Il6jG6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La remise en question de l'autorité royale : la Fronde</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/hBcUkmm7iLU?si=HNxqfSw2rWCEyCVQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Le rôle de la France dans la traite transatlantique</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pP4lS9Ri27w?si=Ws_sdEdRp7OxlK_m" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Le mouvement des Lumières</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/t6PGE8_LEvo?si=6B3BaSLxJ-ls7YRT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Révolution Française partie 1</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/mbqdwHMfC6M?si=-vfOCDIDiiRyOqJi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Révolution Française partie 2</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/mbqdwHMfC6M?si=A-TpCAuIzZCQqW-1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>L'ascension de Napoléon</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/3jATN-wdsAE?si=8A28qm8PJlbGf1NN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La monarchie de Juillet</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/KUsTLgih168?si=Ab0dsBPZuoj2nnXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Le XIXe siècle et la colère populaire</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pJRyXZP5OIk?si=d3hCqfIhrjkhKxKw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La Commune de Paris</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/-fI_5IieLf0?si=mW3P-xZCoMVUAjU-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La construction du deuxième empire colonial français</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ZnvWGDpgdBU?si=6rOGeLdAfwKgQAYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La colonisation de l'Indochine</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5U8iF4MLtU4?si=vqQPJwhS9UuGxot7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Le Paris de la "Belle époque"</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/H31E3VT0JLg?si=GKOjnA58H-L5U7xx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>La guerre d'indépendance de l'Indochine</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/WOWRjMGMonA?si=nBjsIN8FK_oYQx5y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Les massacres de la guerre d'indépendance de l'Algérie : la bataille d'Alger</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/XgRZEldY4pc?si=OskLrYYlb9o-U93q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <h3>Bibliographie de critiques d'art francophone</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/ruR4oJymg1U?si=EVBpet7uwQa6Sotc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="sources" class="sources-section">
+    <div class="container">
+        <div class="sources-container">
+            <h2>Sources, Crédits et Glossaire</h2>
+
+            <div class="source-section">
+                <h3>📚 Glossaire</h3>
+                
+                <div class="glossary-term" id="glossary-feodalite">
+                    <strong>Féodalité :</strong> Système politique et social du Moyen Âge fondé sur des liens personnels entre seigneurs et vassaux. Le vassal prête serment de fidélité à son seigneur en échange de protection et d'un fief (généralement une terre). Ce système hiérarchique structurait la société médiévale européenne du Xe au XVe siècle.
+                </div>
+
+                <div class="glossary-term" id="glossary-pax-romana">
+                    <strong>Pax Romana :</strong> Expression latine signifiant « paix romaine », désignant la période de stabilité et de prospérité relative que connut l'Empire romain entre le règne d'Auguste (27 av. J.-C.) et celui de Marc Aurèle (180 apr. J.-C.). Cette période fut caractérisée par une diminution des conflits militaires majeurs, facilitant les échanges commerciaux et culturels.
+                </div>
+
+                <div class="glossary-term" id="glossary-trente-glorieuses">
+                    <strong>Trente Glorieuses :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-lumière">
+                    <strong>Les Lumières :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-hebertiste">
+                    <strong>Hebertistes :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-colonie">
+                    <strong>Colonie :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-therme">
+                    <strong>Thermes (romaines) :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-protestantisme">
+                    <strong>Le Protestantisme :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-centralise">
+                    <strong>La Centralisation :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-liberale">
+                    <strong>Libéralisme :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+
+                <div class="glossary-term" id="glossary-petrolier">
+                    <strong>Choc Pétrolier :</strong> Expression créée par l'économiste Jean Fourastié pour désigner la période de forte croissance économique que connurent les pays occidentaux, notamment la France, entre 1945 et 1973. Cette période fut marquée par la reconstruction d'après-guerre, le plein emploi, l'augmentation du niveau de vie et le développement de l'État-providence.
+                </div>
+            </div>
+
+            <div class="source-section">
+                <h3>📷 Crédits photographiques</h3>
+                
+                <div class="credit-item">
+                    <strong>Arènes de Lutèce :</strong> © Wikimedia Commons / Pierre Poschadel (CC BY-SA 3.0)
+                </div>
+                <div class="credit-item">
+                    <strong>Thermes de Cluny :</strong> © Musée de Cluny - Musée national du Moyen Âge
+                </div>
+                <div class="credit-item">
+                    <strong>Notre-Dame :</strong> © Paris Tourist Office / Photographe Amélie Dupont
+                </div>
+                <div class="credit-item">
+                    <strong>Sainte-Chapelle :</strong> © Centre des monuments nationaux
+                </div>
+                <div class="credit-item">
+                    <strong>Tour Eiffel :</strong> © Société d'Exploitation de la Tour Eiffel
+                </div>
+                <div class="credit-item">
+                    <strong>Arc de Triomphe :</strong> © Centre des monuments nationaux
+                </div>
+                <div class="credit-item">
+                    <strong>Autres photographies :</strong> © Collection personnelle / Domaine public
+                </div>
+            </div>
+
+           <div class="source-section">
+                <h3>📖 Bibliographie et sitographie</h3>
+
+                <div class="biblio-item">
+                    Aprile, S. <em>1815—1870 : La Révolution inachevée</em>, Folio, 2020.
+                </div>
+                <div class="biblio-item">
+                    Azema, J.-P., & Winock, M. <em>Les Communards</em>, Perrin, 2021.
+                </div>
+                <div class="biblio-item">
+                    Beaurepaire, P.-Y. <em>Les Lumières et le Monde : Voyager, explorer, collectionner</em> Belin, 2019.
+                </div>
+                <div class="biblio-item">
+                    Beaurepaire, P.-Y. <em>1715—1789 : La France des Lumière</em>, Flio, 2021.
+                </div>
+                <div class="biblio-item">
+                    Bertrand, R. <em>L’exploration du monde, une autre histoire des Grandes Découvertes</em> Point, 2023.
+                </div>
+                <div class="biblio-item">
+                    Bourdeux, E., Cénat, J.-P., & Richardson, D. <em>Les Temps Modernes</em> Armand Colin, 2018.
+                </div>
+                <div class="biblio-item">
+                    Delalande, N., & Truong-Loï, B. <em>Histoire Politique du XIXe siècle</em>, Presse de Science-Po, 2021.
+                </div>
+                <div class="biblio-item">
+                    Drevillon, H. <em>1629—1715 : Les Rois absolus</em> Folio, 2021.
+                </div>
+                <div class="biblio-item">
+                    Gainot, B., Chappey, J.-L., Mazeau, G., Régent, F., & Serna, P. <em>Pourquoi faire la Révolution ?</em> Agone, 2012.
+                </div>
+                <div class="biblio-item">
+                    Heffer, J., & Serman, W. <em>Le XIXe siècle, 1814—1914</em>, Hachette, 2011.
+                </div>
+                <div class="biblio-item">
+                    Jourdan, A. <em>La Révolution Française, une histoire à repenser</em>, Flammarion, 2021.
+                </div>
+                <div class="biblio-item">
+                    Lacam, J.-C. <em>La République Romaine. Des années d’or à l’âge de sang</em> Ellipses, 2019.
+                </div>
+                <div class="biblio-item">
+                    Le Bohec, Y. <em>Naissance, vie et mort de l’Empire romain</em>, Actes Sud, 2012.
+                </div>
+                <div class="biblio-item">
+                    Ligneuxreux, A. <em>La France, Révolution et Empire (1788—1815)</em>, Armand Colin, 2024.
+                </div>
+                <div class="biblio-item">
+                    Martin, J.-C. <em>La Terreur, Vérités et Légendes</em>, Perrin, 2017.
+                </div>
+                <div class="biblio-item">
+                    Mazel, F. (s. d.). <em>Nouvelle Histoire du Moyen-Âge</em>, Seuil, 2021.
+                </div>
+                <div class="biblio-item">
+                    Wachtel, N. <em>La vision des vaincus</em>, Galimard, 1992.
+                </div>
+            
+                <div class="biblio-item">
+                    Arc de triomphe de l’Étoile. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Arc_de_triomphe_de_l%27%C3%89toile&oldid=230937698
+                </div>
+                <div class="biblio-item">
+                    Arènes de Lutèce. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Ar%C3%A8nes_de_Lut%C3%A8ce&oldid=230242441
+                </div>
+                <div class="biblio-item">
+                    Arènes de Lutèce — Wikipédia. (s. d.). Consulté le 27 novembre 2025. https://fr.wikipedia.org/wiki/Ar%C3%A8nes_de_Lut%C3%A8ce
+                </div>
+                <div class="biblio-item">
+                    Bastille. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Bastille&oldid=230584468
+                </div>
+                <div class="biblio-item">
+                    Cathédrale Notre-Dame de Paris. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Cath%C3%A9drale_Notre-Dame_de_Paris&oldid=230961368
+                </div>
+                <div class="biblio-item">
+                    Centre national d’art et de culture Georges-Pompidou — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Centre_national_d%27art_et_de_culture_Georges-Pompidou
+                </div>
+                <div class="biblio-item">
+                    CMN. (s. d.). Histoire de la Conciergerie. Consulté le 27 novembre 2025. https://www.paris-conciergerie.fr/decouvrir/histoire-de-la-conciergerie
+                </div>
+                <div class="biblio-item">
+                    Colonne Vendôme. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Colonne_Vend%C3%B4me&oldid=230067306
+                </div>
+                <div class="biblio-item">
+                    Conservatoire national des arts et métiers. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Conservatoire_national_des_arts_et_m%C3%A9tiers&oldid=225896427
+                </div>
+                <div class="biblio-item">
+                    Couvent des Cordeliers de Paris. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Couvent_des_Cordeliers_de_Paris&oldid=230611399
+                </div>
+                <div class="biblio-item">
+                    Palais de l’Élysée — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Palais_de_l'%C3%89lys%C3%A9e
+                </div>
+                <div class="biblio-item">
+                    Gare Saint-Lazare — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Gare_de_Paris-Saint-Lazare
+                </div>
+                <div class="biblio-item">
+                    Grand Palais (Paris). (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Grand_Palais_(Paris)&oldid=230944072
+                </div>
+                <div class="biblio-item">
+                    Hôtel de la Marine. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=H%C3%B4tel_de_la_Marine&oldid=230199976
+                </div>
+                <div class="biblio-item">
+                    Hôtel de ville de Paris. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=H%C3%B4tel_de_ville_de_Paris&oldid=230463071
+                </div>
+                <div class="biblio-item">
+                    Hôtel des Invalides. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=H%C3%B4tel_des_Invalides&oldid=230983950
+                </div>
+                <div class="biblio-item">
+                    Jardin des plantes de Paris — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Jardin_des_plantes_de_Paris
+                </div>
+                <div class="biblio-item">
+                    La Canopée. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=La_Canop%C3%A9e&oldid=229695394
+                </div>
+                <div class="biblio-item">
+                    Mémorial de la Shoah — Recherche Google. (s. d.). Consulté le 28 novembre 2025. https://www.google.com/search?q=memorial+de+la+shoah
+                </div>
+                <div class="biblio-item">
+                    Musée d’Orsay — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Mus%C3%A9e_d'Orsay
+                </div>
+                <div class="biblio-item">
+                    Musée du Louvre. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Mus%C3%A9e_du_Louvre&oldid=230974266
+                </div>
+                <div class="biblio-item">
+                    Opéra Garnier. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Op%C3%A9ra_Garnier&oldid=230877764
+                </div>
+                <div class="biblio-item">
+                    Palais de la Porte-Dorée. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Palais_de_la_Porte-Dor%C3%A9e&oldid=225183832
+                </div>
+                <div class="biblio-item">
+                    Palais-Royal. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Palais-Royal&oldid=230304279
+                </div>
+                <div class="biblio-item">
+                    Panthéon (Paris). (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Panth%C3%A9on_(Paris)&oldid=230359792
+                </div>
+                <div class="biblio-item">
+                    Petit Palais. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Petit_Palais&oldid=230094093
+                </div>
+                <div class="biblio-item">
+                    Place de la République (Paris). (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Place_de_la_R%C3%A9publique_(Paris)&oldid=230676046
+                </div>
+                <div class="biblio-item">
+                    Place des Vosges. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Place_des_Vosges&oldid=230971167
+                </div>
+                <div class="biblio-item">
+                    Pont Neuf. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Pont_Neuf&oldid=230649873
+                </div>
+                <div class="biblio-item">
+                    Basilique du Sacré-Cœur — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Basilique_du_Sacr%C3%A9-C%C5%93ur_de_Montmartre
+                </div>
+                <div class="biblio-item">
+                    Sainte-Chapelle. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Sainte-Chapelle&oldid=229684077
+                </div>
+                <div class="biblio-item">
+                    Sorbonne. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Sorbonne&oldid=230690420
+                </div>
+                <div class="biblio-item">
+                    Thermes de Cluny. (2025). In Wikipédia. https://fr.wikipedia.org/w/index.php?title=Thermes_de_Cluny&oldid=225805175
+                </div>
+                <div class="biblio-item">
+                    Tour Eiffel — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Tour_Eiffel
+                </div>
+                <div class="biblio-item">
+                    Tour Montparnasse — Wikipédia. (s. d.). Consulté le 28 novembre 2025. https://fr.wikipedia.org/wiki/Tour_Montparnasse
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="mentions-legales" class="mentions-legales-section">
+    <div class="container">
+        <div class="mentions-container">
+            <h2>Mentions Légales</h2>
+
+            <h3>Éditeur du site</h3>
+            <p>
+                <strong>Nom du site :</strong> Au Temps de Paris<br>
+                <strong>Propriétaire :</strong> AMERIO Meryl, MAZIOUX Eliot<br>
+                <strong>Adresse :</strong> 20 rue René Navier, 93160<br>
+                <strong>Email :</strong> mzxeliot@gmail.com<br>
+                <strong>Téléphone :</strong> 07.83.65.28.94<br>
+               
+            </p>
+
+            <h3>Hébergement</h3>
+            <p>
+                Le site est hébergé par :<br>
+                <strong>OVH</strong><br>
+                2 rue Kellermann<br>
+                59100 Roubaix, France<br>
+                Téléphone : 1007
+            </p>
+
+            <h3>Propriété intellectuelle</h3>
+            <p>
+                L'ensemble du contenu de ce site (textes, images, vidéos, structure) est protégé par le droit d'auteur. Toute reproduction, même partielle, est interdite sans autorisation préalable de l'éditeur, sauf dans les cas prévus par la loi.
+            </p>
+            <p>
+                Les photographies de monuments sont utilisées à des fins pédagogiques et culturelles. Les crédits sont mentionnés dans la section « Sources et Crédits ».
+            </p>
+
+            <h3>Responsabilité</h3>
+            <p>
+                L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site. Toutefois, il ne peut être tenu responsable des erreurs, omissions ou résultats obtenus par l'usage de ces informations.
+            </p>
+            <p>
+                Les liens hypertextes présents sur ce site peuvent renvoyer vers des sites externes. L'éditeur n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.
+            </p>
+
+            <h3>Crédits</h3>
+            <p>
+                <strong>Conception et développement :</strong> Au Temps de Paris<br>
+                <strong>Contenu éditorial :</strong>Sylvain Pierre Durif<br>
+                <strong>Crédits photographiques :</strong> Voir section "Sources et Crédits"
+            </p>
+
+            <h3>Contact</h3>
+            <p>
+                Pour toute question concernant le site ou son contenu :<br>
+                Email : mzxeliot@gmail.com<br>
+                Téléphone : 07.83.65.28.94
+            </p>
+        </div>
+    </div>
+</section>
+
     </div>
 
 
@@ -2192,12 +2193,12 @@
 
     <script>
     function showSection(section) {
-        
+        // Affichage des sections principales
         document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
         document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
         document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
         
-     
+        // Actions spécifiques selon la section
         if (section === 'fiches') {
             showFichesList();
         }
@@ -2208,49 +2209,48 @@
     }
 
     function showMonument(monumentId) {
-        
+        // Masquer la liste principale
         document.getElementById('fiches-list').style.display = 'none';
         
+        // Désactiver toutes les fiches
         const fiches = document.querySelectorAll('.fiche-detail');
         fiches.forEach(fiche => fiche.classList.remove('active'));
         
-        
+        // Activer la fiche sélectionnée
         const monument = document.getElementById(monumentId);
         if (monument) {
             monument.classList.add('active');
         }
         
-        
+        // Afficher la section "fiches"
         const fichesSection = document.getElementById('fiches');
         fichesSection.style.display = 'block';
         fichesSection.classList.add('active');
         
-       
+        // Remonter en haut de la page
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showFichesList() {
-       
+        // Réaffiche la liste des fiches et désactive les fiches détaillées
         document.getElementById('fiches-list').style.display = 'block';
         const fiches = document.querySelectorAll('.fiche-detail');
         fiches.forEach(fiche => fiche.classList.remove('active'));
     }
-
-   
     showSection('carte');
 
     function showEtape(etapeId) {
-    
+    // Afficher la section parcours
     showSection('parcours');
     
-   
+    // Attendre que la section soit affichée
     setTimeout(function() {
-       
+        // Trouver l'élément de l'étape
         const etape = document.getElementById('etape-' + etapeId);
         
         if (etape) {
-          
-            const yOffset = -100; 
+            // Scroll jusqu'à l'étape avec un offset pour le header
+            const yOffset = -100; // ajustez selon la hauteur de votre header
             const y = etape.getBoundingClientRect().top + window.pageYOffset + yOffset;
             
             window.scrollTo({
@@ -2258,7 +2258,7 @@
                 behavior: 'smooth'
             });
             
-           
+            // Optionnel : ajouter un effet visuel temporaire
             etape.style.backgroundColor = '#f4e4c1';
             setTimeout(function() {
                 etape.style.backgroundColor = '#f9f8f6';
@@ -2268,13 +2268,13 @@
 }
 
 function showSection(section) {
-    
+    // Affichage des sections principales
     document.getElementById('carte').style.display = section === 'carte' ? 'block' : 'none';
     document.getElementById('parcours').style.display = section === 'parcours' ? 'block' : 'none';
     document.getElementById('parcours-thematiques').style.display = section === 'parcours-thematiques' ? 'block' : 'none';
     document.getElementById('fiches').style.display = section === 'fiches' ? 'block' : 'none';
     
-   
+    // Actions spécifiques selon la section
     if (section === 'fiches') {
         showFichesList();
     }
@@ -2286,6 +2286,55 @@ function showSection(section) {
     if (section === 'parcours-thematiques') {
         document.getElementById('parcours-thematiques').classList.add('active');
     }
+}
+
+function showSection(section) {
+    // Masquer toutes les sections
+    document.getElementById('carte').style.display = 'none';
+    document.getElementById('parcours').style.display = 'none';
+    document.getElementById('fiches').style.display = 'none';
+    document.getElementById('parcours-thematiques').style.display = 'none';
+    
+    // Masquer les nouvelles sections
+    const videotheque = document.getElementById('videotheque');
+    const sources = document.getElementById('sources');
+    const mentionsLegales = document.getElementById('mentions-legales');
+    
+    if (videotheque) videotheque.style.display = 'none';
+    if (sources) sources.style.display = 'none';
+    if (mentionsLegales) mentionsLegales.style.display = 'none';
+    
+    // Retirer toutes les classes active
+    document.querySelectorAll('.parcours-section, .fiches-section, .parcours-thematiques-section, .videotheque-section, .sources-section, .mentions-legales-section').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Afficher la section demandée
+    if (section === 'carte') {
+        document.getElementById('carte').style.display = 'block';
+    } else if (section === 'parcours') {
+        document.getElementById('parcours').style.display = 'block';
+        document.getElementById('parcours').classList.add('active');
+    } else if (section === 'fiches') {
+        showFichesList();
+        document.getElementById('fiches').style.display = 'block';
+        document.getElementById('fiches').classList.add('active');
+    } else if (section === 'parcours-thematiques') {
+        document.getElementById('parcours-thematiques').style.display = 'block';
+        document.getElementById('parcours-thematiques').classList.add('active');
+    } else if (section === 'videotheque') {
+        document.getElementById('videotheque').style.display = 'block';
+        document.getElementById('videotheque').classList.add('active');
+    } else if (section === 'sources') {
+        document.getElementById('sources').style.display = 'block';
+        document.getElementById('sources').classList.add('active');
+    } else if (section === 'mentions-legales') {
+        document.getElementById('mentions-legales').style.display = 'block';
+        document.getElementById('mentions-legales').classList.add('active');
+    }
+    
+    // Remonter en haut de la page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 </script>
