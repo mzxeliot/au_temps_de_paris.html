@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
-    <header> --- En tête du site avec l'accès aux quatre section ---
-        <img src="logo-ATP.png" alt="Logo" class="header-logo"> => permet de mettre le logo
+    <header> 
+        // --- En tête du site avec l'accès aux quatre section ---
+        <img src="logo-ATP.png" alt="Logo" class="header-logo"> 
+        // => permet de mettre le logo
         <h1>AU TEMPS DE PARIS</h1>
         <p>Écoutez le Patrimoine vous raconter l'Histoire de France</p>
     </header>
 
-   <nav> --- Section qui permet de naviguer entre les quatre sections ---
+   <nav> //--- Section qui permet de naviguer entre les quatre sections ---
     <a href="#" onclick="showSection('carte'); return false;">Carte de Paris</a>
     <a href="#" onclick="showSection('parcours'); return false;">Parcours Historique</a>
     <a href="#" onclick="showSection('fiches'); return false;">Nos monuments</a>
@@ -24,8 +26,10 @@
 </nav>
 
     <div class="container">
-        <section id="carte" class="carte-section"> --- Section principale avec la carte ---
-            <h2>Carte de Paris et ses Monuments</h2> --> Titre de la section 
+        <section id="carte" class="carte-section">
+            // --- Section principale avec la carte ---
+            <h2>Carte de Paris et ses Monuments</h2> 
+            // --> Titre de la section 
             <div class="carte-container">
                 <div class="carte-paris"> => Ici apparaissent les points clicable qui permettent de relier les monuments à des morceaux de l'histoire de France via le parcours historique 
                     <div class="monument-point contemporaine" data-name="Sacré-Cœur" data-monument="sacrecoeur" 
