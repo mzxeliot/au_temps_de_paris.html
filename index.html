@@ -9,15 +9,14 @@
 </head>
 <body> 
     <header> 
-<! --- En tête du site avec l'accès aux quatre section --->
-        <img src="logo-ATP.png" alt="Logo" class="header-logo"> 
-        // => permet de mettre le logo
+<!-- En tête du site avec l'accès aux quatre section-->
+        <img src="logo-ATP.png" alt="Logo" class="header-logo"> <!--permet de mettre le logo-->
         <h1>AU TEMPS DE PARIS</h1>
         <p>Écoutez le Patrimoine vous raconter l'Histoire de France</p>
     </header>
 
    <nav>
-       //--- Section qui permet de naviguer entre les quatre sections ---
+    <!--Section qui permet de naviguer entre les quatre sections-->
     <a href="#" onclick="showSection('carte'); return false;">Carte de Paris</a>
     <a href="#" onclick="showSection('parcours'); return false;">Parcours Historique</a>
     <a href="#" onclick="showSection('fiches'); return false;">Nos monuments</a>
@@ -29,14 +28,14 @@
 
     <div class="container">
         <section id="carte" class="carte-section">
-            // --- Section principale avec la carte ---
+            <!--Section principale avec la carte-->
             <h2>Carte de Paris et ses Monuments</h2> 
-            // --> Titre de la section 
+            <!--Titre de la section-->
             <div class="carte-container">
                 <div class="carte-paris">
                     // => Ici apparaissent les points clicable qui permettent de relier les monuments à des morceaux de l'histoire de France via le parcours historique 
                     <div class="monument-point contemporaine" data-name="Sacré-Cœur" data-monument="sacrecoeur" 
-                         style="left: 52%; top: 0%;" onclick="showEtape('sacrecoeur')"></div> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "point" sur la certe avec sa localisation sur la feuille
+                         style="left: 52%; top: 0%;" onclick="showEtape('sacrecoeur')"></div> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "point" sur la certe avec sa localisation sur la feuille-->
                         <div class="monument-point contemporaine" data-name="Gare Saint-Lazare" data-monument="gare-saint-lazare" 
                          style="left: 38%; top: 17%;" onclick="showEtape('gare-saint-lazare')"></div>
                     <div class="monument-point contemporaine" data-name="Arc de Triomphe" data-monument="arc" 
@@ -107,7 +106,7 @@
                     </div>
             </div>
 
-            <div class="legende"> --- légende des points qui classe les monuments en quatre périodes ---
+            <div class="legende"> <!--légende des points qui classe les monuments en quatre période-->
                     <div class="legende-item">  
                         <div class="legende-color" style="background-color: #d4af37;"></div>
                         <span>Momunements Antiques</span>
@@ -127,12 +126,12 @@
                 </div>            
         </section>
 
-        <section id="fiches" class="fiches-section"> --- 2e section qui se concentre sur l'aspect purement matériel des monuments avec une petite fiche détails pour chacun d'entre eux ---
+        <section id="fiches" class="fiches-section"> <!--2e section qui se concentre sur l'aspect purement matériel des monuments avec une petite fiche détails pour chacun d'entre eux-->
             <div id="fiches-list">
-                <h2>Nos monuments</h2> --> Titre de la Section
+                <h2>Nos monuments</h2> <!--Titre de la Section-->
                 <div class="fiches-grid">
 
-                    <div class="fiche-card" onclick="showMonument('thermes-cluny')"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "fiche monument"
+                    <div class="fiche-card" onclick="showMonument('thermes-cluny')"<!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "fiche monument"-->
                         <h3>Thermes de Cluny</h3>
                         <div class="date">Ier et IIe siècle avant J-C.</div>
                         <p>Vestiges impressionnants des anciens bains romains de Lutèce.</p>
@@ -491,7 +490,7 @@
                 </div>
             </div>
 
-            <div id="pompidou" class="fiche-detail"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "fiche détail"
+            <div id="pompidou" class="fiche-detail"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "fiche détail"-->
                 <button class="back-button" onclick="showFichesList()"></button>
                 <h2>Centre Pompidou</h2>
                 <div class="date">Construction : 1887-1889</div>
@@ -978,14 +977,14 @@
             </div>
         </section>
 
-        <section> --- 3e section dédiée au parcours historique. Un simple parcours chronologique entre les 35 monuments choisis par le site ---
+        <section> <!--3e section dédiée au parcours historique. Un simple parcours chronologique entre les 35 monuments choisis par le site-->
              <section id="parcours" class="parcours-section">    
                  <div class="parcours-container">
                 <h3>Paris et la France à travers les Âges</h3> --> Titre de la section
 
                 <h2>La France Antique et Paris</h2>
 
-                <div class="etape" id="etape-arenes-de-lutece"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "etape"
+                <div class="etape" id="etape-arenes-de-lutece"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "etape"-->
                     <h3>Les arènes de Lutèces et la Gaule pré-romaine jusqu'à la conquête de César</h3>
                     <div class="etape-date">Ier siècle av. J.-C.</div>
                     <div class="etape-content">
@@ -999,7 +998,7 @@
                             <p>La conquête romaine menée par Jules César au Ier siècle av. J.-C. bouleversa cet équilibre. En intégrant la Gaule à l’Empire, Rome imposa peu à peu ses institutions, ses infrastructures et son urbanisme. Les Arènes de Lutèce, édifiées au Ier siècle, illustrent pleinement cette romanisation. Petit à petit va alors se former la culture Gallo-romaine.</p>
                         </div>
                         <div class="etape-image">
-                            <img src="arene_image.jpg" alt="Arènes de Lutèces" style="width: 100%;"> => Image qui illustre le monument
+                            <img src="arene_image.jpg" alt="Arènes de Lutèces" style="width: 100%;"> <!--Image qui illustre le monument-->
                         </div> 
                     </div>
                 </div>
@@ -1537,10 +1536,10 @@
 
     <section id="parcours-thematiques" class="parcours-thematiques-section"> => 3e section dédiée aux différents parcours que l'on peut faire en suivant les monuments 
         <div class="parcours-thematiques-intro">
-            <h2>Parcours Thématiques</h2> --> Titre
+            <h2>Parcours Thématiques</h2> <!--Titre-->
             <p style="font-size: 1.2rem; line-height: 1.8; color: #4a4a4a; font-style: italic;">
                 Découvrez Paris à travers plusieurs parcours thématiques retraçant les grandes périodes de son histoire
-            </p> --> sous-titre 
+            </p> <!--sous-titre-->
         </div>
 
         <div class="parcours-grid">
@@ -1562,7 +1561,7 @@
                 </ul>
             </div>
 
-            <div class="parcours-card"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de parcours 
+            <div class="parcours-card"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de parcours-->
                 <h3>Parcours du Paris Moderne</h3>
                 <ul class="parcours-liste">
                     <li>Hôtel de Ville</li>
@@ -1666,18 +1665,18 @@
         </div>
     </section>
 
-<section id="videotheque" class="videotheque-section"> --- 4e section sur la série de vidéo choisie pour compléter le cours d'Histoire de France proposée --- 
+<section id="videotheque" class="videotheque-section"> <!--4e section sur la série de vidéo choisie pour compléter le cours d'Histoire de France proposée --> 
     <div class="container">
         <div class="parcours-thematiques-intro">
             <h2>Vidéothèque</h2> --> Titre de la sectoion
             <p style="font-size: 1.2rem; line-height: 1.8; color: #4a4a4a; font-style: italic;">
                 Voici une collection de quelques vidéos complémentaires qui vous aideront à mieux appréhender l'Histoire de France.
-            </p> --> Sous-titre de la section
+            </p> <!--Sous-titre de la section-->
         </div>
 
         <div class="videos-grid">
-            <div class="video-card"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "vidéo"
-                <h3>Fonctionnement et crise de la République Romaine</h3> --> titre de la vidéo
+            <div class="video-card"><!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "vidéo"-->
+                <h3>Fonctionnement et crise de la République Romaine</h3> <!--titre de la vidéo-->
                 <div class="video-container">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/3_bx8wYXqas?si=5mI9HSJYsyKrNisU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> --> Lien qui renvoit vers la vidéo en question
                 </div>
@@ -1890,12 +1889,12 @@
     </div>
 </section>
 
-<section id="sources" class="sources-section"> --- 5e section liée au sources, crédit et au glossaire ---
+<section id="sources" class="sources-section"> <!--5e section liée au sources, crédit et au glossaire-->
     <div class="container">
         <div class="sources-container">
-            <h2>Sources, Crédits et Glossaire</h2> --> Titre de la section
+            <h2>Sources, Crédits et Glossaire</h2><!--Titre de la section-->
 
-            <div class="source-section"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section 
+            <div class="source-section"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section-->
                 <h3>📚 Glossaire</h3>
                 
                 <div class="glossary-term" id="glossary-feodalite"> --> lien qui indique a quoi doit renvoyer cette "card" + Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "glossaire"
@@ -1939,10 +1938,10 @@
                 </div>
             </div>
 
-            <div class="source-section"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section 
+            <div class="source-section"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section--> 
                 <h3>📷 Crédits photographiques</h3>
                 
-                <div class="credit-item"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "crédit"
+                <div class="credit-item"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "crédit"-->
                     <strong>Arènes de Lutèce :</strong> © Wikimedia Commons / Pierre Poschadel (CC BY-SA 3.0)
                 </div>
                 <div class="credit-item">
@@ -1965,10 +1964,10 @@
                 </div>
             </div>
 
-           <div class="source-section"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section
+           <div class="source-section"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre cette sous-section-->
                 <h3>📖 Bibliographie et sitographie</h3>
 
-                <div class="biblio-item"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "bibliographie"
+                <div class="biblio-item"> <!--Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "bibliographie"-->
                     Aprile, S. <em>1815—1870 : La Révolution inachevée</em>, Folio, 2020.
                 </div>
                 <div class="biblio-item">
@@ -2130,7 +2129,7 @@
     </div>
 </section>
 
-<section id="mentions-legales" class="mentions-legales-section"> --- 6e et dernière section dédiée aux mention s légales
+<section id="mentions-legales" class="mentions-legales-section"> <!--6e et dernière section dédiée aux mention s légales-->
     <div class="container">
         <div class="mentions-container"> --> Nom de "l'item" qui renvoit à la feuille CSS qui traduit comment doit apparaitre chaque "card" de la catégorie "mention légales"
             <h2>Mentions Légales</h2>
